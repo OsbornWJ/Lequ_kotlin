@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">乐趣</string>
+
+    <string name="main_home">首页</string>
+    <string name="main_product">产品</string>
+    <string name="main_transaction">抢单</string>
+    <string name="main_personal">个人中心</string>
+
+</resources>
