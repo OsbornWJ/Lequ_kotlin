@@ -16,9 +16,30 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            //移除无用资源
+            shrinkResources false
+            //zip对齐，googlePlay必须为true
+            zipAlignEnabled true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //url动态替换
+            buildConfigField "String", "BASE_URL", "$rootProject.BASE_URL"
+        }
+
         release {
             minifyEnabled false
+            //移除无用资源
+            shrinkResources false
+            //zip对齐，googlePlay必须为true
+            zipAlignEnabled true
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //url动态替换
+            buildConfigField "String", "BASE_URL", "$rootProject.BASE_URL"
         }
     }
 }
@@ -35,7 +56,7 @@ dependencies {
     compile 'com.android.support:support-v4:27.1.1'
     compile 'com.android.support:design:27.1.1'
     compile 'com.android.support:cardview-v7:27.1.1'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.3'
     //Fragment依赖
     compile 'me.yokeyword:fragmentation:1.0.3'
     compile 'me.yokeyword:fragmentation-swipeback:1.0.3'
@@ -69,5 +90,7 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     //RecyclerView 分割线
     compile 'com.choices.divider:RecyclerView_Divider:1.0.0'
+    //Log
+    compile 'com.orhanobut:logger:2.2.0'
 
 }

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">乐趣</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="press_again_exit">再按一次退出</string>
+
     <string name="main_home">首页</string>
     <string name="main_product">产品</string>
     <string name="main_transaction">抢单</string>

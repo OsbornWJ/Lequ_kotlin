@@ -28,3 +28,9 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+
+    BASE_URL = '\"http://baobab.kaiyanapp.com/api/\"'
+
+}

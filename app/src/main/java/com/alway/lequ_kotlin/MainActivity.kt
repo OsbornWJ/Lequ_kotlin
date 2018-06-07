@@ -1,15 +1,52 @@
 package com.alway.lequ_kotlin
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
+import android.support.design.widget.NavigationView
+import android.support.v7.app.ActionBarDrawerToggle
+import android.view.Gravity
+import android.view.MenuItem
+import com.alway.lequ_kotlin.ui.base.ProxyActivity
+import com.alway.lequ_kotlin.utils.ToastUtils
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ProxyActivity(), NavigationView.OnNavigationItemSelectedListener{
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    // 再点一次退出程序时间设置
+    private val WAIT_TIME = 2000L
+    private var TOUCH_TIME: Long = 0
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
     }
 
+    override fun initData() {
+        ActionBarDrawerToggle(this, drawer_layout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+                .syncState()
+        nav_view.setNavigationItemSelectedListener(this)
+//        nav_view.setCheckedItem(R.id.nav_home)  默认点击菜单item
+
+    }
+
+    override fun onBackPressedSupport() {
+        super.onBackPressedSupport()
+        if (drawer_layout.isDrawerOpen(Gravity.START)) {
+            drawer_layout.closeDrawer(Gravity.START)
+        } else {
+            if (supportFragmentManager.backStackEntryCount > 1) {
+                pop()
+            } else {
+                if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+                    finish()
+                } else {
+                    TOUCH_TIME = System.currentTimeMillis()
+                    ToastUtils.showToastShrot(getString(R.string.press_again_exit))
+                }
+            }
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return true
+    }
 
 
 }
