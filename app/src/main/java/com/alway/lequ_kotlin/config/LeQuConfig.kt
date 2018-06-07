@@ -6,4 +6,10 @@ package com.alway.lequ_kotlin.config
  * 功能：
  */
 
-class LeQuConfig
+class LeQuConfig {
+
+    companion object {
+
+    }
+
+}

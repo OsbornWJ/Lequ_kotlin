@@ -6,7 +6,3 @@ package com.alway.lequ_kotlin.config
  * 功能：
  */
 
-class Lequ {
-
-
-}
