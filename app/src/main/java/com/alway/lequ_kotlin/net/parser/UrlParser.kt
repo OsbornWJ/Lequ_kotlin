@@ -10,7 +10,7 @@ import okhttp3.HttpUrl
  * Url解析器
  *
  *
- * Created by JessYan on 17/07/2017 17:44
+ * Created by JessYan on 17/07/2017 17:44  采用jessYan动态url更替方案
  * [Contact me](mailto:jess.yan.effort@gmail.com)
  * [Follow me](https://github.com/JessYanCoding)
  * ================================================

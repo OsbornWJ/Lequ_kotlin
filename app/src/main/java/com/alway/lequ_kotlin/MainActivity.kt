@@ -1,6 +1,7 @@
 package com.alway.lequ_kotlin
 
 import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
@@ -22,12 +23,10 @@ class MainActivity : ProxyActivity(), NavigationView.OnNavigationItemSelectedLis
         ActionBarDrawerToggle(this, drawer_layout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
-//        nav_view.setCheckedItem(R.id.nav_home)  默认点击菜单item
-
+        nav_view.setCheckedItem(R.id.nav_home)
     }
 
     override fun onBackPressedSupport() {
-        super.onBackPressedSupport()
         if (drawer_layout.isDrawerOpen(Gravity.START)) {
             drawer_layout.closeDrawer(Gravity.START)
         } else {
@@ -45,6 +44,7 @@ class MainActivity : ProxyActivity(), NavigationView.OnNavigationItemSelectedLis
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
