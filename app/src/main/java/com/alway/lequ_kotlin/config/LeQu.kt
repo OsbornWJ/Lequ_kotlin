@@ -17,16 +17,13 @@ object LeQu {
     val applicationContext: Context
         get() = getConfiguration(ConfigKeys.APPLICATION_CONTEXT)
 
-    val handler: Handler
-        get() = getConfiguration(ConfigKeys.HANDLER)
-
     fun <T> getConfiguration(key: Any): T {
         return lequConfig.getConfiguration(key)
     }
 
     fun init(context: Context): LeQuConfig {
         LeQuConfig.instance
-                .latteConfigs
+                .leQuConfigs
                 .put(ConfigKeys.APPLICATION_CONTEXT, context.applicationContext)
         return LeQuConfig.instance
     }

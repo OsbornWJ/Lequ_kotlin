@@ -2,10 +2,13 @@ package com.alway.lequ_kotlin.config
 
 import android.app.Activity
 import android.os.Handler
+import android.webkit.URLUtil
+import com.alway.lequ_kotlin.utils.UrlUtils
 import com.joanzapata.iconify.IconFontDescriptor
 import com.joanzapata.iconify.Iconify
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import java.util.ArrayList
 import java.util.HashMap
@@ -19,12 +22,11 @@ import java.util.HashMap
 class LeQuConfig private constructor() {
 
 
-    internal val latteConfigs: HashMap<Any, Any>
-        get() = LATTE_CONFIGS
+    internal val  leQuConfigs: HashMap<Any, Any>
+        get() = LEQU_CONFIGS
 
     init {
-        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY, false)
-        LATTE_CONFIGS.put(ConfigKeys.HANDLER, HANDLER)
+        LEQU_CONFIGS.put(ConfigKeys.CONFIG_READY, false)
     }
 
     private object Holder {
@@ -34,16 +36,11 @@ class LeQuConfig private constructor() {
     fun configure() {
         initIcons()
         Logger.addLogAdapter(AndroidLogAdapter())
-        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY, true)
+        LEQU_CONFIGS.put(ConfigKeys.CONFIG_READY, true)
     }
 
     fun withApiHost(host: String): LeQuConfig {
-        LATTE_CONFIGS.put(ConfigKeys.API_HOST, host)
-        return this
-    }
-
-    fun withLoaderDelayed(delayed: Long): LeQuConfig {
-        LATTE_CONFIGS.put(ConfigKeys.LOADER_DELAYED, delayed)
+        LEQU_CONFIGS.put(ConfigKeys.API_HOST, UrlUtils.checkUrl(host))
         return this
     }
 
@@ -63,23 +60,31 @@ class LeQuConfig private constructor() {
 
     fun withInterceptor(interceptor: Interceptor): LeQuConfig {
         INTERCEPTORS.add(interceptor)
-        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS)
+        LEQU_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS)
         return this
     }
 
     fun withInterceptors(interceptors: ArrayList<Interceptor>): LeQuConfig {
         INTERCEPTORS.addAll(interceptors)
-        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS)
+        LEQU_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS)
         return this
     }
 
     fun withActivity(activity: Activity): LeQuConfig {
-        LATTE_CONFIGS.put(ConfigKeys.ACTIVITY, activity)
+        LEQU_CONFIGS.put(ConfigKeys.ACTIVITY, activity)
+        return this
+    }
+
+    fun withDomain(domainName : String, domainUrl : String) : LeQuConfig {
+        checkNotNull(domainName) { "State must be set beforehand" }
+        checkNotNull(domainUrl) {"domainUrl connot be null"}
+        HEADERS_DOMAIN.put(domainName, UrlUtils.checkUrl(domainUrl))
+        LEQU_CONFIGS.put(ConfigKeys.HEADER_DOMAIN, HEADERS_DOMAIN)
         return this
     }
 
     private fun checkConfiguration() {
-        val isReady = LATTE_CONFIGS[ConfigKeys.CONFIG_READY] as Boolean
+        val isReady = LEQU_CONFIGS[ConfigKeys.CONFIG_READY] as Boolean
         if (!isReady) {
             throw RuntimeException("Configuration is not ready,call configure")
         }
@@ -87,16 +92,16 @@ class LeQuConfig private constructor() {
 
     internal fun <T> getConfiguration(key: Any): T {
         checkConfiguration()
-        LATTE_CONFIGS[key] ?: throw NullPointerException(key.toString() + " IS NULL")
-        return LATTE_CONFIGS[key] as T
+        LEQU_CONFIGS[key] ?: throw NullPointerException(key.toString() + " IS NULL")
+        return LEQU_CONFIGS[key] as T
     }
 
     companion object {
 
-        private val LATTE_CONFIGS = HashMap<Any, Any>()
-        private val HANDLER = Handler()
+        private val LEQU_CONFIGS = HashMap<Any, Any>()
         private val ICONS = ArrayList<IconFontDescriptor>()
         private val INTERCEPTORS = ArrayList<Interceptor>()
+        private val HEADERS_DOMAIN = HashMap<String, HttpUrl>()
 
         internal val instance: LeQuConfig
             get() = Holder.INSTANCE

@@ -11,8 +11,7 @@ enum class ConfigKeys {
     APPLICATION_CONTEXT,
     CONFIG_READY,
     ICON,
-    LOADER_DELAYED,
     INTERCEPTOR,
     ACTIVITY,
-    HANDLER
+    HEADER_DOMAIN
 }

@@ -2,6 +2,8 @@ package com.alway.lequ_kotlin.net
 
 import com.alway.lequ_kotlin.config.ConfigKeys
 import com.alway.lequ_kotlin.config.LeQu
+import com.alway.lequ_kotlin.net.parser.DefaultUrlParser
+import com.alway.lequ_kotlin.net.parser.UrlParser
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -55,9 +57,17 @@ class RestCretor {
     }
 
     companion object {
+        val DOMAIN = "domain"
         fun getRetrofit() : Retrofit {
             return RetrofitHolder.RETROFIT_CLIENT
         }
+        fun getUrlParser(): UrlParser {
+            return UrlParserHolder.DOMAIN_PARSER
+        }
+    }
+
+    object UrlParserHolder {
+        val DOMAIN_PARSER = DefaultUrlParser().init(RestCretor())
     }
 
 
