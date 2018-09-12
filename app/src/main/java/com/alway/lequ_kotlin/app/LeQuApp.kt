@@ -40,7 +40,9 @@ class LeQuApp: MultiDexApplication() {
                 .withInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .configure()
 
-        crashException()
+        if (BuildConfig.DEBUG) {
+            crashException()
+        }
     }
 
     private fun crashException() {

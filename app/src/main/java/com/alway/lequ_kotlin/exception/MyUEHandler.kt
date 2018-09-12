@@ -3,7 +3,7 @@ package com.alway.lequ_kotlin.exception
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
-import com.alway.lequ_kotlin.MainActivity
+import com.alway.lequ_kotlin.ui.MainActivity
 import com.alway.lequ_kotlin.app.LeQuApp
 import java.io.ByteArrayOutputStream
 import java.io.File

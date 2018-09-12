@@ -67,4 +67,10 @@ dependencies {
     implementation 'com.choices.divider:RecyclerView_Divider:1.0.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     implementation project(':lequ_core')
+    // rxlifecycle
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
+
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 }

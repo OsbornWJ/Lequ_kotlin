@@ -1,9 +1,10 @@
 package com.alway.lequ_kotlin.ui.base
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.NonNull
-import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
@@ -13,9 +14,10 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
  * 邮箱： Osbornjie@163.com
  * 功能：
  */
-open class ProxyActivity: AppCompatActivity(), ISupportActivity {
+@SuppressLint("Registered")
+open class ProxyActivity: RxAppCompatActivity(), ISupportActivity {
 
-    val mDelegate = SupportActivityDelegate(this)
+    private val mDelegate = SupportActivityDelegate(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -37,7 +37,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.4.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     //引入rxjava
-    compile 'io.reactivex.rxjava2:rxjava:2.1.14'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.17'
     //引入Log拦截器，方便DEBUG模式输出log信息
     compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     //引入rxandroid

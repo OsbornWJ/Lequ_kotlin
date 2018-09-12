@@ -1,10 +1,11 @@
-package com.alway.lequ_kotlin
+package com.alway.lequ_kotlin.ui
 
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
+import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
