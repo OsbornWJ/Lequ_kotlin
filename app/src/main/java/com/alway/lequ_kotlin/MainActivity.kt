@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.MenuItem
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
-import com.alway.lequ_kotlin.utils.ToastUtils
+import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : ProxyActivity(), NavigationView.OnNavigationItemSelectedListener{

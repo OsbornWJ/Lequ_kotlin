@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.utils
+package com.example.lequ_core.utils
 
 import okhttp3.HttpUrl
 

@@ -1,11 +1,11 @@
 @file:Suppress("PackageName")
 
-package com.alway.lequ_kotlin.net.parser
+package com.example.lequ_core.net.parser
 
 import android.text.TextUtils
-import com.alway.lequ_kotlin.net.RestCretor
-import com.alway.lequ_kotlin.net.cache.Cache
-import com.alway.lequ_kotlin.net.cache.LruCache
+import com.example.lequ_core.net.RestCretor
+import com.example.lequ_core.net.cache.Cache
+import com.example.lequ_core.net.cache.LruCache
 import okhttp3.HttpUrl
 import java.util.*
 

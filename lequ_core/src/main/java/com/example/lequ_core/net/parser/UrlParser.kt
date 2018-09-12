@@ -1,8 +1,8 @@
 @file:Suppress("PackageName")
 
-package com.alway.lequ_kotlin.net.parser
+package com.example.lequ_core.net.parser
 
-import com.alway.lequ_kotlin.net.RestCretor
+import com.example.lequ_core.net.RestCretor
 import okhttp3.HttpUrl
 
 /**

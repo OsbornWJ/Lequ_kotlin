@@ -1,7 +1,8 @@
-package com.alway.lequ_kotlin.config
+@file:Suppress("PackageName")
+
+package com.example.lequ_core.config
 
 import android.content.Context
-import android.os.Handler
 
 /**
  * 创建人：wenjie on 2018/6/6

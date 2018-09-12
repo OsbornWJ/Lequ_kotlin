@@ -1,8 +1,8 @@
-package com.alway.lequ_kotlin.net.interceptor
+package com.example.lequ_core.net.interceptor
 
 import android.content.Context
 import android.util.Log
-import com.shuyu.gsyvideoplayer.utils.NetworkUtils
+import com.example.lequ_core.utils.NetworkUtil
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,7 +18,7 @@ class CacheInterceptor(context: Context) : Interceptor {
     val context = context
     override fun intercept(chain: Interceptor.Chain?): Response? {
         var request = chain?.request()
-        if (NetworkUtils.isAvailable(context)) {
+        if (NetworkUtil.isNetworkConnected(context)) {
             val response = chain?.proceed(request)
             // read from cache for 60 s
             val maxAge = 60

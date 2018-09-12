@@ -1,7 +1,7 @@
-package com.alway.lequ_kotlin.utils
+package com.example.lequ_core.utils
 
 import android.widget.Toast
-import com.alway.lequ_kotlin.config.LeQu
+import com.example.lequ_core.config.LeQu
 
 /**
  * 创建人：wenjie on 2018/6/7

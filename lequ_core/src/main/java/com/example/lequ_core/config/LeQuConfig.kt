@@ -1,9 +1,7 @@
-package com.alway.lequ_kotlin.config
+package com.example.lequ_core.config
 
 import android.app.Activity
-import android.os.Handler
-import android.webkit.URLUtil
-import com.alway.lequ_kotlin.utils.UrlUtils
+import com.example.lequ_core.utils.UrlUtils
 import com.joanzapata.iconify.IconFontDescriptor
 import com.joanzapata.iconify.Iconify
 import com.orhanobut.logger.AndroidLogAdapter

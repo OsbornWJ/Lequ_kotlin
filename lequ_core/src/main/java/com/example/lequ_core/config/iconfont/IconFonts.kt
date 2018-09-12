@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.config.iconfont
+package com.example.lequ_core.config.iconfont
 
 import com.joanzapata.iconify.Icon
 

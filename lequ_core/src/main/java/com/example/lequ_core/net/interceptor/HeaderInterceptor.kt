@@ -1,10 +1,10 @@
-package com.alway.lequ_kotlin.net.interceptor
+package com.example.lequ_core.net.interceptor
 
 import android.text.TextUtils
-import com.alway.lequ_kotlin.config.ConfigKeys
-import com.alway.lequ_kotlin.config.LeQu
-import com.alway.lequ_kotlin.net.RestCretor
-import com.alway.lequ_kotlin.net.RestCretor.Companion.DOMAIN
+import com.example.lequ_core.net.RestCretor
+import com.example.lequ_core.net.RestCretor.Companion.DOMAIN
+import com.example.lequ_core.config.ConfigKeys
+import com.example.lequ_core.config.LeQu
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -18,7 +18,9 @@ import okhttp3.Response
 
 class HeaderInterceptor : Interceptor {
 
-    private val HEADER_DOMAIN = LeQu.lequConfig.getConfiguration<Map<String, HttpUrl>>(ConfigKeys.HEADER_DOMAIN)
+    private object Headerholder {
+        val HEADER_DOMAIN = LeQu.lequConfig.getConfiguration<Map<String, HttpUrl>>(ConfigKeys.HEADER_DOMAIN)
+    }
 
     private fun getBaseUrl(): HttpUrl {
         return LeQu.lequConfig.getConfiguration(ConfigKeys.API_HOST)
@@ -48,7 +50,7 @@ class HeaderInterceptor : Interceptor {
 
     private fun fetchDomain(domainName: String?) : HttpUrl? {
         checkNotNull(domainName){"domainName cannot be null"}
-        return HEADER_DOMAIN[domainName]
+        return Headerholder.HEADER_DOMAIN[domainName]
     }
 
     /**

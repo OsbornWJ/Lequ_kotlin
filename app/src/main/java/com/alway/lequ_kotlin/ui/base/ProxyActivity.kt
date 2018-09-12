@@ -1,20 +1,11 @@
 package com.alway.lequ_kotlin.ui.base
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
-import com.alway.lequ_kotlin.net.RestCretor
-import com.alway.lequ_kotlin.net.RestService
-import me.yokeyword.fragmentation.ExtraTransaction
-import me.yokeyword.fragmentation.ISupportActivity
-import me.yokeyword.fragmentation.SupportActivityDelegate
+import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
-import me.yokeyword.fragmentation.SupportHelper
-import me.yokeyword.fragmentation.ISupportFragment
-import me.yokeyword.fragmentation.SupportFragment
-
 
 
 /**

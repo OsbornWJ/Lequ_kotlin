@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.net.cache
+package com.example.lequ_core.net.cache
 
 
 /**

@@ -1,24 +1,35 @@
 package com.alway.lequ_kotlin.app
 
+import android.os.Environment
 import android.support.multidex.MultiDexApplication
 import com.alway.lequ_kotlin.BuildConfig
-import com.alway.lequ_kotlin.config.LeQu
-import com.alway.lequ_kotlin.config.iconfont.FontEcModule
-import com.alway.lequ_kotlin.net.RestCretor
-import com.alway.lequ_kotlin.net.interceptor.CacheInterceptor
-import com.alway.lequ_kotlin.net.interceptor.HeaderInterceptor
+import com.alway.lequ_kotlin.exception.MyUEHandler
+import com.example.lequ_core.config.LeQu
+import com.example.lequ_core.config.iconfont.FontEcModule
+import com.example.lequ_core.net.interceptor.HeaderInterceptor
+import com.example.lequ_core.net.interceptor.CacheInterceptor
 import com.joanzapata.iconify.fonts.FontAwesomeModule
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.File
 
 /**
  * 创建人：wenjie on 2018/6/7
  * 邮箱： Osbornjie@163.com
- * 功能：
+ * 功能：a
  */
 class LeQuApp: MultiDexApplication() {
 
+    companion object {
+        val PATH_ERROR_LOG = File(Environment.getExternalStorageDirectory(), "/LeQu/crash")
+    }
+
+    private var leQuApp: LeQuApp? = null
+
     override fun onCreate() {
         super.onCreate()
+
+        leQuApp = this;
+
         LeQu.init(this)
                 .withApiHost(BuildConfig.BASE_URL)
 //                .withDomain()
@@ -28,6 +39,12 @@ class LeQuApp: MultiDexApplication() {
                 .withInterceptor(CacheInterceptor(this))
                 .withInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .configure()
+
+        crashException()
+    }
+
+    private fun crashException() {
+        Thread.setDefaultUncaughtExceptionHandler(MyUEHandler(leQuApp!!))
     }
 
 }

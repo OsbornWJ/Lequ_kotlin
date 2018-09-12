@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.net
+package com.example.lequ_core.net
 
 import java.util.WeakHashMap
 

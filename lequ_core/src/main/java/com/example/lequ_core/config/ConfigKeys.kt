@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.config
+package com.example.lequ_core.config
 
 /**
  * 创建人：wenjie on 2018/6/7
