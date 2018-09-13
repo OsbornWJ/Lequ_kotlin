@@ -4,9 +4,9 @@ import android.os.Environment
 import android.support.multidex.MultiDexApplication
 import com.alway.lequ_kotlin.BuildConfig
 import com.alway.lequ_kotlin.exception.MyUEHandler
+import com.alway.lequ_kotlin.http.remote.DomainHeaderInterceptor
 import com.example.lequ_core.config.LeQu
 import com.example.lequ_core.config.iconfont.FontEcModule
-import com.example.lequ_core.net.interceptor.HeaderInterceptor
 import com.example.lequ_core.net.interceptor.CacheInterceptor
 import com.joanzapata.iconify.fonts.FontAwesomeModule
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,7 +35,7 @@ class LeQuApp: MultiDexApplication() {
 //                .withDomain()
                 .withIcon(FontAwesomeModule())
                 .withIcon(FontEcModule())
-                .withInterceptor(HeaderInterceptor())
+                .withInterceptor(DomainHeaderInterceptor())
                 .withInterceptor(CacheInterceptor(this))
                 .withInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .configure()

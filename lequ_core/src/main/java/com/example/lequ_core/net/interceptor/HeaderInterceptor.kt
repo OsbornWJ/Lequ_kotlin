@@ -1,3 +1,5 @@
+@file:Suppress("PackageName")
+
 package com.example.lequ_core.net.interceptor
 
 import android.text.TextUtils
@@ -13,10 +15,10 @@ import okhttp3.Response
 /**
  * 创建人: Jeven
  * 邮箱:   liaowenjie@sto.cn
- * 功能:
+ * 功能:  头部拦截器  转换baseUrl，如果头部有传参信息需要重写obtainHeader()
  */
 
-class HeaderInterceptor : Interceptor {
+open class HeaderInterceptor : Interceptor {
 
     private object Headerholder {
         val HEADER_DOMAIN = LeQu.lequConfig.getConfiguration<Map<String, HttpUrl>>(ConfigKeys.HEADER_DOMAIN)
@@ -38,7 +40,7 @@ class HeaderInterceptor : Interceptor {
         } else {
             httpUrl = getBaseUrl()
         }
-
+        obtainHeader(domainName, newBuilder)
         if (null != httpUrl) {
             val newUrl = RestCretor.getUrlParser().parseUrl(httpUrl, request.url())
             return chain.proceed(newBuilder
@@ -66,6 +68,13 @@ class HeaderInterceptor : Interceptor {
         if (headers.size > 1)
             throw IllegalArgumentException("Only one Domain-Name in the headers")
         return request.header(DOMAIN)
+    }
+
+    /**
+     * 为请求添加头部信息 （处理极端情况，各服务器的header可能有差）
+     */
+    open fun obtainHeader(domain: String?, builder: Request.Builder) {
+
     }
 
 }
