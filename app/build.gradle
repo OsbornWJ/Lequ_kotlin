@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion rootProject.ext.android['compileSdkVersion']
     buildToolsVersion rootProject.ext.android['buildToolsVersion']
@@ -42,6 +44,9 @@ android {
             buildConfigField "String", "BASE_URL", "$rootProject.BASE_URL"
         }
     }
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -73,4 +78,8 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+
+    //dagger
+    compile "com.google.dagger:dagger:2.15"
+    kapt 'com.google.dagger:dagger-compiler:2.15'
 }

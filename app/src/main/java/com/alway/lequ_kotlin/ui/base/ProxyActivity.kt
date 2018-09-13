@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
+import javax.inject.Inject
 
 
 /**
@@ -15,7 +16,10 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
  * 功能：
  */
 @SuppressLint("Registered")
-open class ProxyActivity: RxAppCompatActivity(), ISupportActivity {
+open class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportActivity {
+
+    @Inject
+    var mPersenter: P? = null
 
     private val mDelegate = SupportActivityDelegate(this)
 
@@ -35,6 +39,10 @@ open class ProxyActivity: RxAppCompatActivity(), ISupportActivity {
 
     override fun onDestroy() {
         mDelegate.onDestroy()
+        if (mPersenter != null) {
+            mPersenter!!.onDestory()
+        }
+        mPersenter = null
         super.onDestroy()
         System.gc()
         System.runFinalization()

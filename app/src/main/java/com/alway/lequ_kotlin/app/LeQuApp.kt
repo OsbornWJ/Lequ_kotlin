@@ -28,7 +28,7 @@ class LeQuApp: MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        leQuApp = this;
+        leQuApp = this
 
         LeQu.init(this)
                 .withApiHost(BuildConfig.BASE_URL)
