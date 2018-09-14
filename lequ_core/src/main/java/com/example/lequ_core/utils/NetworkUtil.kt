@@ -94,11 +94,7 @@ object NetworkUtil {
      */
     // #00044 +
     val isNeedSetProxyForNetRequest: Boolean
-        get() = if (Build.MODEL == "SCH-N719" || Build.MODEL == "SCH-I939D") {
-            false
-        } else {
-            true
-        }
+        get() = !(Build.MODEL == "SCH-N719" || Build.MODEL == "SCH-I939D")
 
     /**
      * 网络类型
@@ -210,7 +206,7 @@ object NetworkUtil {
     @Deprecated("4.0\n" +
             "      doc:\n" +
             "      Since the DB may contain corp passwords, we should secure it. Using the same permission as writing to the DB as the read is potentially as damaging as a write")
-    fun getApnType(context: Context): String {
+    fun getApnType(context: Context): String? {
 
         var apntype = "nomatch"
         var c = context.contentResolver.query(PREFERRED_APN_URI, null, null, null, null)
@@ -295,14 +291,11 @@ object NetworkUtil {
 
     fun is3G(context: Context): Boolean {
         val type = getNetworkClass(context)
-        return if (type == NETWORK_CLASS_3_G || type == NETWORK_CLASS_4_G) {
-            true
-        } else {
-            false
-        }
+        return type == NETWORK_CLASS_3_G || type == NETWORK_CLASS_4_G
     }
 
-    /**
+    @SuppressLint("MissingPermission")
+            /**
      * 当前网络是否是wifi网络
      *
      * @param context
@@ -313,11 +306,7 @@ object NetworkUtil {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val ni = cm.activeNetworkInfo
             return if (ni != null) {
-                if (ni.type == ConnectivityManager.TYPE_WIFI) {
-                    true
-                } else {
-                    false
-                }
+                ni.type == ConnectivityManager.TYPE_WIFI
             } else {
                 false
             }
@@ -327,6 +316,7 @@ object NetworkUtil {
 
     }
 
+    @SuppressLint("MissingPermission")
     fun getNetworkConnectionStatus(context: Context): Boolean {
         val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager ?: return false
 
@@ -334,13 +324,10 @@ object NetworkUtil {
 
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager ?: return false
 
-        return if ((tm.dataState == TelephonyManager.DATA_CONNECTED || tm.dataState == TelephonyManager.DATA_ACTIVITY_NONE) && info.isAvailable) {
-            true
-        } else {
-            false
-        }
+        return (tm.dataState == TelephonyManager.DATA_CONNECTED || tm.dataState == TelephonyManager.DATA_ACTIVITY_NONE) && info.isAvailable
     }
 
+    @SuppressLint("MissingPermission")
     fun getNetworkProxyInfo(context: Context): String? {
         val proxyHost = android.net.Proxy.getDefaultHost()
         val proxyPort = android.net.Proxy.getDefaultPort()
@@ -380,28 +367,19 @@ object NetworkUtil {
         return proxyHost
     }
 
+    @Suppress("DEPRECATION")
     fun isCtwap(context: Context): Boolean {
-        return if (getApnType(context) == CONNECT_TYPE_CTWAP) {
-            true
-        } else {
-            false
-        }
+        return getApnType(context) == CONNECT_TYPE_CTWAP
     }
 
+    @Suppress("DEPRECATION")
     fun isUniwap(context: Context): Boolean {
-        return if (getApnType(context) == CONNECT_TYPE_UNIWAP) {
-            true
-        } else {
-            false
-        }
+        return getApnType(context) == CONNECT_TYPE_UNIWAP
     }
 
+    @Suppress("DEPRECATION")
     fun isCmwap(context: Context): Boolean {
-        return if (getApnType(context) == CONNECT_TYPE_CMWAP) {
-            true
-        } else {
-            false
-        }
+        return getApnType(context) == CONNECT_TYPE_CMWAP
     }
 
     /**
@@ -420,19 +398,11 @@ object NetworkUtil {
             return false
         }
 
-        return if (apnName == CONNECT_TYPE_CTWAP || apnName == CONNECT_TYPE_CTNET) {
-            true
-        } else {
-            false
-        }
+        return apnName == CONNECT_TYPE_CTWAP || apnName == CONNECT_TYPE_CTNET
     }
 
     fun isCtcNetwork(type: Byte): Boolean {
-        return if (type == CURRENT_NETWORK_TYPE_CTWAP || type == CURRENT_NETWORK_TYPE_CTNET) {
-            true
-        } else {
-            false
-        }
+        return type == CURRENT_NETWORK_TYPE_CTWAP || type == CURRENT_NETWORK_TYPE_CTNET
     }
 
     /**
@@ -451,20 +421,12 @@ object NetworkUtil {
             return false
         }
 
-        return if (apnName == CONNECT_TYPE_UNIWAP || apnName == CONNECT_TYPE_UNINET
-                || apnName == CONNECT_TYPE_UNI3GWAP || apnName == CONNECT_TYPE_UNI3GNET) {
-            true
-        } else {
-            false
-        }
+        return (apnName == CONNECT_TYPE_UNIWAP || apnName == CONNECT_TYPE_UNINET
+                || apnName == CONNECT_TYPE_UNI3GWAP || apnName == CONNECT_TYPE_UNI3GNET)
     }
 
     fun isCucNetwork(type: Byte): Boolean {
-        return if (type == CURRENT_NETWORK_TYPE_UNIWAP || type == CURRENT_NETWORK_TYPE_UNIET) {
-            true
-        } else {
-            false
-        }
+        return type == CURRENT_NETWORK_TYPE_UNIWAP || type == CURRENT_NETWORK_TYPE_UNIET
     }
 
     /**
@@ -483,19 +445,11 @@ object NetworkUtil {
             return false
         }
 
-        return if (apnName == CONNECT_TYPE_CMWAP || apnName == CONNECT_TYPE_CMNET) {
-            true
-        } else {
-            false
-        }
+        return apnName == CONNECT_TYPE_CMWAP || apnName == CONNECT_TYPE_CMNET
     }
 
     fun isCmbNetwork(type: Byte): Boolean {
-        return if (type == CURRENT_NETWORK_TYPE_CMWAP || type == CURRENT_NETWORK_TYPE_CMNET) {
-            true
-        } else {
-            false
-        }
+        return type == CURRENT_NETWORK_TYPE_CMWAP || type == CURRENT_NETWORK_TYPE_CMNET
     }
 
     /**
@@ -534,7 +488,7 @@ object NetworkUtil {
         }
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "WifiManagerPotentialLeak", "HardwareIds")
             /**
      * get mac address of wifi if wifi is active
      */
@@ -682,6 +636,7 @@ object NetworkUtil {
         return NETWORK_CLASS_UNKNOWN
     }
 
+    @SuppressLint("MissingPermission")
     fun getNetworkTypeName(context: Context): String {
         var networkName = "UNKNOWN"
         val connectivityManager = context
@@ -765,6 +720,7 @@ object NetworkUtil {
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun getNetworkTypeForLink(context: Context): Int {
         try {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

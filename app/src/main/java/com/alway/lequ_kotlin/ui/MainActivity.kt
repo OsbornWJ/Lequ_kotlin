@@ -1,5 +1,6 @@
 package com.alway.lequ_kotlin.ui
 
+import android.annotation.SuppressLint
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -10,29 +11,32 @@ import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.alway.lequ_kotlin.ui.contract.MainContract
 import com.alway.lequ_kotlin.ui.presenter.MainPresenter
 import com.example.lequ_core.utils.ToastUtils
-import dagger.Component
 import dagger.Module
 import dagger.Provides
+import dagger.Subcomponent
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
+import org.jetbrains.annotations.NotNull
 
 @Module
 class MainMoudle(private val mView: MainContract.View) {
-
-    @Provides
-    fun provideMainView() = mView
-
+    @Provides fun getView() = mView
 }
 
-@Component(modules = arrayOf(MainMoudle::class))
+@Subcomponent(modules = arrayOf(MainMoudle::class))
 interface MainComponent {
-    fun inject(activity: MainActivity)
+    fun inject(@NotNull activity: MainActivity)
 }
 
-class MainActivity : ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View{
+class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View{
 
     // 再点一次退出程序时间设置
     private val WAIT_TIME = 2000L
     private var TOUCH_TIME: Long = 0
+
+    override fun setupActivityComponent() {
+
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -43,6 +47,7 @@ class MainActivity : ProxyActivity<MainPresenter>(), NavigationView.OnNavigation
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
+        mPersenter!!.setTextView()
     }
 
     override fun onBackPressedSupport() {
@@ -56,7 +61,7 @@ class MainActivity : ProxyActivity<MainPresenter>(), NavigationView.OnNavigation
                     finish()
                 } else {
                     TOUCH_TIME = System.currentTimeMillis()
-                    ToastUtils.showToastShrot(getString(R.string.press_again_exit))
+                    ToastUtils.showToastShrot(getString(R.string.app_name))
                 }
             }
         }
@@ -65,6 +70,11 @@ class MainActivity : ProxyActivity<MainPresenter>(), NavigationView.OnNavigation
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun setTextView() {
+        textView.text = "hello Kotlin"
     }
 
 }

@@ -3,7 +3,9 @@ package com.alway.lequ_kotlin.ui.base
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.annotation.Nullable
 import android.view.MotionEvent
+import com.example.lequ_core.utils.AppManager
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
@@ -16,19 +18,20 @@ import javax.inject.Inject
  * 功能：
  */
 @SuppressLint("Registered")
-open class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportActivity {
+open class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActivity {
 
-    @Inject
-    var mPersenter: P? = null
+    @Inject @Nullable lateinit var mPersenter: P
 
     private val mDelegate = SupportActivityDelegate(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupActivityComponent()
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
         if (getLayoutId() != 0) {
             setContentView(getLayoutId())
         }
+        AppManager.appManager!!.addActivity(this)
         initData()
     }
 
@@ -39,10 +42,7 @@ open class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportActivit
 
     override fun onDestroy() {
         mDelegate.onDestroy()
-        if (mPersenter != null) {
-            mPersenter!!.onDestory()
-        }
-        mPersenter = null
+        mPersenter!!.onDestory()
         super.onDestroy()
         System.gc()
         System.runFinalization()
@@ -54,6 +54,10 @@ open class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportActivit
 
     open fun getLayoutId(): Int {
          return 0
+    }
+
+    open fun setupActivityComponent() {
+
     }
 
     open fun initData() {}

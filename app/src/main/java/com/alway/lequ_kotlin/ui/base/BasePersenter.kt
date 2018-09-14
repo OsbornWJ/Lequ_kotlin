@@ -1,7 +1,5 @@
 package com.alway.lequ_kotlin.ui.base
 
-import android.arch.lifecycle.LifecycleObserver
-
 /**
  * 创建人: Jeven
  * 邮箱:   liaowenjie@sto.cn
@@ -9,7 +7,14 @@ import android.arch.lifecycle.LifecycleObserver
  */
 open class BasePersenter<V: IView, M: IModel> : IPersenter {
 
-    init {
+    protected var mModel: M? = null
+    protected var mRootView: V? = null
+
+    constructor(model: M, rootView: V) {
+        checkNotNull(model){"model conot be null"}
+        checkNotNull(rootView){"rootView conot be null"}
+        this.mModel = model
+        this.mRootView = rootView
         onStart()
     }
 
@@ -18,7 +23,9 @@ open class BasePersenter<V: IView, M: IModel> : IPersenter {
     }
 
     override fun onDestory() {
-
+        mModel!!.onDestroy()
+        mModel = null
+        mRootView = null
     }
 
 

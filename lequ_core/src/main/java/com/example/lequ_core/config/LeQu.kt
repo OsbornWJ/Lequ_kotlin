@@ -3,6 +3,8 @@
 package com.example.lequ_core.config
 
 import android.content.Context
+import com.example.lequ_core.utils.AppManager
+
 
 /**
  * 创建人：wenjie on 2018/6/6

@@ -7,7 +7,9 @@ import com.alway.lequ_kotlin.exception.MyUEHandler
 import com.alway.lequ_kotlin.http.remote.DomainHeaderInterceptor
 import com.example.lequ_core.config.LeQu
 import com.example.lequ_core.config.iconfont.FontEcModule
+import com.example.lequ_core.net.RestCretor
 import com.example.lequ_core.net.interceptor.CacheInterceptor
+import com.example.lequ_core.utils.AppManager
 import com.joanzapata.iconify.fonts.FontAwesomeModule
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
@@ -15,7 +17,7 @@ import java.io.File
 /**
  * 创建人：wenjie on 2018/6/7
  * 邮箱： Osbornjie@163.com
- * 功能：a
+ * 功能：
  */
 class LeQuApp: MultiDexApplication() {
 
@@ -30,6 +32,8 @@ class LeQuApp: MultiDexApplication() {
 
         leQuApp = this
 
+        AppManager.appManager!!.init(leQuApp!!)
+
         LeQu.init(this)
                 .withApiHost(BuildConfig.BASE_URL)
 //                .withDomain()
@@ -43,6 +47,7 @@ class LeQuApp: MultiDexApplication() {
         if (BuildConfig.DEBUG) {
             crashException()
         }
+
     }
 
     private fun crashException() {

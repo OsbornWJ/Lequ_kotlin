@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -44,8 +41,11 @@ android {
             buildConfigField "String", "BASE_URL", "$rootProject.BASE_URL"
         }
     }
-    kapt {
-        generateStubs = true
+
+    lintOptions {
+        disable 'InvalidPackage'
+        disable "ResourceType"
+        abortOnError false
     }
 }
 
@@ -79,7 +79,9 @@ dependencies {
 
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 
-    //dagger
-    compile "com.google.dagger:dagger:2.15"
+    //dagger2
+    compile 'com.google.dagger:dagger-android:2.15'
+    compile 'com.google.dagger:dagger-android-support:2.15'
+    kapt  'com.google.dagger:dagger-android-processor:2.15'
     kapt 'com.google.dagger:dagger-compiler:2.15'
 }
