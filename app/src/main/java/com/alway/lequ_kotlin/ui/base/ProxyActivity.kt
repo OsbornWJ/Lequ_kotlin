@@ -42,7 +42,7 @@ open class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActivity
 
     override fun onDestroy() {
         mDelegate.onDestroy()
-        mPersenter!!.onDestory()
+        mPersenter.onDestory()
         super.onDestroy()
         System.gc()
         System.runFinalization()

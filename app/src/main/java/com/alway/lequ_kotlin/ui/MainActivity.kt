@@ -9,21 +9,23 @@ import android.view.MenuItem
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.alway.lequ_kotlin.ui.contract.MainContract
+import com.alway.lequ_kotlin.ui.model.MainModel
 import com.alway.lequ_kotlin.ui.presenter.MainPresenter
 import com.example.lequ_core.utils.ToastUtils
+import dagger.Component
 import dagger.Module
 import dagger.Provides
-import dagger.Subcomponent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.annotations.NotNull
 
 @Module
 class MainMoudle(private val mView: MainContract.View) {
-    @Provides fun getView() = mView
+    @Provides fun provideMainView() = mView
+    @Provides fun provideMainModel(model: MainModel): MainContract.Model = model
 }
 
-@Subcomponent(modules = arrayOf(MainMoudle::class))
+@Component(modules = arrayOf(MainMoudle::class))
 interface MainComponent {
     fun inject(@NotNull activity: MainActivity)
 }
@@ -47,7 +49,7 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
-        mPersenter!!.setTextView()
+        mPersenter.setTextView()
     }
 
     override fun onBackPressedSupport() {
