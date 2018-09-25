@@ -18,9 +18,9 @@ import javax.inject.Inject
  * 功能：
  */
 @SuppressLint("Registered")
-open class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActivity {
+open class ProxyActivity<P: IPresenter>: RxAppCompatActivity(), ISupportActivity {
 
-    @Inject @Nullable lateinit var mPersenter: P
+    protected var mPresenter: P? = null
 
     private val mDelegate = SupportActivityDelegate(this)
 
@@ -42,7 +42,6 @@ open class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActivity
 
     override fun onDestroy() {
         mDelegate.onDestroy()
-        mPersenter.onDestory()
         super.onDestroy()
         System.gc()
         System.runFinalization()

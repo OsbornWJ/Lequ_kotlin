@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.alway.lequ_kotlin.http.entity
 
 import java.util.*

@@ -96,7 +96,7 @@ dependencies {
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 
     //dagger2
-    api ('com.google.dagger:dagger-android:2.11') {
+    api ('com.google.dagger:dagger:2.11') {
         exclude module: 'support-annotations'
     }
     kapt 'com.google.dagger:dagger-compiler:2.11'

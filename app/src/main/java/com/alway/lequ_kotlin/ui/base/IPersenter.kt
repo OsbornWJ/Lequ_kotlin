@@ -5,7 +5,9 @@ package com.alway.lequ_kotlin.ui.base
  * 邮箱:   liaowenjie@sto.cn
  * 功能:
  */
-interface IPersenter {
+interface IPresenter {
+
+    fun dettachView()
 
     fun onStart()
 

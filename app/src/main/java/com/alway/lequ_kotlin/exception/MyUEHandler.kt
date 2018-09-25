@@ -26,7 +26,6 @@ class MyUEHandler(internal var softApp: LeQuApp) : Thread.UncaughtExceptionHandl
             ex.printStackTrace(printStream)
             var data: ByteArray? = baos.toByteArray()
             info = String(data!!)
-            data = null
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -81,7 +80,7 @@ class MyUEHandler(internal var softApp: LeQuApp) : Thread.UncaughtExceptionHandl
             val file = File(LeQuApp.PATH_ERROR_LOG, "exp"
                     + fileName + ".txt")
             fos = FileOutputStream(file)
-            fos!!.write(content!!.toByteArray())
+            fos.write(content!!.toByteArray())
             fos.flush()
         } catch (e: Exception) {
             e.printStackTrace()

@@ -9,7 +9,8 @@ import javax.inject.Inject
  * 邮箱:   liaowenjie@sto.cn
  * 功能:
  */
-class MainPresenter @Inject constructor(model: MainContract.Model, rootView: MainContract.View) : BasePersenter<MainContract.View, MainContract.Model>(model, rootView) {
+class MainPresenter
+constructor(model: MainContract.Model, rootView: MainContract.View) : BasePersenter<MainContract.View, MainContract.Model>(model, rootView) {
 
     fun setTextView() {
         mRootView!!.setTextView()

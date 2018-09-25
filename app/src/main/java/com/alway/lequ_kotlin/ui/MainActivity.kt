@@ -9,36 +9,17 @@ import android.view.MenuItem
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.alway.lequ_kotlin.ui.contract.MainContract
-import com.alway.lequ_kotlin.ui.model.MainModel
 import com.alway.lequ_kotlin.ui.presenter.MainPresenter
 import com.example.lequ_core.utils.ToastUtils
-import dagger.Component
-import dagger.Module
-import dagger.Provides
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
-import org.jetbrains.annotations.NotNull
 
-@Module
-class MainMoudle(private val mView: MainContract.View) {
-    @Provides fun provideMainView() = mView
-    @Provides fun provideMainModel(model: MainModel): MainContract.Model = model
-}
-
-@Component(modules = arrayOf(MainMoudle::class))
-interface MainComponent {
-    fun inject(@NotNull activity: MainActivity)
-}
 
 class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View{
 
     // 再点一次退出程序时间设置
     private val WAIT_TIME = 2000L
     private var TOUCH_TIME: Long = 0
-
-    override fun setupActivityComponent() {
-
-    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -49,7 +30,7 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
-        mPersenter.setTextView()
+        mPresenter!!.setTextView()
     }
 
     override fun onBackPressedSupport() {

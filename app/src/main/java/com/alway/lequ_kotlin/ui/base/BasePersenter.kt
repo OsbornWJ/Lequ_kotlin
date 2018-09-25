@@ -5,10 +5,11 @@ package com.alway.lequ_kotlin.ui.base
  * 邮箱:   liaowenjie@sto.cn
  * 功能:
  */
-open class BasePersenter<V: IView, M: IModel>(model: M, rootView: V) : IPersenter {
+open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?) : IPresenter {
 
-    protected var mModel: M? = model
-    protected var mRootView: V? = rootView
+    override fun dettachView() {
+        mRootView = null
+    }
 
     override fun onStart() {
 
@@ -17,12 +18,11 @@ open class BasePersenter<V: IView, M: IModel>(model: M, rootView: V) : IPersente
     override fun onDestory() {
         mModel!!.onDestroy()
         mModel = null
-        mRootView = null
     }
 
     init {
-        checkNotNull(model){"model conot be null"}
-        checkNotNull(rootView){"rootView conot be null"}
+        checkNotNull(mModel){"model conot be null"}
+        checkNotNull(mRootView){"rootView conot be null"}
         onStart()
     }
 
