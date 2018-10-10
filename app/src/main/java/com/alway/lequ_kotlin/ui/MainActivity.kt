@@ -47,7 +47,7 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                     finish()
                 } else {
                     TOUCH_TIME = System.currentTimeMillis()
-                    ToastUtils.showToastShrot(getString(R.string.app_name))
+                    ToastUtils.showToastShrot(getString(R.string.press_again_exit))
                 }
             }
         }
