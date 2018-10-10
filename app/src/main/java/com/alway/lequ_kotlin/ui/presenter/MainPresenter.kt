@@ -12,8 +12,4 @@ import javax.inject.Inject
 class MainPresenter
 constructor(model: MainContract.Model, rootView: MainContract.View) : BasePersenter<MainContract.View, MainContract.Model>(model, rootView) {
 
-    fun setTextView() {
-        mRootView!!.setTextView()
-    }
-
 }

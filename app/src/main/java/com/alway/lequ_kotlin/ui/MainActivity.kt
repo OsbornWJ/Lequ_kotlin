@@ -9,10 +9,10 @@ import android.view.MenuItem
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.alway.lequ_kotlin.ui.contract.MainContract
+import com.alway.lequ_kotlin.ui.model.MainModel
 import com.alway.lequ_kotlin.ui.presenter.MainPresenter
 import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 
 
 class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View{
@@ -25,12 +25,15 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
         return R.layout.activity_main
     }
 
+    override fun initPersenter() {
+        mPresenter = MainPresenter(MainModel(), this)
+    }
+
     override fun initData() {
         ActionBarDrawerToggle(this, drawer_layout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
-        mPresenter!!.setTextView()
     }
 
     override fun onBackPressedSupport() {
@@ -53,11 +56,6 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun setTextView() {
-        textView.text = "hello Kotlin"
     }
 
 }

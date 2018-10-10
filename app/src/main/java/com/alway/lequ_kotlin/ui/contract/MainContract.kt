@@ -12,10 +12,8 @@ import com.alway.lequ_kotlin.ui.base.IView
 interface MainContract {
 
     interface View: IView {
-        fun setTextView()
     }
 
     interface Model: IModel {
-
     }
 }

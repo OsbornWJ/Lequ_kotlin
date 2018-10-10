@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
+import android.support.v7.view.menu.BaseMenuPresenter
 import android.view.MotionEvent
+import com.alway.lequ_kotlin.ui.model.MainModel
+import com.alway.lequ_kotlin.ui.presenter.MainPresenter
 import com.example.lequ_core.utils.AppManager
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import me.yokeyword.fragmentation.*
@@ -18,19 +21,19 @@ import javax.inject.Inject
  * 功能：
  */
 @SuppressLint("Registered")
-open class ProxyActivity<P: IPresenter>: RxAppCompatActivity(), ISupportActivity {
+abstract class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActivity {
 
     protected var mPresenter: P? = null
 
     private val mDelegate = SupportActivityDelegate(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setupActivityComponent()
         super.onCreate(savedInstanceState)
         mDelegate.onCreate(savedInstanceState)
         if (getLayoutId() != 0) {
             setContentView(getLayoutId())
         }
+        initPersenter()
         AppManager.appManager!!.addActivity(this)
         initData()
     }
@@ -42,6 +45,8 @@ open class ProxyActivity<P: IPresenter>: RxAppCompatActivity(), ISupportActivity
 
     override fun onDestroy() {
         mDelegate.onDestroy()
+        mPresenter!!.onDestory()
+        mPresenter = null
         super.onDestroy()
         System.gc()
         System.runFinalization()
@@ -55,11 +60,11 @@ open class ProxyActivity<P: IPresenter>: RxAppCompatActivity(), ISupportActivity
          return 0
     }
 
-    open fun setupActivityComponent() {
+    abstract fun initData()
+
+    open fun initPersenter() {
 
     }
-
-    open fun initData() {}
 
     override fun setFragmentAnimator(fragmentAnimator: FragmentAnimator?) {
         mDelegate.fragmentAnimator = fragmentAnimator

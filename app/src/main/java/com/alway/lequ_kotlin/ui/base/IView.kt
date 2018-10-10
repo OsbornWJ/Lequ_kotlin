@@ -6,6 +6,7 @@ package com.alway.lequ_kotlin.ui.base
  * 功能:
  */
 interface IView {
+
     /**
      * 显示加载
      */
@@ -17,6 +18,10 @@ interface IView {
      * 隐藏加载
      */
     fun hideLoading() {
+
+    }
+
+    fun setPersenter() {
 
     }
 

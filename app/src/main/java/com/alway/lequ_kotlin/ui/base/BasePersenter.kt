@@ -5,7 +5,7 @@ package com.alway.lequ_kotlin.ui.base
  * 邮箱:   liaowenjie@sto.cn
  * 功能:
  */
-open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?) : IPresenter {
+open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?) : IPersenter {
 
     override fun dettachView() {
         mRootView = null
