@@ -74,6 +74,10 @@ abstract class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActi
         return mDelegate.fragmentAnimator
     }
 
+    override fun onBackPressed() {
+        mDelegate.onBackPressed()
+    }
+
     override fun onBackPressedSupport() {
         mDelegate.onBackPressedSupport()
     }

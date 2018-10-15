@@ -1,6 +1,5 @@
 package com.alway.lequ_kotlin.ui
 
-import android.annotation.SuppressLint
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle

@@ -9,21 +9,12 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <!--<FrameLayout
+    <FrameLayout
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".demo_flow.MainActivity">
-    </FrameLayout>-->
-
-    <TextView
-        android:id="@+id/textTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/icons"
-        android:textSize="@dimen/sp_16"
-        android:text="测试"
-        />
+    </FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
