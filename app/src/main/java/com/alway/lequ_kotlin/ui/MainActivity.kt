@@ -7,12 +7,17 @@ import android.view.Gravity
 import android.view.MenuItem
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
-import com.alway.lequ_kotlin.ui.contract.MainContract
-import com.alway.lequ_kotlin.ui.model.MainModel
-import com.alway.lequ_kotlin.ui.presenter.MainPresenter
+import com.alway.lequ_kotlin.ui.mvp.contract.MainContract
+import com.alway.lequ_kotlin.ui.mvp.model.MainModel
+import com.alway.lequ_kotlin.ui.mvp.presenter.MainPresenter
 import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * 创建人: Jeven
+ * 邮箱:   Osboenjie@163.com
+ * 功能:  主体程序
+ */
 
 class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View{
 
@@ -33,6 +38,7 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
+        mPresenter!!.test()
     }
 
     override fun onBackPressedSupport() {

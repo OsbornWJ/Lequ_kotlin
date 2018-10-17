@@ -49,6 +49,8 @@ dependencies {
     }
     //引入rxjava
     compile 'io.reactivex.rxjava2:rxjava:2.1.17'
+    //引入rxKotlin
+    compile 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     //引入Log拦截器，方便DEBUG模式输出log信息
     compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     //引入rxandroid
@@ -66,10 +68,13 @@ dependencies {
         exclude group: 'io.reactivex.rxjava2'
     }
     //Log
-    compile 'com.orhanobut:logger:2.2.0'
+    compile ('com.orhanobut:logger:2.2.0') {
+        exclude module: 'support-annotations'
+    }
     //字体图标
     compile ('com.joanzapata.iconify:android-iconify-ionicons:2.2.2') {
         exclude group: 'com.android.support'
+        exclude module: 'support-v4'
     }
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     //Fragment依赖

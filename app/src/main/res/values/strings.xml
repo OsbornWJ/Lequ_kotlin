@@ -5,4 +5,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="press_again_exit">再按一次退出</string>
 
+    <string name="button_allow">确定</string>
+    <string name="button_deny">拒绝</string>
+
+    <string name="permission_camera_rationale">请求获取相机权限</string>
+
 </resources>

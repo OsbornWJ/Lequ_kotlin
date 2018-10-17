@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.support.annotation.Nullable
 import android.support.v4.app.FragmentActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import com.trello.rxlifecycle2.components.support.RxFragment
 import me.yokeyword.fragmentation.ExtraTransaction
@@ -16,19 +20,28 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 /**
  * 创建人: Jeven
- * 邮箱:   liaowenjie@sto.cn
- * 功能:
+ * 邮箱:   Osboenjie@163.com
+ * 功能:   fragment base
  */
+
 abstract class BaseDelegate: RxFragment(), ISupportFragment {
 
     val DELEGATE = SupportFragmentDelegate(this)
     protected var _mActivity: FragmentActivity? = null
+
+    abstract fun setLayout(): Any
+
+    abstract fun onBindView(savedInstanceState: Bundle?, @NonNull rootView: View)
 
     @SuppressLint("MissingSuperCall")
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DELEGATE.onAttach(context as Activity)
         _mActivity = DELEGATE.activity
+    }
+
+    fun getProxyActivity(): ProxyActivity<*> {
+        return _mActivity as ProxyActivity<*>
     }
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
@@ -48,6 +61,16 @@ abstract class BaseDelegate: RxFragment(), ISupportFragment {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         DELEGATE.onSaveInstanceState(outState)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView: View = when {
+            setLayout() is Int -> inflater.inflate(setLayout() as Int, container, false)
+            setLayout() is View -> setLayout() as View
+            else -> throw ClassCastException("type of setLayout() must be int or View!")
+        }
+        onBindView(savedInstanceState, rootView)
+        return rootView
     }
 
     override fun onResume() {

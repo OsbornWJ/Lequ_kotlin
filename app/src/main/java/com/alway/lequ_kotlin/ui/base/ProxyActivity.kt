@@ -3,25 +3,21 @@ package com.alway.lequ_kotlin.ui.base
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.NonNull
-import android.support.annotation.Nullable
-import android.support.v7.view.menu.BaseMenuPresenter
 import android.view.MotionEvent
-import com.alway.lequ_kotlin.ui.model.MainModel
-import com.alway.lequ_kotlin.ui.presenter.MainPresenter
+import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import com.example.lequ_core.utils.AppManager
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
-import javax.inject.Inject
-
 
 /**
  * 创建人：wenjie on 2018/6/7
  * 邮箱： Osbornjie@163.com
- * 功能：
+ * 功能： 代理Activity
  */
+
 @SuppressLint("Registered")
-abstract class ProxyActivity<P: IPersenter>: RxAppCompatActivity(), ISupportActivity {
+abstract class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportActivity {
 
     protected var mPresenter: P? = null
 
