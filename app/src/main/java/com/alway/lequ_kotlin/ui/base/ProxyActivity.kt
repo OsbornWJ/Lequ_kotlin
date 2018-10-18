@@ -3,10 +3,14 @@ package com.alway.lequ_kotlin.ui.base
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
+import com.alway.lequ_kotlin.ui.lifecycle.ActivityLifeCycleble
 import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import com.example.lequ_core.utils.AppManager
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.trello.rxlifecycle2.android.ActivityEvent
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
@@ -17,7 +21,9 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
  */
 
 @SuppressLint("Registered")
-abstract class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportActivity {
+abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActivity, ActivityLifeCycleble {
+
+    private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
     protected var mPresenter: P? = null
 
@@ -25,6 +31,7 @@ abstract class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportAct
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleSubject.onNext(ActivityEvent.CREATE)
         mDelegate.onCreate(savedInstanceState)
         if (getLayoutId() != 0) {
             setContentView(getLayoutId())
@@ -34,9 +41,24 @@ abstract class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportAct
         initData()
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        mDelegate.onPostCreate(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
+        lifecycleSubject.onNext(ActivityEvent.START)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleSubject.onNext(ActivityEvent.RESUME)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        lifecycleSubject.onNext(ActivityEvent.PAUSE)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        lifecycleSubject.onNext(ActivityEvent.STOP)
     }
 
     override fun onDestroy() {
@@ -48,10 +70,6 @@ abstract class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportAct
         System.runFinalization()
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        return mDelegate.dispatchTouchEvent(ev) || super.dispatchTouchEvent(ev)
-    }
-
     open fun getLayoutId(): Int {
          return 0
     }
@@ -60,6 +78,19 @@ abstract class ProxyActivity<P: IPersenter?>: RxAppCompatActivity(), ISupportAct
 
     open fun initPersenter() {
 
+    }
+
+    override fun provideLifecycleSubject(): Subject<ActivityEvent> {
+        return lifecycleSubject
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        mDelegate.onPostCreate(savedInstanceState)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        return mDelegate.dispatchTouchEvent(ev) || super.dispatchTouchEvent(ev)
     }
 
     override fun setFragmentAnimator(fragmentAnimator: FragmentAnimator?) {

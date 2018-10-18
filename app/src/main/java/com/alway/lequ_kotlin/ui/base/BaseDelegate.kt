@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.annotation.Nullable
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
  * 功能:   fragment base
  */
 
-abstract class BaseDelegate: RxFragment(), ISupportFragment {
+abstract class BaseDelegate: Fragment(), ISupportFragment {
 
     val DELEGATE = SupportFragmentDelegate(this)
     protected var _mActivity: FragmentActivity? = null

@@ -1,8 +1,10 @@
 package com.alway.lequ_kotlin.ui
 
+import android.content.DialogInterface
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import android.view.MenuItem
 import com.alway.lequ_kotlin.R
@@ -56,6 +58,15 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 }
             }
         }
+    }
+
+    override fun showLoading() {
+        AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("测试")
+                .setPositiveButton("确定", DialogInterface.OnClickListener { dialog, which ->  dialog.dismiss()})
+                .create()
+                .show()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

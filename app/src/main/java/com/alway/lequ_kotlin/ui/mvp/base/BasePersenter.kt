@@ -1,8 +1,5 @@
 package com.alway.lequ_kotlin.ui.mvp.base
 
-import com.trello.rxlifecycle2.LifecycleProvider
-import com.trello.rxlifecycle2.android.ActivityEvent
-
 /**
  * 创建人: Jeven
  * 邮箱:   Osboenjie@163.com
