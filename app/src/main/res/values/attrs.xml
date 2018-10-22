@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SearchEdit">
+        <attr name="imageWidth" format="integer" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="textHint" format="reference|string" />
+    </declare-styleable>
+
+    <declare-styleable name="MyTabLayout">
+        <attr name="textNormalSize" format="dimension" />
+        <attr name="textSelectSize" format="dimension" />
+        <attr name="textNormalColor" format="color" />
+        <attr name="textSelectColor" format="color" />
+        <attr name="underLineHeight" format="dimension" />
+        <attr name="underlineColor" format="color" />
+        <attr name="indicatorHeight" format="dimension" />
+        <attr name="indicatorWidth" format="dimension" />
+        <attr name="indicatorSpacing" format="dimension" />
+        <attr name="isTextBold" format="boolean" />
+        <attr name="tabPadding" format="dimension" />
+        <attr name="indicatorColor" format="color" />
+        <attr name="tabSpaceEqual" format="boolean" />
+    </declare-styleable>
+</resources>
