@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
+import android.view.View
 import com.alway.lequ_kotlin.ui.lifecycle.ActivityLifeCycleble
 import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import com.example.lequ_core.utils.AppManager
@@ -33,12 +34,14 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
         super.onCreate(savedInstanceState)
         lifecycleSubject.onNext(ActivityEvent.CREATE)
         mDelegate.onCreate(savedInstanceState)
-        if (getLayoutId() != 0) {
-            setContentView(getLayoutId())
+        when {
+            setLayout() is Int -> setContentView(setLayout() as Int)
+            setLayout() is View -> setContentView(setLayout() as View)
+            else -> throw ClassCastException("type of setLayout() must be int or View!")
         }
         initPersenter()
         AppManager.appManager!!.addActivity(this)
-        initData()
+        initData(savedInstanceState)
     }
 
     override fun onStart() {
@@ -70,11 +73,9 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
         System.runFinalization()
     }
 
-    open fun getLayoutId(): Int {
-         return 0
-    }
+    abstract fun setLayout(): Any
 
-    abstract fun initData()
+    abstract fun initData(savedInstanceState: Bundle?)
 
     open fun initPersenter() {
 

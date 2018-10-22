@@ -14,7 +14,7 @@ import io.reactivex.subjects.Subject
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-abstract class LeQuDelegate<P: IPersenter>: BaseDelegate(), FragmentLifecycleable {
+abstract class LeQuDelegate<P: IPersenter>: PermissionCheckerDelegate(), FragmentLifecycleable {
 
     private val lifecycleSubject = BehaviorSubject.create<FragmentEvent>()
 

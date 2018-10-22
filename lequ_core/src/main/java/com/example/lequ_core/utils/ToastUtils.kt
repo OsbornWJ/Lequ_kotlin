@@ -11,7 +11,7 @@ import com.example.lequ_core.config.LeQu
  */
 object ToastUtils {
 
-    private var mToast: Toast? = null;
+    private var mToast: Toast? = null
 
     fun showToastShrot(makeText: String) {
         Toast.makeText(LeQu.applicationContext, makeText, Toast.LENGTH_SHORT).show()

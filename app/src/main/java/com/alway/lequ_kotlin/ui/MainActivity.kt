@@ -1,6 +1,7 @@
 package com.alway.lequ_kotlin.ui
 
 import android.content.DialogInterface
+import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -27,7 +28,7 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
     private val WAIT_TIME = 2000L
     private var TOUCH_TIME: Long = 0
 
-    override fun getLayoutId(): Int {
+    override fun setLayout(): Any {
         return R.layout.activity_main
     }
 
@@ -35,12 +36,11 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
         mPresenter = MainPresenter(MainModel(), this)
     }
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         ActionBarDrawerToggle(this, drawer_layout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
-        mPresenter!!.test()
     }
 
     override fun onBackPressedSupport() {
