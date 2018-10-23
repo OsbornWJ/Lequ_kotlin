@@ -34,6 +34,8 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
 
     abstract fun onBindView(savedInstanceState: Bundle?, @NonNull rootView: View)
 
+    abstract fun initPersenter()
+
     @SuppressLint("MissingSuperCall")
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,10 +50,6 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DELEGATE.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
-        return DELEGATE.onCreateAnimation(transit, enter, nextAnim)
     }
 
     override fun onActivityCreated(@Nullable savedInstanceState: Bundle?) {

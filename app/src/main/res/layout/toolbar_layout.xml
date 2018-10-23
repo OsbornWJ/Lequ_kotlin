@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/colorPrimary"
+    android:visibility="visible">
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/it_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_margin_space"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_bar_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_bar_title"
+        android:text="{fa-list 120%}"
+        android:textSize="@dimen/sp_14"
+        android:padding="@dimen/dp_10"
+        tools:ignore="HardcodedText" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/tv_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="标题"
+        android:textSize="16sp" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/it_left"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_bar_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_bar_title"
+        android:layout_marginRight="@dimen/text_margin_space"
+        android:padding="@dimen/dp_10"
+        android:layout_centerVertical="true"
+        android:text="{fa-search 120%}"
+        android:textSize="@dimen/sp_14"
+        tools:ignore="HardcodedText" />
+
+</android.support.constraint.ConstraintLayout>

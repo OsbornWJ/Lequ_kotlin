@@ -5,6 +5,14 @@ package com.alway.lequ_kotlin.http.entity
  */
 
 class Categories {
+
+    constructor()
+
+    constructor(id: Long, name: String) {
+        this.id = id
+        this.name = name
+    }
+
     var id: Long = 0
     var name: String? = null
     var alias: String? = null

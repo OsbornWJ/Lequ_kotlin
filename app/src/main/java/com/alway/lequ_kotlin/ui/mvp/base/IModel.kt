@@ -8,6 +8,6 @@ package com.alway.lequ_kotlin.ui.mvp.base
 
 interface IModel {
 
-    fun onDestroy()
+
 
 }

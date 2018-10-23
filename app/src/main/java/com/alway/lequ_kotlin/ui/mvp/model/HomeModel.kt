@@ -1,8 +1,11 @@
 package com.alway.lequ_kotlin.ui.mvp.model
 
+import com.alway.lequ_kotlin.http.api.Service
+import com.alway.lequ_kotlin.http.entity.Categories
 import com.alway.lequ_kotlin.ui.mvp.base.BaseModel
 import com.alway.lequ_kotlin.ui.mvp.contract.HomeContract
-import com.alway.lequ_kotlin.ui.mvp.contract.MainContract
+import com.example.lequ_core.net.RestCretor
+import io.reactivex.Observable
 
 /**
  * 创建人: Jeven
@@ -12,8 +15,7 @@ import com.alway.lequ_kotlin.ui.mvp.contract.MainContract
 
 class HomeModel : BaseModel(), HomeContract.Model {
 
-    override fun onDestroy() {
-
-    }
+    override fun categories(): Observable<List<Categories>> =  RestCretor.getRetrofit().create(Service::class.java)
+            .categories()
 
 }

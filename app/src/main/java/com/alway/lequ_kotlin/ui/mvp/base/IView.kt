@@ -22,8 +22,4 @@ interface IView {
 
     }
 
-    fun setPersenter() {
-
-    }
-
 }

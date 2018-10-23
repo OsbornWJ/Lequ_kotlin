@@ -10,8 +10,6 @@ interface IPersenter {
 
     fun dettachView()
 
-    fun onStart()
-
     fun onDestory()
 
 }

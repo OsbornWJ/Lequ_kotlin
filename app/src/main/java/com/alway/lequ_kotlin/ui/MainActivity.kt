@@ -11,8 +11,10 @@ import android.view.MenuItem
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.alway.lequ_kotlin.ui.mvp.contract.MainContract
+import com.alway.lequ_kotlin.ui.mvp.delegate.HomeDelegate
 import com.alway.lequ_kotlin.ui.mvp.model.MainModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.MainPresenter
+import com.example.lequ_core.config.LeQu
 import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,6 +43,8 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
+        DELEGATE.loadRootFragment(R.id.fl_container, HomeDelegate())
+        LeQu.lequConfig.withActivity(this)
     }
 
     override fun onBackPressedSupport() {

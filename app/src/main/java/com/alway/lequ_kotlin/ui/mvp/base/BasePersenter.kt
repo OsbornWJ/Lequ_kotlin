@@ -12,10 +12,6 @@ open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?)
         mRootView = null
     }
 
-    override fun onStart() {
-
-    }
-
     override fun onDestory() {
         mModel!!.onDestroy()
         mModel = null
@@ -24,6 +20,5 @@ open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?)
     init {
         checkNotNull(mModel){"model conot be null"}
         checkNotNull(mRootView){"rootView conot be null"}
-        onStart()
     }
 }

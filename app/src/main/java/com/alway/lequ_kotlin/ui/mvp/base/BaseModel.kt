@@ -8,8 +8,5 @@ package com.alway.lequ_kotlin.ui.mvp.base
 
 open class BaseModel: IModel {
 
-    override fun onDestroy() {
-
-    }
 
 }

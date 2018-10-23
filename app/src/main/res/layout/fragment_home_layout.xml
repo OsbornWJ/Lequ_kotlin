@@ -1,73 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:visibility="visible">
+        android:layout_height="wrap_content">
 
-        <!--<RelativeLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            >
 
-            <ImageView
-                android:id="@+id/iv_home"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/drag_icon" />
+            <include layout="@layout/toolbar_layout"/>
 
-            <TextView
-                android:id="@+id/tv_bar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:textSize="16sp" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            <com.moment.eyepetizer.view.TabLayout
-                xmlns:tl="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@+id/iv_search"
-                android:layout_toRightOf="@+id/iv_home"
-                android:background="@color/white"
-                tl:indicatorColor="@color/black"
-                tl:indicatorHeight="3dp"
-                tl:indicatorSpacing="6dp"
-                tl:indicatorWidth="8dp"
-                tl:tabPadding="8dp"
-                tl:textNormalColor="@color/gray"
-                tl:textNormalSize="14sp"
-                tl:textSelectColor="@color/black"
-                tl:underLineHeight="0dp" />
+        <com.alway.lequ_kotlin.view.TabLayout
+            xmlns:tl="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            tl:indicatorColor="@color/colorAccent"
+            tl:indicatorHeight="3dp"
+            tl:indicatorSpacing="6dp"
+            tl:indicatorWidth="8dp"
+            tl:tabPadding="8dp"
+            tl:textNormalColor="@color/primary_text"
+            tl:textNormalSize="14sp"
+            tl:textSelectColor="@color/colorPrimaryDark"
+            tl:underLineHeight="0dp" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/page_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
 
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="38dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:padding="10dp"
-                android:src="@drawable/ic_action_search_no_padding"
-                android:tint="@color/black" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/eee" />
-        </RelativeLayout>-->
-
-    </RelativeLayout>
-
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>
