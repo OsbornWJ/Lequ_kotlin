@@ -31,6 +31,6 @@ task clean(type: Delete) {
 
 ext {
 
-    BASE_URL = '\"http://baobab.kaiyanapp.com/api/\"'
+    BASE_URL = '\"http://baobab.kaiyanapp.com/\"'
 
 }

@@ -4,6 +4,7 @@ import com.example.lequ_core.net.parser.DefaultUrlParser
 import com.example.lequ_core.net.parser.UrlParser
 import com.example.lequ_core.config.ConfigKeys
 import com.example.lequ_core.config.LeQu
+import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -46,14 +47,14 @@ class RestCretor {
      * 构建retrofit
      */
     private object RetrofitHolder {
-        private val BASE_URL = LeQu.getConfiguration<String>(ConfigKeys.API_HOST)
+        private val BASE_URL = LeQu.getConfiguration<HttpUrl>(ConfigKeys.API_HOST)
         val RETROFIT_CLIENT = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(OkhttpHolder.OK_HTTP_CLIENT)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
+                .build()!!
     }
 
     companion object {

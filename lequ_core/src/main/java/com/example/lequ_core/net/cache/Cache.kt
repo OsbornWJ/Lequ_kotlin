@@ -8,13 +8,6 @@ package com.example.lequ_core.net.cache
 interface Cache<K, V> {
 
     /**
-     * 返回当前缓存所能允许的最大 size
-     *
-     * @return `maxSize`
-     */
-    val maxSize: Int
-
-    /**
      * 返回当前缓存已占用的总 size
      *
      * @return `size`
@@ -27,7 +20,7 @@ interface Cache<K, V> {
      * @param key `key`
      * @return `value`
      */
-    operator fun get(key: K): V
+    operator fun get(key: K): V?
 
     /**
      * 将 `key` 和 `value` 以条目的形式加入缓存,如果这个 `key` 在缓存中已经有对应的 `value`

@@ -25,6 +25,7 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
 
     var mTitle = arrayListOf("发现", "推荐", "日报")
     var mCategorys = ArrayList<CategoryListEntity>()
+    private var currentIndex = ""
 
     override fun setLayout(): Any = R.layout.fragment_home_layout
 
@@ -33,6 +34,7 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
     }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
+        requireNotNull(mPresenter, { "Activity presenter is null" })
         mPresenter!!.categories()
     }
 
@@ -74,8 +76,8 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
 
     override fun onPageSelected(position: Int) {
         if (mAdapter != null && mCategorys.size - 1 >= position) {
-            tab_layout.setCurrentTab(mCategorys[position].category_id!!.toInt(), true)
+            currentIndex = mCategorys[position].category_id.toString()
+            tab_layout.setCurrentTab(currentIndex.toInt(), true)
         }
     }
-
 }

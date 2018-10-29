@@ -13,7 +13,6 @@ open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?)
     }
 
     override fun onDestory() {
-        mModel!!.onDestroy()
         mModel = null
     }
 

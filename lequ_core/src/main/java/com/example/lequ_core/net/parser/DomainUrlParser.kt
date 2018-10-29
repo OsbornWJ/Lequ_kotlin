@@ -44,7 +44,7 @@ class DomainUrlParser : UrlParser {
 
         val builder = url.newBuilder()
 
-        if (TextUtils.isEmpty(mCache!![getKey(domainUrl, url)])) {
+        if (TextUtils.isEmpty(requireNotNull(mCache, {"cache is null"})[getKey(domainUrl, url)])) {
             for (i in 0 until url.pathSize()) {
                 //当删除了上一个 index, PathSegment 的 item 会自动前进一位, 所以 remove(0) 就好
                 builder.removePathSegment(0)
@@ -67,7 +67,7 @@ class DomainUrlParser : UrlParser {
                 .port(domainUrl.port())
                 .build()
 
-        if (TextUtils.isEmpty(mCache!![getKey(domainUrl, url)])) {
+        if (TextUtils.isEmpty(requireNotNull(mCache, {"cache is null"})[getKey(domainUrl, url)])) {
             mCache!!.put(getKey(domainUrl, url), httpUrl.encodedPath())
         }
         return httpUrl

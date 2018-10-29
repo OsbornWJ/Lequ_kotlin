@@ -68,6 +68,7 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
             setLayout() is View -> setLayout() as View
             else -> throw ClassCastException("type of setLayout() must be int or View!")
         }
+        initPersenter()
         onBindView(savedInstanceState, rootView)
         return rootView
     }

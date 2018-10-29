@@ -11,8 +11,5 @@ import com.alway.lequ_kotlin.ui.mvp.contract.MainContract
 
 class MainModel: BaseModel(), MainContract.Model {
 
-    override fun onDestroy() {
-
-    }
 
 }

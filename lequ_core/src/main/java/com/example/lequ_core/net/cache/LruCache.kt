@@ -10,7 +10,13 @@ import java.util.*
  * LRU 即 Least Recently Used, 最近最少使用, 也就是说, 当缓存满了, 会优先淘汰那些最近最不常访问的数据
  * 此种缓存策略为框架默认提供, 可自行实现其他缓存策略, 如磁盘缓存
  */
-class LruCache<K, V>(private val initialMaxSize: Int)  : Cache<K, V> {
+class LruCache<K, V>(private var initialMaxSize: Int)  : Cache<K, V> {
+
+    var maxSize: Int = 0
+
+    init {
+        maxSize = initialMaxSize
+    }
 
     private val cache = LinkedHashMap<K, V>(100, 0.75f, true)
     private var currentSize = 0
@@ -75,15 +81,12 @@ class LruCache<K, V>(private val initialMaxSize: Int)  : Cache<K, V> {
         }
     }
 
-    override var maxSize: Int = 0
-        get() = maxSize
-
     override fun size(): Int {
         return currentSize
     }
 
-    override fun get(key: K): V {
-        return cache[key]!!
+    override fun get(key: K): V? {
+        return cache[key]
     }
 
     override fun put(key: K, value: V): V? {
