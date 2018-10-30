@@ -6,7 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="bgColor">@color/bgColor</item>
+        <item name="primaryTextColor">@color/primary_text</item>
+        <item name="secondaryTextColor">@color/secondary_text</item>
+        <item name="lightColor">@color/primary_light</item>
+        <item name="dividerColor">@color/divider</item>
+        <item name="iconColor">@color/icons</item>
     </style>
 
 </resources>

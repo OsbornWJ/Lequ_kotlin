@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:background="@color/icons">
+
+    <LinearLayout
+        android:id="@+id/ll_header5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_text_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/iv_more_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="{fa-angle-right}"
+            android:textColor="@color/secondary_text"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_footer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_more"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:text="{fa-angle-right}"
+            android:textColor="@color/secondary_text"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

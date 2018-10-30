@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <attr name="bgColor" format="reference"/>
+    <attr name="primaryTextColor" format="color"/>
+    <attr name="secondaryTextColor" format="color"/>
+    <attr name="lightColor" format="color"/>
+    <attr name="dividerColor" format="color"/>
+    <attr name="iconColor" format="color"/>
+
     <declare-styleable name="SearchEdit">
         <attr name="imageWidth" format="integer" />
         <attr name="textColor" format="color" />

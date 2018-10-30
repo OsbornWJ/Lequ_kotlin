@@ -9,5 +9,6 @@
     <string name="button_deny">拒绝</string>
 
     <string name="permission_camera_rationale">请求获取相机权限</string>
+    <string name="empty_view">类型暂不支持</string>
 
 </resources>

@@ -25,16 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
-            tl:indicatorColor="@color/colorAccent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            tl:indicatorColor="?attr/iconColor"
             tl:indicatorHeight="3dp"
             tl:indicatorSpacing="6dp"
             tl:indicatorWidth="8dp"
             tl:tabPadding="8dp"
-            tl:textNormalColor="@color/primary_text"
+            tl:textNormalColor="?attr/lightColor"
             tl:textNormalSize="14sp"
-            tl:textSelectColor="@color/colorPrimaryDark"
+            tl:textSelectColor="?attr/iconColor"
             tl:underLineHeight="0dp" />
 
     </android.support.design.widget.AppBarLayout>
@@ -43,6 +43,7 @@
         android:id="@+id/page_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/bgColor"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
