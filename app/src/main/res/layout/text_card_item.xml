@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:textColor="?attr/secondaryTextColor"
             android:textSize="20sp"
             android:text="{fa-angle-right}"  />
@@ -50,6 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_toLeftOf="@+id/iv_more"
             android:textColor="?attr/primaryTextColor"
             android:textSize="12sp"
@@ -64,6 +67,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="14sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:textColor="?attr/secondaryTextColor"
             android:text="{fa-angle-right}" />
     </RelativeLayout>
