@@ -7,7 +7,6 @@ import com.alway.lequ_kotlin.exception.MyUEHandler
 import com.alway.lequ_kotlin.http.remote.DomainHeaderInterceptor
 import com.example.lequ_core.config.LeQu
 import com.example.lequ_core.config.iconfont.FontEcModule
-import com.example.lequ_core.net.RestCretor
 import com.example.lequ_core.net.interceptor.CacheInterceptor
 import com.example.lequ_core.utils.AppManager
 import com.joanzapata.iconify.fonts.FontAwesomeModule
@@ -35,8 +34,8 @@ class LeQuApp: MultiDexApplication() {
         AppManager.appManager!!.init(leQuApp!!)
 
         LeQu.init(this)
-                .withApiHost(BuildConfig.BASE_URL)
-//                .withDomain()
+                .withApiHost(BuildConfig.BASE_URL)  //访问地址
+//                .withDomain("headerName", "url")                     //其它访问地址
                 .withIcon(FontAwesomeModule())
                 .withIcon(FontEcModule())
                 .withInterceptor(DomainHeaderInterceptor())

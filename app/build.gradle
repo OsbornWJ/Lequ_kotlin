@@ -108,9 +108,4 @@ dependencies {
     }
     kapt "com.github.hotchemi:permissionsdispatcher-processor:3.3.1"
 
-    //dagger2
-    /*api ('com.google.dagger:dagger:2.11') {
-        exclude module: 'support-annotations'
-    }
-    kapt 'com.google.dagger:dagger-compiler:2.11'*/
 }

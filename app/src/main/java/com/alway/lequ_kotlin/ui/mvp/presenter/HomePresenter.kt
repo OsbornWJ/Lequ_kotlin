@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
 class HomePresenter constructor(model: HomeContract.Model, rootView: HomeContract.View): BasePersenter<HomeContract.View, HomeContract.Model>(model, rootView) {
 
     fun categories() {
-        mModel!!.categories()
+        requireNotNull(mModel, { "mModel mModel is null" }).categories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindUntilEvent(mRootView!!, FragmentEvent.DESTROY_VIEW))

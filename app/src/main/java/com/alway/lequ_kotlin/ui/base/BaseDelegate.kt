@@ -69,8 +69,12 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
             else -> throw ClassCastException("type of setLayout() must be int or View!")
         }
         initPersenter()
-        onBindView(savedInstanceState, rootView)
         return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onBindView(savedInstanceState, view)
     }
 
     override fun onResume() {

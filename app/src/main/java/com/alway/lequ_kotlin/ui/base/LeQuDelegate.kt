@@ -71,7 +71,7 @@ abstract class LeQuDelegate<P: IPersenter>: PermissionCheckerDelegate(), Fragmen
     override fun onDestroy() {
         super.onDestroy()
         lifecycleSubject.onNext(FragmentEvent.DESTROY)
-        mPresenter!!.onDestory()
+        mPresenter?.onDestory()
         mPresenter = null
     }
 

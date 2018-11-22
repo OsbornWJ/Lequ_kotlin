@@ -1,6 +1,9 @@
 package com.alway.lequ_kotlin.ui.mvp.delegate
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
@@ -8,6 +11,9 @@ import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
 import com.alway.lequ_kotlin.ui.mvp.model.DiscoveryModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
+import com.bumptech.glide.Glide
+import com.example.lequ_core.config.LeQu
+import com.moment.eyepetizer.home.adapter.MultiTypeAdapter
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import kotlinx.android.synthetic.main.comm_recycler_data.*
@@ -19,16 +25,30 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
  */
 class DiscoveryDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.View {
 
+    var mAdapter: MultiTypeAdapter? = null
     override fun setLayout(): Any {
         return R.layout.comm_recycler_data
     }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
-        refreshLayout.setEnableAutoLoadMore(true)
-        refreshLayout.setRefreshHeader(ClassicsHeader(_mActivity))
-        refreshLayout.setRefreshFooter(ClassicsFooter(_mActivity))
-        refreshLayout.setOnRefreshListener {  }
-
+        smart_refreshLayout.setRefreshHeader(ClassicsHeader(_mActivity))
+        smart_refreshLayout.setRefreshFooter(ClassicsFooter(_mActivity))
+        smart_refreshLayout.setOnRefreshListener { initData() }
+        smart_refreshLayout.setEnableAutoLoadMore(true)
+        smart_refreshLayout.autoRefresh()
+        dataView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                when (newState) {
+                    2 -> Glide.with(LeQu.applicationContext).pauseRequests()
+                    0, 1 -> Glide.with(LeQu.applicationContext).resumeRequests()
+                }
+            }
+        })
+        val list = ArrayList<Result.ItemList>()
+        dataView.layoutManager = LinearLayoutManager(_mActivity)
+        mAdapter = MultiTypeAdapter(list, _mActivity!!)
+        dataView.adapter = mAdapter
     }
 
     override fun initPersenter() {
@@ -40,10 +60,17 @@ class DiscoveryDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.
     }
 
     override fun onDiscoverySucc(result: Result) {
-
+        val start = mAdapter!!.itemCount
+        mAdapter!!.clearAll()
+        mAdapter!!.notifyItemRangeRemoved(0, start)
+        mAdapter!!.addAll(result.itemList as ArrayList<Result.ItemList>?)
+        mAdapter!!.notifyItemRangeInserted(0, result.itemList!!.size)
+        smart_refreshLayout.finishRefresh()
+        smart_refreshLayout.finishLoadMore(0, true, TextUtils.isEmpty(result.nextPageUrl))
     }
 
     override fun onDiscoveryFail(error: Throwable?) {
-
+        smart_refreshLayout.finishRefresh()
+        smart_refreshLayout.finishLoadMore(false)
     }
 }

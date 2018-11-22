@@ -10,8 +10,11 @@ import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.HomeContract
 import com.alway.lequ_kotlin.ui.mvp.model.HomeModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.HomePresenter
+import com.alway.lequ_kotlin.utils.ImageLoad
 import com.alway.lequ_kotlin.view.TabPagerAdapter
+import com.example.lequ_core.config.LeQu
 import kotlinx.android.synthetic.main.fragment_home_layout.*
+import java.lang.ref.WeakReference
 
 /**
  * 创建人: Jeven
@@ -25,7 +28,7 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
 
     var mTitle = arrayListOf("发现", "推荐", "日报")
     var mCategorys = ArrayList<CategoryListEntity>()
-    private var currentIndex = ""
+    private var currentIndex = 0
 
     override fun setLayout(): Any = R.layout.fragment_home_layout
 
@@ -34,8 +37,7 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
     }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
-        requireNotNull(mPresenter, { "Activity presenter is null" })
-        mPresenter!!.categories()
+        requireNotNull(mPresenter, { "Activity presenter is null" }).categories()
     }
 
     class CategoryListEntity(var category_id: String?, var name: String?)
@@ -52,11 +54,11 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
         list.addAll(0, tabs)
         for (item in list) {
             when {
-                item.id == 1001L -> mFragments.add(Fragment())
-                item.id == 1002L -> mFragments.add(Fragment())
-                item.id == 1003L -> mFragments.add(Fragment())
+                item.id == 1001L -> mFragments.add(DiscoveryDelegate())
+                item.id == 1002L -> mFragments.add(DiscoveryDelegate())
+                item.id == 1003L -> mFragments.add(DiscoveryDelegate())
                 else -> {
-                    mFragments.add(Fragment())
+                    mFragments.add(DiscoveryDelegate())
                     mTitle.add(item.name!!)
                 }
             }
@@ -76,8 +78,9 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
 
     override fun onPageSelected(position: Int) {
         if (mAdapter != null && mCategorys.size - 1 >= position) {
-            currentIndex = mCategorys[position].category_id.toString()
-            tab_layout.setCurrentTab(currentIndex.toInt(), true)
+            currentIndex = position
+            tab_layout.setCurrentTab(currentIndex, true)
         }
+        ImageLoad().clearCache(WeakReference(LeQu.applicationContext))
     }
 }

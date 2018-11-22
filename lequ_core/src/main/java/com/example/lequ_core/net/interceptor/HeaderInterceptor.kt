@@ -18,7 +18,7 @@ import okhttp3.Response
  * 功能:  头部拦截器  转换baseUrl，如果头部有传参信息需要重写obtainHeader()
  */
 
-open class HeaderInterceptor : Interceptor {
+abstract class HeaderInterceptor : Interceptor {
 
     private object Headerholder {
         val HEADER_DOMAIN = LeQu.lequConfig.getConfiguration<Map<String, HttpUrl>>(ConfigKeys.HEADER_DOMAIN)
@@ -73,8 +73,6 @@ open class HeaderInterceptor : Interceptor {
     /**
      * 为请求添加头部信息 （处理极端情况，各服务器的header可能有差）
      */
-    open fun obtainHeader(domain: String?, builder: Request.Builder) {
-
-    }
+    abstract fun obtainHeader(domain: String?, builder: Request.Builder)
 
 }
