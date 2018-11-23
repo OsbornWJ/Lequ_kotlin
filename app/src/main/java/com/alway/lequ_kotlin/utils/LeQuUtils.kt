@@ -9,6 +9,6 @@ import com.alway.lequ_kotlin.http.entity.Result
  */
 
 fun getMultiType(position: Int, datas: ArrayList<Result.ItemList>): Int {
-    var type: String = datas[position].type!!
+    val type: String = datas[position].type!!
     return type.hashCode()
 }

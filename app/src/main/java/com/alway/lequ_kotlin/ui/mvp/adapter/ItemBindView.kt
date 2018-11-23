@@ -1,11 +1,16 @@
 package com.alway.lequ_kotlin.ui.mvp.adapter
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SnapHelper
 import android.text.TextUtils
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
+import com.alway.lequ_kotlin.utils.ImageLoad
+import com.moment.eyepetizer.home.adapter.GalleryAdapter
 
 /**
  * 创建人: Jeven
@@ -16,6 +21,9 @@ import com.alway.lequ_kotlin.http.entity.Result
 fun bindMultiViewHolder(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
     when (viewHolder) {
         is ItemTextCardViewHolder -> onItemTextCardBind(mContext, viewHolder, datas, position)
+        is ItemBriefCardViewHolder -> onItemBriefCardBind(mContext, viewHolder, datas, position)
+        is ItemHoricontalScrollViewHolder -> onHorizontalScrollcardBind(mContext, viewHolder, datas, position)
+        is ItemFollowCardViewHolder -> onItemFollowCardBind(mContext, viewHolder, datas, position)
         is EmptyViewHolder -> onEmptyItemView(mContext, viewHolder)
     }
 }
@@ -49,7 +57,48 @@ fun onItemTextCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, d
     }
 }
 
+fun onItemBriefCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data = datas[position]
+    val holder: ItemBriefCardViewHolder = viewHolder as ItemBriefCardViewHolder
+    val briefCard = data.data as Map<*, *>
+    holder.cardTitle.text = briefCard["title"].toString()
+    holder.cardContent.text = briefCard["description"].toString()
+    when (briefCard["iconType"].toString()) {
+        "square" -> ImageLoad().loadRound(briefCard["icon"].toString(), holder.icon, 5)
+        "round" -> ImageLoad().loadCircle(briefCard["icon"].toString(), holder.icon)
+        else -> ImageLoad().load(briefCard["icon"].toString(), holder.icon)
+    }
+}
+
+fun onHorizontalScrollcardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data = datas[position]
+    val holder: ItemHoricontalScrollViewHolder = viewHolder as ItemHoricontalScrollViewHolder
+    val scrollCard = data.data as Map<*, *>
+    val itemList = scrollCard["itemList"] as List<Map<*, *>>
+    val urlList: MutableList<String>? = ArrayList()
+    itemList
+            .map { it["data"] as Map<*, *> }
+            .forEach { urlList!!.add(it["image"].toString())}
+    val snapHelper: SnapHelper = PagerSnapHelper()
+    holder.horizontalScrollcard.onFlingListener = null
+    holder.horizontalScrollcard.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
+    snapHelper.attachToRecyclerView(holder.horizontalScrollcard)
+
+    holder.horizontalScrollcard.adapter = GalleryAdapter(mContext, urlList!!.toList())
+}
+
+fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data = datas[position]
+    val holder: ItemFollowCardViewHolder = viewHolder as ItemFollowCardViewHolder
+    val followCard = data.data as Map<*, *>
+
+    val header = followCard["header"] as Map<*, *>
+
+
+    val content = followCard["content"] as Map<*, *>
+}
+
 fun onEmptyItemView(mContext: Context, viewHolder: RecyclerView.ViewHolder) {
-    var holder = viewHolder as EmptyViewHolder
+    val holder = viewHolder as EmptyViewHolder
     holder.tvEmpty.text = mContext.getText(R.string.empty_view)
 }

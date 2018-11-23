@@ -43,11 +43,11 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
     class CategoryListEntity(var category_id: String?, var name: String?)
 
     override fun getCategoriesSuccess(data: List<Categories>) {
-        var list = data.toMutableList()
-        var tabs = ArrayList<Categories>()
+        val list = data.toMutableList()
+        val tabs = ArrayList<Categories>()
         var tabId: Long = 1001
         for (s in mTitle) {
-            var categories = Categories(tabId, s)
+            val categories = Categories(tabId, s)
             tabs.add(categories)
             tabId ++
         }
