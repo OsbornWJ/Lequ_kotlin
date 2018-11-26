@@ -11,6 +11,9 @@ import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
 import com.alway.lequ_kotlin.utils.ImageLoad
 import com.moment.eyepetizer.home.adapter.GalleryAdapter
+import com.moment.eyepetizer.utils.TimeUtils
+import com.scwang.smartrefresh.layout.util.DensityUtil
+import com.shuyu.gsyvideoplayer.utils.CommonUtil.getScreenWidth
 
 /**
  * 创建人: Jeven
@@ -91,11 +94,26 @@ fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
     val data = datas[position]
     val holder: ItemFollowCardViewHolder = viewHolder as ItemFollowCardViewHolder
     val followCard = data.data as Map<*, *>
-
     val header = followCard["header"] as Map<*, *>
-
+    val iconType = header["iconType"]
+    when (header["iconType"].toString()) {
+        "square" -> ImageLoad().loadRound(header["icon"].toString(), holder.ivFollowcardIcon, 5)
+        "round" -> ImageLoad().loadCircle(header["icon"].toString(), holder.ivFollowcardIcon)
+        else -> ImageLoad().load(header["icon"].toString(), holder.ivFollowcardIcon)
+    }
+    val iconContent =TextUtils.split(header["description"].toString(), "/")
+    holder.tvContent.text = header["title"].toString() + " / " + iconContent
 
     val content = followCard["content"] as Map<*, *>
+    val dataObj = content["data"] as Map<*, *>
+    val cover = dataObj["cover"] as Map<*, *>
+    val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
+    val height = width * 0.6
+    ImageLoad().load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
+
+    holder.tvFollowcardTime!!.text = TimeUtils.secToTime(dataObj["duration"].toString().toFloat().toInt())
+    holder.tvTitle!!.text = dataObj["title"].toString()
+
 }
 
 fun onEmptyItemView(mContext: Context, viewHolder: RecyclerView.ViewHolder) {

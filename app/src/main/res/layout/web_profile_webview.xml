@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/bgColor"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/iconColor"
+        android:elevation="2dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:scaleType="center"
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="16sp" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:elevation="2dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="{fa-chevron-left}"
+        android:tint="?attr/primaryTextColor" />
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title" />
+</RelativeLayout>
