@@ -79,4 +79,8 @@ abstract class LeQuDelegate<P: IPersenter>: PermissionCheckerDelegate(), Fragmen
         super.onDetach()
         lifecycleSubject.onNext(FragmentEvent.DETACH)
     }
+
+    interface OnFragmentOpenDrawerListener {
+        fun onOpenDrawer()
+    }
 }

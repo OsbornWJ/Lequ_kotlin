@@ -11,11 +11,10 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import com.trello.rxlifecycle2.components.support.RxFragment
 import me.yokeyword.fragmentation.ExtraTransaction
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.SupportFragmentDelegate
+import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 
@@ -170,6 +169,91 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
 
     override fun onBackPressedSupport(): Boolean {
         return DELEGATE.onBackPressedSupport()
+    }
+
+    /****************************************以下为可选方法(Optional methods)******************************************************/
+    // 自定制Support时，可移除不必要的方法
+
+    /**
+     * 隐藏软键盘
+     */
+    protected fun hideSoftInput() {
+        DELEGATE.hideSoftInput()
+    }
+
+    /**
+     * 显示软键盘,调用该方法后,会在onPause时自动隐藏软键盘
+     */
+    protected fun showSoftInput(view: View) {
+        DELEGATE.showSoftInput(view)
+    }
+
+    /**
+     * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
+     *
+     * @param containerId 容器id
+     * @param toFragment  目标Fragment
+     */
+    fun loadRootFragment(containerId: Int, toFragment: ISupportFragment) {
+        DELEGATE.loadRootFragment(containerId, toFragment)
+    }
+
+    fun loadRootFragment(containerId: Int, toFragment: ISupportFragment, addToBackStack: Boolean, allowAnim: Boolean) {
+        DELEGATE.loadRootFragment(containerId, toFragment, addToBackStack, allowAnim)
+    }
+
+    fun start(toFragment: ISupportFragment) {
+        DELEGATE.start(toFragment)
+    }
+
+    /**
+     * @param launchMode Similar to Activity's LaunchMode.
+     */
+    fun start(toFragment: ISupportFragment, @ISupportFragment.LaunchMode launchMode: Int) {
+        DELEGATE.start(toFragment, launchMode)
+    }
+
+    /**
+     * Launch an fragment for which you would like a result when it poped.
+     */
+    fun startForResult(toFragment: ISupportFragment, requestCode: Int) {
+        DELEGATE.startForResult(toFragment, requestCode)
+    }
+
+    /**
+     * Start the target Fragment and pop itself
+     */
+    fun startWithPop(toFragment: ISupportFragment) {
+        DELEGATE.startWithPop(toFragment)
+    }
+
+    fun replaceFragment(toFragment: ISupportFragment, addToBackStack: Boolean) {
+        DELEGATE.replaceFragment(toFragment, addToBackStack)
+    }
+
+    fun pop() {
+        DELEGATE.pop()
+    }
+
+    /**
+     * Pop the last fragment transition from the manager's fragment
+     * back stack.
+     *
+     *
+     * 出栈到目标fragment
+     *
+     * @param targetFragmentClass   目标fragment
+     * @param includeTargetFragment 是否包含该fragment
+     */
+    fun popTo(targetFragmentClass: Class<*>, includeTargetFragment: Boolean) {
+        DELEGATE.popTo(targetFragmentClass, includeTargetFragment)
+    }
+
+    /**
+     * 获取栈内的fragment对象
+     */
+    fun <T : ISupportFragment> findChildFragment(fragmentClass: Class<T>): T {
+        return SupportHelper.findFragment(childFragmentManager, fragmentClass)
     }
 
 }

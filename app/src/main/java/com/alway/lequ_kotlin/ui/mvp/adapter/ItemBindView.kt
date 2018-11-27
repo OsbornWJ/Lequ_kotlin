@@ -9,6 +9,8 @@ import android.text.TextUtils
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
+import com.alway.lequ_kotlin.ui.mvp.parseUri
+import com.alway.lequ_kotlin.ui.mvp.parseWebView
 import com.alway.lequ_kotlin.utils.ImageLoad
 import com.moment.eyepetizer.home.adapter.GalleryAdapter
 import com.moment.eyepetizer.utils.TimeUtils
@@ -96,7 +98,7 @@ fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
     val followCard = data.data as Map<*, *>
     val header = followCard["header"] as Map<*, *>
     val iconType = header["iconType"]
-    when (header["iconType"].toString()) {
+    when (iconType) {
         "square" -> ImageLoad().loadRound(header["icon"].toString(), holder.ivFollowcardIcon, 5)
         "round" -> ImageLoad().loadCircle(header["icon"].toString(), holder.ivFollowcardIcon)
         else -> ImageLoad().load(header["icon"].toString(), holder.ivFollowcardIcon)
@@ -111,6 +113,13 @@ fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
     val height = width * 0.6
     ImageLoad().load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
 
+    holder.ivFollowcardCover!!.setOnClickListener {
+        val title = dataObj["title"].toString()
+        val webUrl = dataObj["webUrl"] as Map<*, *>
+        val url = webUrl["raw"].toString()
+        var id = dataObj["id"]
+        parseUri(parseWebView(title, url))
+    }
     holder.tvFollowcardTime!!.text = TimeUtils.secToTime(dataObj["duration"].toString().toFloat().toInt())
     holder.tvTitle!!.text = dataObj["title"].toString()
 

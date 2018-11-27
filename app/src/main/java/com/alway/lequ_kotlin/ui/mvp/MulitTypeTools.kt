@@ -1,27 +1,44 @@
 package com.alway.lequ_kotlin.ui.mvp
 
-import android.content.Context
+import android.net.Uri
+import android.os.Bundle
+import com.alway.lequ_kotlin.ui.MainActivity
+import com.alway.lequ_kotlin.ui.mvp.delegate.WebViewDelegate
+import com.alway.lequ_kotlin.utils.encodeToString
+import com.example.lequ_core.config.ConfigKeys
+import com.example.lequ_core.config.LeQu
+import java.net.URLEncoder
 
 /**
  * 创建人: Jeven
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-fun parseUri(context: Context, url: String) {
-    /*var uri: Uri = Uri.parse(url)
-    var path = uri.host
+
+fun parseWebView(title: String, url: String): String {
+    val builder = StringBuilder()
+    builder.append("eyepetizer://webview/?title=")
+    builder.append(URLEncoder.encode(title, "utf-8"))
+    builder.append("&")
+    builder.append("url=")
+    builder.append(URLEncoder.encode(url, "utf-8"))
+    return builder.toString()
+}
+
+fun parseUri(url: String) {
+    val uri: Uri = Uri.parse(url)
+    val path = uri.host
     when (path) {
         "webview" -> {
             val title = uri.getQueryParameter("title")
             val url = uri.getQueryParameter("url")
-            var intent = Intent(context, WebViewActivity::class.java)
-            var bundle = Bundle()
+            val bundle = Bundle()
             bundle.putString("urlBase64", encodeToString(url))
             bundle.putString("title", title)
-            intent.putExtras(bundle)
-            context.startActivity(intent)
+
+            LeQu.getConfiguration<MainActivity>(ConfigKeys.ACTIVITY).start(WebViewDelegate.newInstance(bundle))
         }
-    //分类详情
+    /*//分类详情
         "category" -> {
             val path = uri.pathSegments[0]
             var intent = Intent(context, CategoriesTagListActivity::class.java)
@@ -88,6 +105,6 @@ fun parseUri(context: Context, url: String) {
         }
         else -> {
             Toast.makeText(context, path, Toast.LENGTH_SHORT).show()
-        }
-    }*/
+        }*/
+    }
 }

@@ -9,14 +9,18 @@ import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import android.view.MenuItem
 import com.alway.lequ_kotlin.R
+import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
 import com.alway.lequ_kotlin.ui.mvp.contract.MainContract
-import com.alway.lequ_kotlin.ui.mvp.delegate.HomeDelegate
+import com.alway.lequ_kotlin.ui.mvp.delegate.ViewPagerDelegate
 import com.alway.lequ_kotlin.ui.mvp.model.MainModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.MainPresenter
 import com.example.lequ_core.config.LeQu
 import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
+import me.yokeyword.fragmentation.anim.FragmentAnimator
+
 
 /**
  * 创建人: Jeven
@@ -24,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * 功能:  主体程序
  */
 
-class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View{
+class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View, LeQuDelegate.OnFragmentOpenDrawerListener {
 
     // 再点一次退出程序时间设置
     private val WAIT_TIME = 2000L
@@ -43,9 +47,10 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 .syncState()
         nav_view.setNavigationItemSelectedListener(this)
         nav_view.setCheckedItem(R.id.nav_home)
-        DELEGATE.loadRootFragment(R.id.fl_container, HomeDelegate())
+        loadRootFragment(R.id.fl_container, ViewPagerDelegate.newInstance(ViewPagerDelegate.HOME_DELEGATE))
         LeQu.lequConfig.withActivity(this)
     }
+
 
     override fun onBackPressedSupport() {
         if (drawer_layout.isDrawerOpen(Gravity.START)) {
@@ -73,9 +78,19 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
                 .show()
     }
 
+    override fun onOpenDrawer() {
+        if (!drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.openDrawer(GravityCompat.START)
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onCreateFragmentAnimator(): FragmentAnimator {
+        return DefaultHorizontalAnimator()
     }
 
 }

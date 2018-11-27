@@ -3,7 +3,9 @@ package com.alway.lequ_kotlin.ui.mvp.delegate
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toolbar
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Categories
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
@@ -14,6 +16,7 @@ import com.alway.lequ_kotlin.utils.ImageLoad
 import com.alway.lequ_kotlin.view.TabPagerAdapter
 import com.example.lequ_core.config.LeQu
 import kotlinx.android.synthetic.main.fragment_home_layout.*
+import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.lang.ref.WeakReference
 
 /**
@@ -64,7 +67,7 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
             }
             mCategorys.add(CategoryListEntity(item.id.toString(), item.name))
         }
-        mAdapter = TabPagerAdapter(fragmentManager, mFragments, mTitle)
+        mAdapter = TabPagerAdapter(childFragmentManager, mFragments, mTitle)
         page_container.adapter = mAdapter
         tab_layout.setViewPager(page_container, mTitle.toArray(arrayOfNulls<String>(0)))
         page_container.offscreenPageLimit = 3
