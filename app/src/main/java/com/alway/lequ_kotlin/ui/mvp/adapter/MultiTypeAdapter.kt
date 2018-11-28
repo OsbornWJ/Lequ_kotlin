@@ -11,12 +11,11 @@ import com.alway.lequ_kotlin.ui.mvp.adapter.*
  * Created by moment on 2017/12/11.
  */
 
-class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private var context: Context) : BaseAdapter<RecyclerView.ViewHolder>() {
 
     enum class ITEM_TYPE(val type: String) {
         ITEM_TEXTCARD("textCard"),
         ITEM_BRIEFCARD("briefCard"),
-        ITEM_DYNAMIC_INFOCARD("DynamicInfoCard"),
         ITEM_HORICONTAL_SCROLLCARD("horizontalScrollCard"),
         ITEM_FOLLOWCARD("followCard"),
         ITEM_VIDEOSMALLCARD("videoSmallCard"),
@@ -27,7 +26,8 @@ class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private va
         ITEM_VIDEO("video"),
         ITEM_VIDEOCOLLECTION_OFHORISCROLLCARD("videoCollectionOfHorizontalScrollCard"),
         ITEM_TEXTHEADER("textHeader"),
-        ITEM_TEXTFOOTER("textFooter")
+        ITEM_TEXTFOOTER("textFooter"),
+        ITEM_DYNAMIC_INFOCARD("DynamicInfoCard")
     }
 
 
@@ -40,7 +40,7 @@ class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private va
         this.datas.addAll(data)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = createMultiViewHolder(parent, viewType)
+    override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = createMultiViewHolder(parent, viewType)
 
     override fun getItemCount(): Int = datas.size
 

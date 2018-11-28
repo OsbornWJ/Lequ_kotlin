@@ -2,6 +2,7 @@ package com.alway.lequ_kotlin.ui.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.annotation.DrawableRes
 import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
@@ -14,6 +15,10 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import me.yokeyword.fragmentation.*
 import me.yokeyword.fragmentation.anim.FragmentAnimator
+import me.yokeyword.fragmentation.SupportHelper
+import me.yokeyword.fragmentation.ISupportFragment
+import me.yokeyword.fragmentation.SupportFragment
+
 
 /**
  * 创建人：wenjie on 2018/6/7
@@ -28,7 +33,7 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
 
     protected var mPresenter: P? = null
 
-    protected val DELEGATE = SupportActivityDelegate(this)
+    var DELEGATE = SupportActivityDelegate(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,21 +127,84 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
         return DELEGATE
     }
 
-    // 选择性拓展其他方法
+    override fun post(runnable: Runnable) {
+        DELEGATE.post(runnable)
+    }
 
+
+    /****************************************以下为可选方法(Optional methods)******************************************************/
+
+    /**
+     * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
+     *
+     * @param containerId 容器id
+     * @param toFragment  目标Fragment
+     */
     fun loadRootFragment(containerId: Int, @NonNull toFragment: ISupportFragment) {
         DELEGATE.loadRootFragment(containerId, toFragment)
     }
 
+    fun loadRootFragment(containerId: Int, toFragment: ISupportFragment, addToBackStack: Boolean, allowAnimation: Boolean) {
+        DELEGATE.loadRootFragment(containerId, toFragment, addToBackStack, allowAnimation)
+    }
+
+    /**
+     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
+     */
+    fun loadMultipleRootFragment(containerId: Int, showPosition: Int, vararg toFragments: ISupportFragment) {
+        DELEGATE.loadMultipleRootFragment(containerId, showPosition, *toFragments)
+    }
+
+    /**
+     * show一个Fragment,hide其他同栈所有Fragment
+     * 使用该方法时，要确保同级栈内无多余的Fragment,(只有通过loadMultipleRootFragment()载入的Fragment)
+     *
+     *
+     * 建议使用更明确的[.showHideFragment]
+     *
+     * @param showFragment 需要show的Fragment
+     */
+    fun showHideFragment(showFragment: ISupportFragment) {
+        DELEGATE.showHideFragment(showFragment)
+    }
+
+    /**
+     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
+     */
+    fun showHideFragment(showFragment: ISupportFragment, hideFragment: ISupportFragment) {
+        DELEGATE.showHideFragment(showFragment, hideFragment)
+    }
+
+    /**
+     * It is recommended to use [SupportFragment.start].
+     */
     fun start(toFragment: ISupportFragment) {
         DELEGATE.start(toFragment)
     }
 
     /**
-     * @param launchMode Same as Activity's LaunchMode.
+     * It is recommended to use [SupportFragment.start].
+     *
+     * @param launchMode Similar to Activity's LaunchMode.
      */
     fun start(toFragment: ISupportFragment, @ISupportFragment.LaunchMode launchMode: Int) {
         DELEGATE.start(toFragment, launchMode)
+    }
+
+    /**
+     * It is recommended to use [SupportFragment.startForResult].
+     * Launch an fragment for which you would like a result when it poped.
+     */
+    fun startForResult(toFragment: ISupportFragment, requestCode: Int) {
+        DELEGATE.startForResult(toFragment, requestCode)
+    }
+
+    /**
+     * It is recommended to use [SupportFragment.startWithPop].
+     * Start the target Fragment and pop itself
+     */
+    fun startWithPop(toFragment: ISupportFragment) {
+        DELEGATE.startWithPop(toFragment)
     }
 
     /**
@@ -145,8 +213,15 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
      * @see .popTo
      * @see .start
      */
-    fun startWithPopTo(toFragment: ISupportFragment) {
-        DELEGATE.startWithPop(toFragment)
+    fun startWithPopTo(toFragment: ISupportFragment, targetFragmentClass: Class<*>, includeTargetFragment: Boolean) {
+        DELEGATE.startWithPopTo(toFragment, targetFragmentClass, includeTargetFragment)
+    }
+
+    /**
+     * It is recommended to use [SupportFragment.replaceFragment].
+     */
+    fun replaceFragment(toFragment: ISupportFragment, addToBackStack: Boolean) {
+        DELEGATE.replaceFragment(toFragment, addToBackStack)
     }
 
     /**
@@ -159,6 +234,12 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
     /**
      * Pop the last fragment transition from the manager's fragment
      * back stack.
+     *
+     *
+     * 出栈到目标fragment
+     *
+     * @param targetFragmentClass   目标fragment
+     * @param includeTargetFragment 是否包含该fragment
      */
     fun popTo(targetFragmentClass: Class<*>, includeTargetFragment: Boolean) {
         DELEGATE.popTo(targetFragmentClass, includeTargetFragment)
@@ -174,6 +255,15 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
 
     fun popTo(targetFragmentClass: Class<*>, includeTargetFragment: Boolean, afterPopTransactionRunnable: Runnable, popAnim: Int) {
         DELEGATE.popTo(targetFragmentClass, includeTargetFragment, afterPopTransactionRunnable, popAnim)
+    }
+
+    /**
+     * 当Fragment根布局 没有 设定background属性时,
+     * Fragmentation默认使用Theme的android:windowbackground作为Fragment的背景,
+     * 可以通过该方法改变其内所有Fragment的默认背景。
+     */
+    fun setDefaultFragmentBackground(@DrawableRes backgroundRes: Int) {
+        DELEGATE.setDefaultFragmentBackground(backgroundRes)
     }
 
     /**

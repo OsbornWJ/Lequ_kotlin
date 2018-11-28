@@ -15,8 +15,12 @@ import com.alway.lequ_kotlin.ui.mvp.presenter.HomePresenter
 import com.alway.lequ_kotlin.utils.ImageLoad
 import com.alway.lequ_kotlin.view.TabPagerAdapter
 import com.example.lequ_core.config.LeQu
+import com.example.lequ_core.utils.ToastUtils
 import kotlinx.android.synthetic.main.fragment_home_layout.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
+import me.yokeyword.fragmentation.ISupportActivity
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
+import me.yokeyword.fragmentation.anim.FragmentAnimator
 import java.lang.ref.WeakReference
 
 /**
@@ -40,6 +44,7 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
     }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
+        it_right.setOnClickListener { (_mActivity as OnFragmentOpenDrawerListener).onOpenDrawer() }
         requireNotNull(mPresenter, { "Activity presenter is null" }).categories()
     }
 

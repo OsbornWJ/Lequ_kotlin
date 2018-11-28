@@ -14,7 +14,10 @@ import kotlinx.android.synthetic.main.brief_card_item.view.*
 import kotlinx.android.synthetic.main.empty_item.view.*
 import kotlinx.android.synthetic.main.followcard_item.view.*
 import kotlinx.android.synthetic.main.horizontal_scrollcard_item.view.*
+import kotlinx.android.synthetic.main.squarecard_collection_item.view.*
 import kotlinx.android.synthetic.main.text_card_item.view.*
+import kotlinx.android.synthetic.main.video_smallcard_item.view.*
+import kotlinx.android.synthetic.main.videocollection_withbrief_item.view.*
 
 /**
  * 创建人: Jeven
@@ -40,6 +43,18 @@ fun createMultiViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHo
             val view = LayoutInflater.from(parent.context).inflate(R.layout.followcard_item, parent, false)
             ItemFollowCardViewHolder(view)
         }
+        MultiTypeAdapter.ITEM_TYPE.ITEM_VIDEOSMALLCARD.type.hashCode() -> {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.video_smallcard_item, parent, false)
+            ItemVideoSmallViewHolder(view)
+        }
+        MultiTypeAdapter.ITEM_TYPE.ITEM_SQUARECARD_COLLECTION.type.hashCode() -> {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.squarecard_collection_item, parent, false)
+            ItemSquareCardViewHolder(view)
+        }
+        MultiTypeAdapter.ITEM_TYPE.ITEM_VIDEOCOLLECTION_WITHBRIEF.type.hashCode() -> {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.videocollection_withbrief_item, parent, false)
+            ItemVideoCollViewHolder(view)
+        }
         else -> {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.empty_item, parent, false)
             EmptyViewHolder(view)
@@ -60,6 +75,7 @@ class ItemBriefCardViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
     var icon = itemView.image
     var cardTitle = itemView.tv_brief_card_title
     var cardContent = itemView.tv_brief_card_content
+    var rlBriefRoot = itemView.rl_brief_root
 }
 
 class ItemHoricontalScrollViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -72,6 +88,27 @@ class ItemFollowCardViewHolder(itemView: View): RecyclerView.ViewHolder(itemView
     var ivFollowcardIcon = itemView.iv_followcard_icon
     var tvTitle = itemView.tv_followcard_title
     var tvContent = itemView.tv_followcard_content
+}
+
+class ItemVideoSmallViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    var ivCover = itemView.iv_cover
+    var tvTime = itemView.tv_time
+    var tvSmallcardTitle = itemView.tv_smallcard_title
+    var tvSmallcardContent = itemView.tv_smallcard_content
+}
+
+class ItemSquareCardViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    var tvSquarecardSubTitle = itemView.tv_squarecard_collection_sub_title
+    var tvSquarecardTitle = itemView.tv_squarecard_collection_title
+    var ivSquarecardMore = itemView.iv_squarecard_more
+    var recyclerviewSquareCard = itemView.recyclerview_squarecard_collection
+}
+
+class ItemVideoCollViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    var ivVideocollIcon = itemView.iv_videocollection_icon
+    var tvVideocollNickname = itemView.tv_videocollection_nickname
+    var tvVideocollDes = itemView.tv_videocollection_des
+    var videoRecycView = itemView.recyclerview_videocollection
 }
 
 class EmptyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

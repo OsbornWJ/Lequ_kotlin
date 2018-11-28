@@ -78,8 +78,7 @@ dependencies {
     }
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     //Fragment依赖
-    compile 'me.yokeyword:fragmentation:1.0.3'
-    compile 'me.yokeyword:fragmentation-swipeback:1.0.3'
+    compile 'me.yokeyword:fragmentation:1.3.6'
     //timber日志
     implementation 'com.jakewharton.timber:timber:4.7.1'
 }

@@ -64,7 +64,7 @@ class WebViewDelegate : BaseDelegate() {
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
         it_right.text = "{fa-chevron-left}"
         it_left.visibility = View.GONE
-        webView!!.settings.defaultTextEncodingName = "UTF-8"
+        webView.settings.defaultTextEncodingName = "UTF-8"
         val bundle = arguments ?: return
         url = bundle.getString("urlBase64")
         url = if (TextUtils.isEmpty(url)) {
@@ -82,17 +82,16 @@ class WebViewDelegate : BaseDelegate() {
         CookieSyncManager.getInstance().sync()
         CookieSyncManager.createInstance(_mActivity)
         CookieManager.getInstance().removeAllCookie()
-        initializeWebView(webView!!)
+        initializeWebView(webView)
         webView.loadUrl(url, headers)
 
         it_right.setOnClickListener {
-            if (webView!!.canGoBack()) {
+            if (webView.canGoBack()) {
                 webView.goBack()//返回上一页面
             } else {
-                onBackPressedSupport()
+                pop()
             }
         }
-
     }
 
     private fun initializeWebView(mWebView: WebView) {
@@ -133,7 +132,6 @@ class WebViewDelegate : BaseDelegate() {
     }
 
     override fun onDestroyView() {
-        webView!!.removeAllViews()
         webView!!.loadUrl("about:blank")
         webView!!.stopLoading()
         webView!!.webChromeClient = null

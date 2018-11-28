@@ -1,5 +1,6 @@
 package com.alway.lequ_kotlin.ui.mvp
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import com.alway.lequ_kotlin.ui.MainActivity
@@ -25,7 +26,7 @@ fun parseWebView(title: String, url: String): String {
     return builder.toString()
 }
 
-fun parseUri(url: String) {
+fun parseUri(context: Context, url: String) {
     val uri: Uri = Uri.parse(url)
     val path = uri.host
     when (path) {

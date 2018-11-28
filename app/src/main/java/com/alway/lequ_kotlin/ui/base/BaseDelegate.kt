@@ -18,6 +18,8 @@ import me.yokeyword.fragmentation.SupportHelper
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 
+
+
 /**
  * 创建人: Jeven
  * 邮箱:   Osboenjie@163.com
@@ -26,7 +28,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 abstract class BaseDelegate: Fragment(), ISupportFragment {
 
-    val DELEGATE = SupportFragmentDelegate(this)
+    var DELEGATE = SupportFragmentDelegate(this)
     protected var _mActivity: FragmentActivity? = null
 
     abstract fun setLayout(): Any
@@ -171,6 +173,11 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
         return DELEGATE.onBackPressedSupport()
     }
 
+    override fun post(runnable: Runnable) {
+        DELEGATE.post(runnable)
+    }
+
+
     /****************************************以下为可选方法(Optional methods)******************************************************/
     // 自定制Support时，可移除不必要的方法
 
@@ -225,6 +232,14 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
      */
     fun startWithPop(toFragment: ISupportFragment) {
         DELEGATE.startWithPop(toFragment)
+    }
+
+    /**
+     * @see .popTo
+     * @see .start
+     */
+    fun startWithPopTo(toFragment: ISupportFragment, targetFragmentClass: Class<*>, includeTargetFragment: Boolean) {
+        DELEGATE.startWithPopTo(toFragment, targetFragmentClass, includeTargetFragment)
     }
 
     fun replaceFragment(toFragment: ISupportFragment, addToBackStack: Boolean) {
