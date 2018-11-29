@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
 import android.text.TextUtils
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
@@ -18,6 +17,7 @@ import com.alway.lequ_kotlin.ui.mvp.parseWebView
 import com.alway.lequ_kotlin.utils.ImageLoad
 import com.moment.eyepetizer.home.adapter.GalleryAdapter
 import com.moment.eyepetizer.home.adapter.MultiTypeAdapter
+import com.moment.eyepetizer.home.adapter.VideoCollectionAdapter
 import com.moment.eyepetizer.utils.TimeUtils
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.shuyu.gsyvideoplayer.utils.CommonUtil.getScreenWidth
@@ -37,6 +37,13 @@ fun bindMultiViewHolder(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
         is ItemVideoSmallViewHolder -> onItemVideoSmallViewBind(mContext, viewHolder, datas, position)
         is ItemSquareCardViewHolder -> onItemSquareCardViewBind(mContext, viewHolder, datas, position)
         is ItemVideoCollViewHolder  -> onItemVideoCollBind(mContext, viewHolder, datas, position)
+        is ItemBannerViewHolder     -> onItemBannerBind(mContext, viewHolder, datas, position)
+        is ItemBanner2ViewHolder    -> onItemBanner2Bind(mContext, viewHolder, datas, position)
+        is ItemVideoViewHolder      -> onItemVideoViewBind(mContext, viewHolder, datas, position)
+        is ItemVideoCollectionOfHolder -> onItemVideoCollectionBind(mContext, viewHolder, datas, position)
+        is ItemTextHeaderViewHolder -> onItemTextHeaderBind(mContext, viewHolder, datas, position)
+        is ItemTextFooterViewHolder -> onItemTextFooterBind(mContext, viewHolder, datas, position)
+        is ItemDynamicInfoViewHolder -> onItemDynamicInfoBind(mContext, viewHolder, datas, position)
         is EmptyViewHolder -> onEmptyItemView(mContext, viewHolder)
     }
 }
@@ -264,7 +271,240 @@ fun onItemVideoCollBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
     holder.tvVideocollDes.text = header["description"].toString()
 
     val itemList = videoCollection["itemList"] as List<Map<*, *>>
-//    val urlList: MutableList<VideoCollectionAdapter.VideoCollection>? = ArrayList()
+    val urlList: MutableList<VideoCollectionAdapter.VideoCollection>? = ArrayList()
+    for (map in itemList) {
+        val data = map["data"] as Map<*, *>
+        val cover = data["cover"] as Map<*, *>
+        val video: VideoCollectionAdapter.VideoCollection = VideoCollectionAdapter.VideoCollection()
+        video.icon = cover["feed"].toString()
+        video.title = data["title"].toString()
+        video.category = data["category"].toString()
+        video.duration = data["duration"].toString().toFloat().toInt().toLong()
+        urlList!!.add(video)
+    }
+    holder.videoRecycView.layoutManager = LinearLayoutManager(mContext)
+    holder.videoRecycView.onFlingListener = null
+    val snapHelper: SnapHelper = PagerSnapHelper()
+    snapHelper.attachToRecyclerView(holder.videoRecycView)
+
+    val adapter = VideoCollectionAdapter(mContext, urlList!!.toList())
+    holder.videoRecycView.adapter = adapter
+    adapter.setOnItemClickListener(object : BaseAdapter.OnItemClickListener {
+        override fun onItemClick(adapter: BaseAdapter<*>, view: View, position: Int) {
+            val childData = itemList[position]["data"] as Map<*, *>
+            val title = childData["title"].toString()
+            if (childData["webUrl"] != null) {
+                val webUrl = childData["webUrl"] as Map<*, *>
+                val url = webUrl["raw"].toString()
+                parseUri(mContext, parseWebView(title, url))
+            }
+        }
+    })
+}
+
+fun onItemBannerBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data: Result.ItemList = datas[position]
+    val holder: ItemBannerViewHolder = viewHolder as ItemBannerViewHolder
+    val banner = data.data as Map<*, *>
+    val image: String = banner["image"].toString()
+    val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
+    val height = width * 0.6
+    ImageLoad().load(image, holder.ivBanner, width.toDouble().toInt(), height.toInt(), 5)
+    holder.ivBanner!!.setOnClickListener {
+        val actionUrl = banner["actionUrl"].toString()
+        parseUri(mContext, actionUrl)
+    }
+}
+
+fun onItemBanner2Bind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data: Result.ItemList = datas[position]
+    val holder: ItemBanner2ViewHolder = viewHolder as ItemBanner2ViewHolder
+    val banner = data.data as Map<*, *>
+    val image: String = banner["image"].toString()
+    val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
+    val height = width * 0.6
+    ImageLoad().load(image, holder.ivBanner2, width.toDouble().toInt(), height.toDouble().toInt(), 5)
+
+    val label = banner["label"]
+    if (label != null) {
+        val label = banner["label"] as Map<*, *>
+        val text = label["text"]
+        if (!text.toString().isEmpty()) {
+            holder.tvBanner2.text = label["text"].toString()
+            holder.tvBanner2.visibility = View.VISIBLE
+        } else {
+            holder.tvBanner2.visibility = View.GONE
+        }
+    } else {
+        holder.tvBanner2.visibility = View.GONE
+    }
+
+    val actionUrl = banner["actionUrl"].toString()
+    holder.ivBanner2.setOnClickListener {
+        if (!actionUrl.isEmpty()) {
+            parseUri(mContext, actionUrl)
+        }
+    }
+}
+
+fun onItemVideoViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data = datas[position]
+    val holder: ItemVideoViewHolder = viewHolder as ItemVideoViewHolder
+    val followCard = data.data as Map<*, *>
+    if (followCard["author"] != null) {
+        val author = followCard["author"] as Map<*, *>
+        ImageLoad().loadCircle(author["icon"].toString(), holder.ivFollowcardIcon)
+        holder.tvContent.text = author["name"].toString() + " / #" + followCard["category"]
+    } else if (followCard["tags"] != null) {
+        val tags = followCard["tags"] as List<Map<*, *>>
+        ImageLoad().loadRound(tags[0]["headerImage"].toString(), holder.ivFollowcardIcon, 5)
+        holder.tvContent.text = "#" + tags[0]["name"].toString() + "#"
+    }
+
+    val cover = followCard["cover"] as Map<*, *>
+    val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
+    val height = width * 0.6
+    ImageLoad().load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
+
+    holder.ivFollowcardCover!!.setOnClickListener {
+        val title = followCard["title"].toString()
+        val webUrl = followCard["webUrl"] as Map<*, *>
+        val url = webUrl["raw"].toString()
+        parseUri(mContext, parseWebView(title, url))
+    }
+    holder.tvFollowcardTime.text = TimeUtils.secToTime(followCard["duration"].toString().toFloat().toInt())
+    holder.tvTitle.text = followCard["title"].toString()
+}
+
+fun onItemVideoCollectionBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data: Result.ItemList = datas[position]
+    val holder: ItemVideoCollectionOfHolder = viewHolder as ItemVideoCollectionOfHolder
+    val videoCollectionOfHorizontalScrollCard = data.data as Map<*, *>
+
+    val header = videoCollectionOfHorizontalScrollCard["header"] as Map<*, *>
+    holder.tvVideoTitle.text = header["title"].toString()
+    val actionUrl = header["actionUrl"]
+
+    holder.tvVideoTitle.setOnClickListener {
+        if (actionUrl != null) {
+            parseUri(mContext, actionUrl.toString())
+        }
+    }
+    if (actionUrl == null || TextUtils.isEmpty(actionUrl.toString())) {
+        holder.ivVideoHeader.visibility = View.GONE
+    } else {
+        holder.ivVideoHeader.visibility = View.VISIBLE
+    }
+
+    val itemList = videoCollectionOfHorizontalScrollCard["itemList"] as List<Map<*, *>>
+    val urlList: MutableList<VideoCollectionAdapter.VideoCollection>? = ArrayList()
+    for (map in itemList) {
+        val data = map["data"] as Map<*, *>
+        val cover = data["cover"] as Map<*, *>
+        val video: VideoCollectionAdapter.VideoCollection = VideoCollectionAdapter.VideoCollection()
+        video.icon = cover["feed"].toString()
+        video.title = data["title"].toString()
+        video.category = data["category"].toString()
+        video.duration = data["duration"].toString().toFloat().toInt().toLong()
+        urlList!!.add(video)
+    }
+
+    val linearLayout: RecyclerView.LayoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
+    holder.recyclerviewVideo.layoutManager = linearLayout
+    holder.recyclerviewVideo.onFlingListener = null
+    val snapHelper: SnapHelper = PagerSnapHelper()
+    snapHelper.attachToRecyclerView(holder.recyclerviewVideo)
+
+    val adapter = VideoCollectionAdapter(mContext, urlList!!.toList())
+    holder.recyclerviewVideo.adapter = adapter
+    adapter.setOnItemClickListener(object : BaseAdapter.OnItemClickListener {
+        override fun onItemClick(adapter: BaseAdapter<*>, view: View, position: Int) {
+            val data = itemList[position]["data"] as Map<*, *>
+            val title = data["title"].toString()
+            val webUrl = data["webUrl"] as Map<*, *>
+            val url = webUrl["raw"].toString()
+            parseUri(mContext, parseWebView(title, url))
+        }
+
+    })
+}
+
+fun onItemTextHeaderBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data: Result.ItemList = datas[position]
+    val holder: ItemTextHeaderViewHolder = viewHolder as ItemTextHeaderViewHolder
+    val txtCard = data.data as Map<*, *>
+    holder.tv_title.text = txtCard["text"].toString()
+    val actionUrl = txtCard["actionUrl"]
+    if (actionUrl != null) {
+        if (actionUrl.toString().isEmpty()) {
+            holder.iv_text_header_more.visibility = View.GONE
+        } else {
+            holder.iv_text_header_more.visibility = View.VISIBLE
+        }
+    } else {
+        holder.iv_text_header_more.visibility = View.GONE
+    }
+
+    holder.tv_title.setOnClickListener {
+        if (actionUrl != null) {
+            parseUri(mContext, actionUrl.toString())
+        }
+    }
+}
+
+fun onItemTextFooterBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data: Result.ItemList = datas[position]
+    val holder: ItemTextFooterViewHolder = viewHolder as ItemTextFooterViewHolder
+    val txtCard = data.data as Map<*, *>
+    holder.tv_text_footer.text = txtCard["text"].toString()
+    val actionUrl = txtCard["actionUrl"]
+    if (actionUrl != null) {
+        if (actionUrl.toString().isEmpty()) {
+            holder.iv_footer_more.visibility = View.GONE
+        } else {
+            holder.iv_footer_more.visibility = View.VISIBLE
+        }
+    } else {
+        holder.iv_footer_more.visibility = View.GONE
+    }
+
+    holder.tv_text_footer.setOnClickListener {
+        if (actionUrl != null) {
+            parseUri(mContext, actionUrl.toString())
+        }
+    }
+}
+
+fun onItemDynamicInfoBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+    val data: Result.ItemList = datas[position]
+    val holder: ItemDynamicInfoViewHolder = viewHolder as ItemDynamicInfoViewHolder
+    val dynamicInfoCard = data.data as Map<*, *>
+    holder.tv_print.text = dynamicInfoCard["text"].toString()
+    val user = dynamicInfoCard["user"] as Map<*, *>
+
+    ImageLoad().loadCircle(user["avatar"].toString(), holder.civ_icon)
+    holder.tv_nickname.text = user["nickname"].toString()
+    val reply = dynamicInfoCard["reply"] as Map<*, *>
+    holder.tv_content.text = reply["message"].toString()
+    holder.tv_like.text = "赞" + reply["likeCount"].toString().toFloat().toInt()
+
+
+    val simpleVideo = dynamicInfoCard["simpleVideo"] as Map<*, *>
+    holder.tv_title.text = simpleVideo["title"].toString()
+    holder.tv_des.text = "#" + simpleVideo["category"].toString()
+    val cover = simpleVideo["cover"] as Map<*, *>
+    holder.tv_dynamic_time_video!!.text = TimeUtils.secToTime(simpleVideo["duration"].toString().toFloat().toInt())
+
+    val width = getScreenWidth(mContext) * 0.4
+    val height = width * 0.6
+    ImageLoad().load(cover["feed"].toString(), holder.iv_conver, width.toInt(), height.toInt(), 5)
+
+    holder.iv_conver.setOnClickListener {
+        var title = simpleVideo["title"].toString()
+        var id = simpleVideo["id"]
+    }
+    val obj = simpleVideo["releaseTime"].toString().toDouble()
+    holder.tv_time.text = TimeUtils.getDiffTime(obj.toLong())
 }
 
 fun onEmptyItemView(mContext: Context, viewHolder: RecyclerView.ViewHolder) {

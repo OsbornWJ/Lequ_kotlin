@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_text_header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/iv_text_header_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="?attr/secondaryTextColor"
+        android:textSize="20sp"
+        android:text="{fa-angle-right}"  />
+
+</LinearLayout>

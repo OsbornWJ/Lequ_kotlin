@@ -19,7 +19,14 @@ class DiscoveryContract {
     }
 
     interface Model: IModel {
+
         fun discovery(): Observable<Result>
+
+        fun allRec(page: Int): Observable<Result>
+
+        fun feed(date: Long): Observable<Result>
+
+        fun category(id: Int, start: Int, num: Int): Observable<Result>
     }
 
 }

@@ -25,4 +25,32 @@ class DiscoveryPresenter constructor(model: DiscoveryContract.Model, rootView: D
                         {error: Throwable -> mRootView!!.onDiscoveryFail(error)})
     }
 
+    fun allRec(page: Int) {
+        mModel!!.allRec(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindUntilEvent(mRootView!!, FragmentEvent.DESTROY_VIEW))
+                .subscribe({t: Result ->  mRootView!!.onDiscoverySucc(t)},
+                        {error: Throwable -> mRootView!!.onDiscoveryFail(error)})
+    }
+
+    fun feed(date: Long) {
+        mModel!!.feed(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindUntilEvent(mRootView!!, FragmentEvent.DESTROY_VIEW))
+                .subscribe({t: Result ->  mRootView!!.onDiscoverySucc(t)},
+                        {error: Throwable -> mRootView!!.onDiscoveryFail(error)})
+    }
+
+    fun category(id: Int, start: Int, num: Int) {
+        mModel!!.category(id, start, num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindUntilEvent(mRootView!!, FragmentEvent.DESTROY_VIEW))
+                .subscribe({t: Result ->  mRootView!!.onDiscoverySucc(t)},
+                        {error: Throwable -> mRootView!!.onDiscoveryFail(error)})
+
+    }
+
 }

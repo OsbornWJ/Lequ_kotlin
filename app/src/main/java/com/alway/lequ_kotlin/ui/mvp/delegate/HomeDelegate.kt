@@ -63,10 +63,10 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
         for (item in list) {
             when {
                 item.id == 1001L -> mFragments.add(DiscoveryDelegate())
-                item.id == 1002L -> mFragments.add(DiscoveryDelegate())
-                item.id == 1003L -> mFragments.add(DiscoveryDelegate())
+                item.id == 1002L -> mFragments.add(RecommendDelegate())
+                item.id == 1003L -> mFragments.add(FeedDelegate())
                 else -> {
-                    mFragments.add(DiscoveryDelegate())
+                    mFragments.add(CategoryDelegate.newInstance(item.id.toString()))
                     mTitle.add(item.name!!)
                 }
             }
