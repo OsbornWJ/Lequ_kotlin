@@ -1,6 +1,7 @@
 package com.alway.lequ_kotlin.ui.base
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.support.annotation.StringRes
 import com.alway.lequ_kotlin.R
