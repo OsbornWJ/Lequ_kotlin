@@ -4,7 +4,7 @@
 
 #### 项目截图：
 
-<img src="graphics/HOME1.png" height="154" align="center">
+<img src="graphics/HOME1.png" height="720" align="center"> <img src="graphics/HOME2.png" height="720" align="center">
 
 开发语言选的**Kotlin**，毕竟现在Google官方项目都开始用Kotlin写了
 
