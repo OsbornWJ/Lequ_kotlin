@@ -28,7 +28,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator
  * 功能:  主体程序
  */
 
-class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationItemSelectedListener, MainContract.View, LeQuDelegate.OnFragmentOpenDrawerListener {
+class MainActivity: ProxyActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.View, LeQuDelegate.OnFragmentOpenDrawerListener {
 
     // 再点一次退出程序时间设置
     private val WAIT_TIME = 2000L
@@ -38,9 +38,7 @@ class MainActivity: ProxyActivity<MainPresenter>(), NavigationView.OnNavigationI
         return R.layout.activity_main
     }
 
-    override fun initPersenter() {
-        mPresenter = MainPresenter(MainModel(), this)
-    }
+    override fun initPersenter() = MainPresenter(MainModel(), this)
 
     override fun initData(savedInstanceState: Bundle?) {
         ActionBarDrawerToggle(this, drawer_layout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)

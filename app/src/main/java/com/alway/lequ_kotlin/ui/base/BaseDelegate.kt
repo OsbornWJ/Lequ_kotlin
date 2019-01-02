@@ -44,8 +44,8 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
         _mActivity = DELEGATE.activity
     }
 
-    fun getProxyActivity(): ProxyActivity<*> {
-        return _mActivity as ProxyActivity<*>
+    fun getProxyActivity(): ProxyActivity {
+        return _mActivity as ProxyActivity
     }
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {

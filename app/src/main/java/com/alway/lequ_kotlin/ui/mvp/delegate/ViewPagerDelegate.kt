@@ -5,8 +5,6 @@ import android.text.TextUtils
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.BaseDelegate
-import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
-import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 class ViewPagerDelegate : BaseDelegate() {
 

@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.mvp.LeQuActivity"
+            android:label="@string/title_activity_le_qu"></activity>
     </application>
 
 </manifest>

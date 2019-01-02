@@ -10,5 +10,9 @@
 
     <string name="permission_camera_rationale">请求获取相机权限</string>
     <string name="empty_view">类型暂不支持</string>
+    <string name="title_activity_le_qu">LeQuActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

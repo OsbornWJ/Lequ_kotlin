@@ -27,11 +27,11 @@ import me.yokeyword.fragmentation.SupportFragment
  */
 
 @SuppressLint("Registered")
-abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActivity, ActivityLifeCycleble {
+abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLifeCycleble {
 
     private var lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
-    protected var mPresenter: P? = null
+    private val mPresenter by lazy { initPersenter() }
 
     var DELEGATE = SupportActivityDelegate(this)
 
@@ -72,7 +72,6 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
     override fun onDestroy() {
         DELEGATE.onDestroy()
         mPresenter!!.onDestory()
-        mPresenter = null
         super.onDestroy()
         System.gc()
         System.runFinalization()
@@ -82,8 +81,8 @@ abstract class ProxyActivity<P: IPersenter?>: AppCompatActivity(), ISupportActiv
 
     abstract fun initData(savedInstanceState: Bundle?)
 
-    open fun initPersenter() {
-
+    open fun initPersenter(): IPersenter? {
+        return null
     }
 
     override fun provideLifecycleSubject(): Subject<ActivityEvent> {
