@@ -15,6 +15,7 @@ abstract class BottomActivity : ProxyActivity() {
     private val ITEMS by lazy { setItems() }
 
     private var clickedColorInt = Color.RED
+    private var indexDelegate = 0
 
     override fun setLayout(): Any = R.layout.activity_le_qu
 
