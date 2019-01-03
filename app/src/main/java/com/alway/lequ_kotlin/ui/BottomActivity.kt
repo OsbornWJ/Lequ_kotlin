@@ -1,5 +1,6 @@
 package com.alway.lequ_kotlin.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
@@ -10,7 +11,10 @@ import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 abstract class BottomActivity : ProxyActivity() {
 
     private val ITEM_TABS = ArrayList<BottomTabBean>()
+    private val ITEM_DELEGATES = ArrayList<LeQuDelegate>()
     private val ITEMS by lazy { setItems() }
+
+    private var clickedColorInt = Color.RED
 
     override fun setLayout(): Any = R.layout.activity_le_qu
 
