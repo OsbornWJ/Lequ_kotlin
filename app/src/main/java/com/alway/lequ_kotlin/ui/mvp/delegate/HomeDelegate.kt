@@ -22,7 +22,7 @@ import java.lang.ref.WeakReference
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.OnPageChangeListener {
+class HomeDelegate: LeQuDelegate(), HomeContract.View, ViewPager.OnPageChangeListener {
 
     var mAdapter: TabPagerAdapter? = null
     var mFragments = ArrayList<Fragment>()
@@ -33,13 +33,11 @@ class HomeDelegate: LeQuDelegate<HomePresenter>(), HomeContract.View, ViewPager.
 
     override fun setLayout(): Any = R.layout.fragment_home_layout
 
-    override fun initPersenter() {
-        mPresenter = HomePresenter(HomeModel(), this)
-    }
+    override fun initPersenter() = HomePresenter(HomeModel(), this)
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
         it_right.setOnClickListener { (_mActivity as OnFragmentOpenDrawerListener).onOpenDrawer() }
-        requireNotNull(mPresenter, { "Activity presenter is null" }).categories()
+        requireNotNull(mPresenter as HomePresenter) { "Activity presenter is null" }.categories()
     }
 
     class CategoryListEntity(var category_id: String?, var name: String?)

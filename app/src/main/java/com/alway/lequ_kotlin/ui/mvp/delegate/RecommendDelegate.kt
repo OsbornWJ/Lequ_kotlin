@@ -8,6 +8,7 @@ import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
+import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
 import com.alway.lequ_kotlin.ui.mvp.model.DiscoveryModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-class RecommendDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.View {
+class RecommendDelegate : LeQuDelegate(), DiscoveryContract.View {
 
     var page: Int = 1
     var mAdapter: MultiTypeAdapter? = null
@@ -68,12 +69,10 @@ class RecommendDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() {
-        mPresenter = DiscoveryPresenter(DiscoveryModel(), this)
-    }
+    override fun initPersenter(): IPersenter? =  DiscoveryPresenter(DiscoveryModel(), this)
 
     override fun initData() {
-        checkNotNull(mPresenter, {"${RecommendDelegate::class.java.simpleName} presenter is null"}).allRec(page)
+        checkNotNull(mPresenter as DiscoveryPresenter) {"${RecommendDelegate::class.java.simpleName} presenter is null"}.allRec(page)
     }
 
     override fun onDiscoverySucc(result: Result) {

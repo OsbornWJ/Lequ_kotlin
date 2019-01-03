@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-class FeedDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.View {
+class FeedDelegate : LeQuDelegate(), DiscoveryContract.View {
 
     var isRefresh: Boolean = true
     var mAdapter: MultiTypeAdapter? = null
@@ -70,12 +70,10 @@ class FeedDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.View 
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() {
-        mPresenter = DiscoveryPresenter(DiscoveryModel(), this)
-    }
+    override fun initPersenter() = DiscoveryPresenter(DiscoveryModel(), this)
 
     override fun initData() {
-        checkNotNull(mPresenter, {"${FeedDelegate::class.java.simpleName} presenter is null"}).feed(date)
+        checkNotNull(mPresenter as DiscoveryPresenter) {"${FeedDelegate::class.java.simpleName} presenter is null"}.feed(date)
     }
 
     override fun onDiscoverySucc(result: Result) {

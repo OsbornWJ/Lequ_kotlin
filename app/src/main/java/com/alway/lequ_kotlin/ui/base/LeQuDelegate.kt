@@ -14,14 +14,14 @@ import io.reactivex.subjects.Subject
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-abstract class LeQuDelegate<P: IPersenter>: PermissionCheckerDelegate(), FragmentLifecycleable {
+abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable {
 
     private val lifecycleSubject = BehaviorSubject.create<FragmentEvent>()
 
-    protected var mPresenter: P? = null
+    protected val mPresenter by lazy { initPersenter() }
 
-    fun getParentDelegate(): LeQuDelegate<*> {
-        return parentFragment as LeQuDelegate<*>
+    fun getParentDelegate(): LeQuDelegate {
+        return parentFragment as LeQuDelegate
     }
 
     override fun provideLifecycleSubject(): Subject<FragmentEvent> {
@@ -71,8 +71,7 @@ abstract class LeQuDelegate<P: IPersenter>: PermissionCheckerDelegate(), Fragmen
     override fun onDestroy() {
         super.onDestroy()
         lifecycleSubject.onNext(FragmentEvent.DESTROY)
-        mPresenter?.onDestory()
-        mPresenter = null
+        mPresenter!!.onDestory()
     }
 
     override fun onDetach() {

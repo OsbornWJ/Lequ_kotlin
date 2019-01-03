@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import me.yokeyword.fragmentation.ExtraTransaction
 import me.yokeyword.fragmentation.ISupportFragment
 import me.yokeyword.fragmentation.SupportFragmentDelegate
@@ -35,7 +36,9 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
 
     abstract fun onBindView(savedInstanceState: Bundle?, @NonNull rootView: View)
 
-    abstract fun initPersenter()
+    open fun initPersenter(): IPersenter? {
+        return null
+    }
 
     @SuppressLint("MissingSuperCall")
     override fun onAttach(context: Context) {

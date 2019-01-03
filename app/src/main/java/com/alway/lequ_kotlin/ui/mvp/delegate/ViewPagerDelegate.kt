@@ -31,10 +31,6 @@ class ViewPagerDelegate : BaseDelegate() {
         fetchBindView(type)
     }
 
-    override fun initPersenter() {
-
-    }
-
     fun fetchBindView(type: String) {
         if (TextUtils.isEmpty(type)) return
         when (type.hashCode()) {

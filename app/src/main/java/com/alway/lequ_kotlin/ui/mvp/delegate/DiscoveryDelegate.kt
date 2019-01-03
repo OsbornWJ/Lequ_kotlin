@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
  * 邮箱:   Osbornjie@163.com
  * 功能:  发现页面
  */
-class DiscoveryDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.View {
+class DiscoveryDelegate : LeQuDelegate(), DiscoveryContract.View {
 
     var mAdapter: MultiTypeAdapter? = null
     override fun setLayout(): Any {
@@ -54,12 +54,10 @@ class DiscoveryDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() {
-        mPresenter = DiscoveryPresenter(DiscoveryModel(), this)
-    }
+    override fun initPersenter() = DiscoveryPresenter(DiscoveryModel(), this)
 
     override fun initData() {
-        requireNotNull(mPresenter, {"${DiscoveryDelegate::class.java.simpleName} presenter is null"}).discovery()
+        requireNotNull(mPresenter as DiscoveryPresenter) {"${DiscoveryDelegate::class.java.simpleName} presenter is null"}.discovery()
     }
 
     override fun onDiscoverySucc(result: Result) {

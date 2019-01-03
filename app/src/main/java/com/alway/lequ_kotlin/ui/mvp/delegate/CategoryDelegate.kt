@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-class CategoryDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.View {
+class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
 
     var start_num: Int = 0
     var num: Int = 10
@@ -86,12 +86,10 @@ class CategoryDelegate : LeQuDelegate<DiscoveryPresenter>(), DiscoveryContract.V
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() {
-        mPresenter = DiscoveryPresenter(DiscoveryModel(), this)
-    }
+    override fun initPersenter() = DiscoveryPresenter(DiscoveryModel(), this)
 
     override fun initData() {
-        requireNotNull(mPresenter, {"${CategoryDelegate::class.java.simpleName} presenter is null"}).category(categoryId.toInt(), start_num, num)
+        requireNotNull(mPresenter as DiscoveryPresenter) {"${CategoryDelegate::class.java.simpleName} presenter is null"}.category(categoryId.toInt(), start_num, num)
     }
 
     override fun onDiscoverySucc(result: Result) {

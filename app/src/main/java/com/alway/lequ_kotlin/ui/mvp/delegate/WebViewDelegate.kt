@@ -56,10 +56,6 @@ class WebViewDelegate : BaseDelegate() {
         return R.layout.web_profile_webview
     }
 
-    override fun initPersenter() {
-
-    }
-
     @SuppressLint("SetTextI18n")
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
         it_right.text = "{fa-chevron-left}"
