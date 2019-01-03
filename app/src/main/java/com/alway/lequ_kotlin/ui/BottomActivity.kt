@@ -8,6 +8,7 @@ import android.support.annotation.ColorInt
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 
 
+@Suppress("PrivatePropertyName")
 abstract class BottomActivity : ProxyActivity() {
 
     private val ITEM_TABS = ArrayList<BottomTabBean>()
@@ -20,7 +21,17 @@ abstract class BottomActivity : ProxyActivity() {
     override fun setLayout(): Any = R.layout.activity_le_qu
 
     override fun initData(savedInstanceState: Bundle?) {
-        
+
+        indexDelegate = setIndexDelegate()
+        if (setClickedColor() != 0) {
+            clickedColorInt = setClickedColor()
+        }
+
+        ITEMS.forEach{
+            ITEM_TABS.add(it.key)
+            ITEM_DELEGATES.add(it.value)
+
+        }
     }
 
     abstract fun setItems(): LinkedHashMap<BottomTabBean, LeQuDelegate>
