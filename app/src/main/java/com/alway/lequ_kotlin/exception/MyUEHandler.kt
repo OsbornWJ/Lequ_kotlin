@@ -24,18 +24,14 @@ class MyUEHandler(internal var softApp: LeQuApp) : Thread.UncaughtExceptionHandl
             baos = ByteArrayOutputStream()
             printStream = PrintStream(baos)
             ex.printStackTrace(printStream)
-            var data: ByteArray? = baos.toByteArray()
+            val data: ByteArray? = baos.toByteArray()
             info = String(data!!)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             try {
-                if (printStream != null) {
-                    printStream.close()
-                }
-                if (baos != null) {
-                    baos.close()
-                }
+                printStream?.close()
+                baos?.close()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -58,7 +54,7 @@ class MyUEHandler(internal var softApp: LeQuApp) : Thread.UncaughtExceptionHandl
             val intent = Intent(softApp, MainActivity::class.java)
             // 如果<span
             // style="background-color: rgb(255, 255, 255); ">没有NEW_TASK标识且</span>是UI线程抛的异常则界面卡死直到ANR
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             softApp.startActivity(intent)
             // write 2 /data/data/<app_package>/files/error.log
             write2ErrorLog(info)

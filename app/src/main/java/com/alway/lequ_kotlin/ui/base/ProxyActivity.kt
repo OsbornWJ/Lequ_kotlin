@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.lifecycle.ActivityLifeCycleble
 import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import com.example.lequ_core.utils.AppManager
@@ -49,6 +51,26 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
         initData(savedInstanceState)
     }
 
+    abstract fun setLayout(): Any
+
+    abstract fun initData(savedInstanceState: Bundle?)
+
+    open fun initPersenter(): IPersenter? {
+        return null
+    }
+
+    fun getColorPrimary(): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        return typedValue.data
+    }
+
+    fun getColorPrimaryDark(): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorPrimaryDark, typedValue, true)
+        return typedValue.data
+    }
+
     override fun onStart() {
         super.onStart()
         lifecycleSubject.onNext(ActivityEvent.START)
@@ -75,14 +97,6 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
         super.onDestroy()
         System.gc()
         System.runFinalization()
-    }
-
-    abstract fun setLayout(): Any
-
-    abstract fun initData(savedInstanceState: Bundle?)
-
-    open fun initPersenter(): IPersenter? {
-        return null
     }
 
     override fun provideLifecycleSubject(): Subject<ActivityEvent> {

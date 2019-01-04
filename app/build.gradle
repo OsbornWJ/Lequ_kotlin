@@ -15,6 +15,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi rootProject.ext.android['targetSdkVersion']
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         debug {
@@ -107,5 +109,8 @@ dependencies {
         exclude module: "support-v13"
     }
     kapt "com.github.hotchemi:permissionsdispatcher-processor:3.3.1"
+
+    //blur
+    implementation 'io.alterac.blurkit:blurkit:1.1.0'
 
 }
