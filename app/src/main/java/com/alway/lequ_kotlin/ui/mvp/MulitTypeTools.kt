@@ -3,7 +3,7 @@ package com.alway.lequ_kotlin.ui.mvp
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import com.alway.lequ_kotlin.ui.MainActivity
+import com.alway.lequ_kotlin.ui.LeQuActivity
 import com.alway.lequ_kotlin.ui.mvp.delegate.WebViewDelegate
 import com.alway.lequ_kotlin.utils.encodeToString
 import com.example.lequ_core.config.ConfigKeys
@@ -37,7 +37,7 @@ fun parseUri(context: Context, url: String) {
             bundle.putString("urlBase64", encodeToString(url))
             bundle.putString("title", title)
 
-            LeQu.getConfiguration<MainActivity>(ConfigKeys.ACTIVITY).start(WebViewDelegate.newInstance(bundle))
+            LeQu.getConfiguration<LeQuActivity>(ConfigKeys.ACTIVITY).start(WebViewDelegate.newInstance(bundle))
         }
     /*//分类详情
         "category" -> {

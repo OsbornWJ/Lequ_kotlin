@@ -4,10 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.alway.lequ_kotlin.ui.lifecycle.FragmentLifecycleable
-import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
+import com.alway.lequ_kotlin.ui.mvp.delegate.HomeDelegate
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+
 
 /**
  * 创建人: Jeven
@@ -17,6 +18,8 @@ import io.reactivex.subjects.Subject
 abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable {
 
     private val lifecycleSubject = BehaviorSubject.create<FragmentEvent>()
+
+    protected var _mBackToFirstListener: OnBackToFirstListener? = null
 
     protected val mPresenter by lazy { initPersenter() }
 
@@ -31,6 +34,11 @@ abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         lifecycleSubject.onNext(FragmentEvent.ATTACH)
+        if (context is OnBackToFirstListener) {
+            _mBackToFirstListener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnBackToFirstListener")
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,15 +79,36 @@ abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable 
     override fun onDestroy() {
         super.onDestroy()
         lifecycleSubject.onNext(FragmentEvent.DESTROY)
-        mPresenter!!.onDestory()
+        if (mPresenter != null) {
+            mPresenter!!.onDestory()
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         lifecycleSubject.onNext(FragmentEvent.DETACH)
+        _mBackToFirstListener = null
     }
 
-    interface OnFragmentOpenDrawerListener {
-        fun onOpenDrawer()
+    /**
+     * 处理回退事件
+     *
+     * @return
+     */
+    override fun onBackPressedSupport(): Boolean {
+        if (childFragmentManager.backStackEntryCount > 1) {
+            popChild()
+        } else {
+            if (this is HomeDelegate) {   // 如果是 第一个Fragment 则退出app
+                _mActivity!!.finish()
+            } else {                                    // 如果不是,则回到第一个Fragment
+                checkNotNull(_mBackToFirstListener) {"_mBackToFirstListener is null"}.onBackToFirstFragment()
+            }
+        }
+        return true
+    }
+
+    interface OnBackToFirstListener {
+        fun onBackToFirstFragment()
     }
 }

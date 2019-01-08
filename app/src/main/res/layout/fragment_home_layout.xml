@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <android.support.design.widget.CoordinatorLayout
@@ -17,8 +16,7 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                >
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
                 <include layout="@layout/toolbar_layout"/>
 

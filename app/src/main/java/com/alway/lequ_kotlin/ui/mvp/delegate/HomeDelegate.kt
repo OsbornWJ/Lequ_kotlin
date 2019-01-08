@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Categories
+import com.alway.lequ_kotlin.ui.MainDelegate
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.HomeContract
 import com.alway.lequ_kotlin.ui.mvp.model.HomeModel
@@ -36,7 +37,7 @@ class HomeDelegate: LeQuDelegate(), HomeContract.View, ViewPager.OnPageChangeLis
     override fun initPersenter() = HomePresenter(HomeModel(), this)
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
-        it_right.setOnClickListener { (_mActivity as OnFragmentOpenDrawerListener).onOpenDrawer() }
+        it_right.setOnClickListener { (getParentDelegate() as MainDelegate).onOpenDrawer() }
         requireNotNull(mPresenter as HomePresenter) { "Activity presenter is null" }.categories()
     }
 

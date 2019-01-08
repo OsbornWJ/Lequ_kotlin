@@ -10,13 +10,14 @@ import android.widget.TextView
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.base.ProxyActivity
+import com.example.lequ_core.config.LeQu
 import com.joanzapata.iconify.widget.IconTextView
 import kotlinx.android.synthetic.main.activity_bottom_bar_layout.*
 import me.yokeyword.fragmentation.ISupportFragment
 
 
 @Suppress("PrivatePropertyName")
-abstract class BottomActivity : ProxyActivity(), View.OnClickListener {
+abstract class BottomActivity : ProxyActivity(), View.OnClickListener, LeQuDelegate.OnBackToFirstListener {
 
     private val ITEM_TABS = mutableListOf<BottomTabBean>()
     private val ITEM_DELEGATES = mutableListOf<ISupportFragment>()
@@ -30,6 +31,7 @@ abstract class BottomActivity : ProxyActivity(), View.OnClickListener {
 
     override fun initData(savedInstanceState: Bundle?) {
 
+        LeQu.lequConfig.withActivity(this)
         indexDelegate = setIndexDelegate()
         if (setClickedColor() != 0) {
             clickedColorInt = setClickedColor()
@@ -48,23 +50,15 @@ abstract class BottomActivity : ProxyActivity(), View.OnClickListener {
             val iconText = item.getChildAt(0) as IconTextView
             val titleText = item.getChildAt(1) as TextView
             iconText.text = ITEM_TABS[i].icon
+            iconText.setTextColor(Color.GRAY)
             titleText.text = ITEM_TABS[i].title
+            titleText.setTextColor(Color.GRAY)
             if (i == indexDelegate) {
                 iconText.setTextColor(clickedColorInt)
                 titleText.setTextColor(clickedColorInt)
             }
         }
         loadMultipleRootFragment(R.id.delegate_container, indexDelegate, *ITEM_DELEGATES.toTypedArray())
-    }
-
-    override fun onStart() {
-        super.onStart()
-        blurLayout.startBlur()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        blurLayout.pauseBlur()
     }
 
     abstract fun setItems(): MutableMap<BottomTabBean, LeQuDelegate>
@@ -90,6 +84,10 @@ abstract class BottomActivity : ProxyActivity(), View.OnClickListener {
         (item.getChildAt(1) as TextView).setTextColor(clickedColorInt)
         showHideFragment(ITEM_DELEGATES[tag], ITEM_DELEGATES[currentDelegate])
         currentDelegate = tag
+    }
+
+    override fun onBackToFirstFragment() {
+        onClick(bottom_bar.getChildAt(0))
     }
 
 }

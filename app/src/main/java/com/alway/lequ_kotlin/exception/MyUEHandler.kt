@@ -3,8 +3,8 @@ package com.alway.lequ_kotlin.exception
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
-import com.alway.lequ_kotlin.ui.MainActivity
 import com.alway.lequ_kotlin.app.LeQuApp
+import com.alway.lequ_kotlin.ui.LeQuActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -51,7 +51,7 @@ class MyUEHandler(internal var softApp: LeQuApp) : Thread.UncaughtExceptionHandl
             // softApp.startActivity(intent);
         } else {
             // 此处示例发生异常后，重新启动应用
-            val intent = Intent(softApp, MainActivity::class.java)
+            val intent = Intent(softApp, LeQuActivity::class.java)
             // 如果<span
             // style="background-color: rgb(255, 255, 255); ">没有NEW_TASK标识且</span>是UI线程抛的异常则界面卡死直到ANR
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

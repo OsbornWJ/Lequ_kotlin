@@ -253,6 +253,10 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
         DELEGATE.pop()
     }
 
+    fun popChild() {
+        DELEGATE.popChild()
+    }
+
     /**
      * Pop the last fragment transition from the manager's fragment
      * back stack.

@@ -11,6 +11,7 @@ import android.view.View
 import android.webkit.*
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.base.BaseDelegate
+import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.utils.decode
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import kotlinx.android.synthetic.main.web_profile_webview.*
@@ -85,7 +86,7 @@ class WebViewDelegate : BaseDelegate() {
             if (webView.canGoBack()) {
                 webView.goBack()//返回上一页面
             } else {
-                pop()
+                onBackPressedSupport()
             }
         }
     }

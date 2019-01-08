@@ -37,6 +37,8 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
 
     var DELEGATE = SupportActivityDelegate(this)
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleSubject.onNext(ActivityEvent.CREATE)
@@ -93,7 +95,9 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
 
     override fun onDestroy() {
         DELEGATE.onDestroy()
-        mPresenter!!.onDestory()
+        if (mPresenter != null) {
+            mPresenter!!.onDestory()
+        }
         super.onDestroy()
         System.gc()
         System.runFinalization()
