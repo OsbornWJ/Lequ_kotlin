@@ -9,7 +9,6 @@ import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
-import com.alway.lequ_kotlin.ui.mvp.model.DiscoveryModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
 import com.bumptech.glide.Glide
 import com.example.lequ_core.config.LeQu
@@ -33,6 +32,12 @@ class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
     var categoryId: String = ""
     var isRefresh: Boolean = true
     var mAdapter: MultiTypeAdapter? = null
+
+    private val mPresenter: DiscoveryPresenter by lazy { DiscoveryPresenter()}
+
+    init {
+        mPresenter.attachView(this)
+    }
 
     companion object {
         fun newInstance(categoryId: String): CategoryDelegate {
@@ -86,10 +91,9 @@ class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() = DiscoveryPresenter(DiscoveryModel(), this)
 
     override fun initData() {
-        requireNotNull(mPresenter as DiscoveryPresenter) {"${CategoryDelegate::class.java.simpleName} presenter is null"}.category(categoryId.toInt(), start_num, num)
+        requireNotNull(mPresenter) {"${CategoryDelegate::class.java.simpleName} presenter is null"}.category(categoryId.toInt(), start_num, num)
     }
 
     override fun onDiscoverySucc(result: Result) {

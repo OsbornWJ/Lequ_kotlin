@@ -10,7 +10,6 @@ import android.text.TextUtils
 import android.view.View
 import android.webkit.*
 import com.alway.lequ_kotlin.R
-import com.alway.lequ_kotlin.ui.base.BaseDelegate
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.utils.decode
 import kotlinx.android.synthetic.main.toolbar_layout.*
@@ -22,7 +21,7 @@ import java.util.*
  * 邮箱:   Osbornjie@163.com
  * 功能:   WebView
  */
-class WebViewDelegate : BaseDelegate() {
+class WebViewDelegate : LeQuDelegate() {
 
     private var url: String? = null
     private var chromeClient: WebChromeClient? = null
@@ -38,17 +37,17 @@ class WebViewDelegate : BaseDelegate() {
     private val headers: Map<String, String>
         get() {
             val map = HashMap<String, String>()
-            map.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            map.put("Connection", "keep-alive")
-            map.put("Accept", "*/*")
-            map.put("Cookie", "add cookies here")
-            map.put("Content-Encoding", "gzip")
-            map.put("clientversion", "")
-            map.put("devicetype", 3.toString() + "")
-            map.put("deviceinfo", "android")
-            map.put("qudao", "")
-            map.put("clientid", "")
-            map.put("devicetoken", "")
+            map["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
+            map["Connection"] = "keep-alive"
+            map["Accept"] = "*/*"
+            map["Cookie"] = "add cookies here"
+            map["Content-Encoding"] = "gzip"
+            map["clientversion"] = ""
+            map["devicetype"] = 3.toString() + ""
+            map["deviceinfo"] = "android"
+            map["qudao"] = ""
+            map["clientid"] = ""
+            map["devicetoken"] = ""
             return map
 
         }

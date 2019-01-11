@@ -36,10 +36,6 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
 
     abstract fun onBindView(savedInstanceState: Bundle?, @NonNull rootView: View)
 
-    open fun initPersenter(): IPersenter? {
-        return null
-    }
-
     @SuppressLint("MissingSuperCall")
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,13 +62,13 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
         DELEGATE.onSaveInstanceState(outState)
     }
 
+    @Suppress("UnnecessaryVariable")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView: View = when {
             setLayout() is Int -> inflater.inflate(setLayout() as Int, container, false)
             setLayout() is View -> setLayout() as View
             else -> throw ClassCastException("type of setLayout() must be int or View!")
         }
-        initPersenter()
         return rootView
     }
 

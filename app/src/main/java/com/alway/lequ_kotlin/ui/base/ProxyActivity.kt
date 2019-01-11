@@ -37,8 +37,6 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
 
     var DELEGATE = SupportActivityDelegate(this)
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleSubject.onNext(ActivityEvent.CREATE)
@@ -48,7 +46,6 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
             setLayout() is View -> setContentView(setLayout() as View)
             else -> throw ClassCastException("type of setLayout() must be int or View!")
         }
-        initPersenter()
         AppManager.appManager!!.addActivity(this)
         initData(savedInstanceState)
     }
@@ -96,7 +93,7 @@ abstract class ProxyActivity: AppCompatActivity(), ISupportActivity, ActivityLif
     override fun onDestroy() {
         DELEGATE.onDestroy()
         if (mPresenter != null) {
-            mPresenter!!.onDestory()
+            mPresenter!!.dettachView()
         }
         super.onDestroy()
         System.gc()

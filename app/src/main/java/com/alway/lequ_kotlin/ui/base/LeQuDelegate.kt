@@ -21,8 +21,6 @@ abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable 
 
     protected var _mBackToFirstListener: OnBackToFirstListener? = null
 
-    protected val mPresenter by lazy { initPersenter() }
-
     fun getParentDelegate(): LeQuDelegate {
         return parentFragment as LeQuDelegate
     }
@@ -79,9 +77,7 @@ abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable 
     override fun onDestroy() {
         super.onDestroy()
         lifecycleSubject.onNext(FragmentEvent.DESTROY)
-        if (mPresenter != null) {
-            mPresenter!!.onDestory()
-        }
+
     }
 
     override fun onDetach() {

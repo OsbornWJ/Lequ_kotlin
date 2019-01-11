@@ -8,8 +8,8 @@ package com.alway.lequ_kotlin.ui.mvp.base
 
 interface IPersenter {
 
-    fun dettachView()
+    fun attachView(view: IView?)
 
-    fun onDestory()
+    fun dettachView()
 
 }

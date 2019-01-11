@@ -9,7 +9,6 @@ import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
-import com.alway.lequ_kotlin.ui.mvp.model.DiscoveryModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
 import com.bumptech.glide.Glide
 import com.example.lequ_core.config.LeQu
@@ -33,6 +32,12 @@ class FeedDelegate : LeQuDelegate(), DiscoveryContract.View {
     var date: Long = System.currentTimeMillis()
 
     override fun setLayout(): Any = R.layout.comm_recycler_data
+
+    private val mPresenter: DiscoveryPresenter by lazy { DiscoveryPresenter()}
+
+    init {
+        mPresenter.attachView(this)
+    }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) = Unit
 
@@ -70,10 +75,8 @@ class FeedDelegate : LeQuDelegate(), DiscoveryContract.View {
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() = DiscoveryPresenter(DiscoveryModel(), this)
-
     override fun initData() {
-        checkNotNull(mPresenter as DiscoveryPresenter) {"${FeedDelegate::class.java.simpleName} presenter is null"}.feed(date)
+        checkNotNull(mPresenter) {"${FeedDelegate::class.java.simpleName} presenter is null"}.feed(date)
     }
 
     override fun onDiscoverySucc(result: Result) {
@@ -98,6 +101,11 @@ class FeedDelegate : LeQuDelegate(), DiscoveryContract.View {
     override fun onDiscoveryFail(error: Throwable?) {
         smart_refreshLayout.finishRefresh()
         smart_refreshLayout.finishLoadMore(false)
+    }
+
+    override fun onDestroy() {
+        mPresenter.dettachView()
+        super.onDestroy()
     }
 
 }

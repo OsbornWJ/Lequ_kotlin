@@ -9,7 +9,6 @@ import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
-import com.alway.lequ_kotlin.ui.mvp.model.DiscoveryModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
 import com.bumptech.glide.Glide
 import com.example.lequ_core.config.LeQu
@@ -26,8 +25,15 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
 class DiscoveryDelegate : LeQuDelegate(), DiscoveryContract.View {
 
     var mAdapter: MultiTypeAdapter? = null
+
+    private val mPresenter: DiscoveryPresenter by lazy { DiscoveryPresenter()}
+
     override fun setLayout(): Any {
         return R.layout.comm_recycler_data
+    }
+
+    init {
+        mPresenter.attachView(this)
     }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) = Unit
@@ -54,10 +60,9 @@ class DiscoveryDelegate : LeQuDelegate(), DiscoveryContract.View {
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter() = DiscoveryPresenter(DiscoveryModel(), this)
 
     override fun initData() {
-        requireNotNull(mPresenter as DiscoveryPresenter) {"${DiscoveryDelegate::class.java.simpleName} presenter is null"}.discovery()
+        requireNotNull(mPresenter) {"${DiscoveryDelegate::class.java.simpleName} presenter is null"}.discovery()
     }
 
     override fun onDiscoverySucc(result: Result) {
@@ -74,5 +79,10 @@ class DiscoveryDelegate : LeQuDelegate(), DiscoveryContract.View {
     override fun onDiscoveryFail(error: Throwable?) {
         smart_refreshLayout.finishRefresh()
         smart_refreshLayout.finishLoadMore(false)
+    }
+
+    override fun onDestroy() {
+        mPresenter.dettachView()
+        super.onDestroy()
     }
 }

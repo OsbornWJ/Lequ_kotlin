@@ -8,9 +8,7 @@ import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
-import com.alway.lequ_kotlin.ui.mvp.base.IPersenter
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
-import com.alway.lequ_kotlin.ui.mvp.model.DiscoveryModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
 import com.bumptech.glide.Glide
 import com.example.lequ_core.config.LeQu
@@ -30,6 +28,12 @@ class RecommendDelegate : LeQuDelegate(), DiscoveryContract.View {
 
     var page: Int = 1
     var mAdapter: MultiTypeAdapter? = null
+
+    private val mPresenter: DiscoveryPresenter by lazy { DiscoveryPresenter() }
+
+    init {
+        mPresenter.attachView(this)
+    }
 
     override fun setLayout(): Any = R.layout.comm_recycler_data
 
@@ -69,8 +73,6 @@ class RecommendDelegate : LeQuDelegate(), DiscoveryContract.View {
         dataView.adapter = mAdapter
     }
 
-    override fun initPersenter(): IPersenter? =  DiscoveryPresenter(DiscoveryModel(), this)
-
     override fun initData() {
         checkNotNull(mPresenter as DiscoveryPresenter) {"${RecommendDelegate::class.java.simpleName} presenter is null"}.allRec(page)
     }
@@ -94,5 +96,10 @@ class RecommendDelegate : LeQuDelegate(), DiscoveryContract.View {
     override fun onDiscoveryFail(error: Throwable?) {
         smart_refreshLayout.finishRefresh()
         smart_refreshLayout.finishLoadMore(false)
+    }
+
+    override fun onDestroy() {
+        mPresenter.dettachView()
+        super.onDestroy()
     }
 }

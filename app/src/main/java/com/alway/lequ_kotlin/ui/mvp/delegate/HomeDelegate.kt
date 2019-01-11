@@ -9,7 +9,6 @@ import com.alway.lequ_kotlin.http.entity.Categories
 import com.alway.lequ_kotlin.ui.MainDelegate
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.HomeContract
-import com.alway.lequ_kotlin.ui.mvp.model.HomeModel
 import com.alway.lequ_kotlin.ui.mvp.presenter.HomePresenter
 import com.alway.lequ_kotlin.utils.ImageLoad
 import com.alway.lequ_kotlin.view.TabPagerAdapter
@@ -34,11 +33,15 @@ class HomeDelegate: LeQuDelegate(), HomeContract.View, ViewPager.OnPageChangeLis
 
     override fun setLayout(): Any = R.layout.fragment_home_layout
 
-    override fun initPersenter() = HomePresenter(HomeModel(), this)
+    private val mPresenter: HomePresenter by lazy { HomePresenter() }
+
+    init {
+        mPresenter.attachView(this)
+    }
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
         it_right.setOnClickListener { (getParentDelegate() as MainDelegate).onOpenDrawer() }
-        requireNotNull(mPresenter as HomePresenter) { "Activity presenter is null" }.categories()
+        mPresenter.categories()
     }
 
     class CategoryListEntity(var category_id: String?, var name: String?)
@@ -83,5 +86,10 @@ class HomeDelegate: LeQuDelegate(), HomeContract.View, ViewPager.OnPageChangeLis
             tab_layout.setCurrentTab(currentIndex, true)
         }
         ImageLoad().clearCache(WeakReference(LeQu.applicationContext))
+    }
+
+    override fun onDestroy() {
+        mPresenter.dettachView()
+        super.onDestroy()
     }
 }

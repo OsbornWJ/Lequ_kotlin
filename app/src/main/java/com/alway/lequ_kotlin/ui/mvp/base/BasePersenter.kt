@@ -6,18 +6,15 @@ package com.alway.lequ_kotlin.ui.mvp.base
  * 功能:
  */
 
-open class BasePersenter<V: IView, M: IModel>(var mModel: M?, var mRootView: V?) : IPersenter {
+abstract class BasePersenter<V: IView>: IPersenter {
+
+    protected lateinit var mRootView: V
+
+    override fun attachView(view: IView?) {
+        this.mRootView = view as V
+    }
 
     override fun dettachView() {
-        mRootView = null
-    }
 
-    override fun onDestory() {
-        mModel = null
-    }
-
-    init {
-        checkNotNull(mModel){"model conot be null"}
-        checkNotNull(mRootView){"rootView conot be null"}
     }
 }
