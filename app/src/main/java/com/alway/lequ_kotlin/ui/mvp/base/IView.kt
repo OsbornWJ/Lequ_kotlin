@@ -22,4 +22,8 @@ interface IView {
 
     }
 
+    fun onLoadFinally() {
+
+    }
+
 }

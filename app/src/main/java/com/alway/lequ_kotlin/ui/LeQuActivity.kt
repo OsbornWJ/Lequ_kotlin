@@ -2,6 +2,8 @@ package com.alway.lequ_kotlin.ui
 
 import android.support.v4.app.ActivityCompat
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
+import com.alway.lequ_kotlin.ui.mvp.delegate.BeautyDelegate
+import com.alway.lequ_kotlin.ui.mvp.delegate.MainDelegate
 
 
 class LeQuActivity : BottomActivity() {

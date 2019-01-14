@@ -15,7 +15,7 @@ class CusDrawerLayout @JvmOverloads constructor(context: Context, attrs: Attribu
     var heightMeasure = 0
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        if (widthMeasureSpec == 0 || heightMeasure == 0) {
+        if (widthMeasure == 0 || heightMeasure == 0) {
             widthMeasure = MeasureSpec.makeMeasureSpec(
                     MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY)
             heightMeasure = MeasureSpec.makeMeasureSpec(

@@ -44,7 +44,7 @@ class GalleryAdapter(context: Context, private val mDatas: List<String>) : BaseA
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val width = getScreenWidth(mContext) - DensityUtil.dp2px(25f)
         val height = width * 0.6
-        ImageLoad().load(mDatas.get(i), viewHolder.mImg, width.toDouble().toInt(), height.toDouble().toInt(), 5)
+        ImageLoad.load(mDatas.get(i), viewHolder.mImg, width.toDouble().toInt(), height.toDouble().toInt(), 5)
     }
 
     private fun getScreenWidth(context: Context): Int {

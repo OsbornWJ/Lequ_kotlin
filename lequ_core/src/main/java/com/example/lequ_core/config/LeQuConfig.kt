@@ -24,7 +24,7 @@ class LeQuConfig private constructor() {
         get() = LEQU_CONFIGS
 
     init {
-        LEQU_CONFIGS.put(ConfigKeys.CONFIG_READY, false)
+        LEQU_CONFIGS[ConfigKeys.CONFIG_READY] = false
     }
 
     private object Holder {
@@ -58,7 +58,7 @@ class LeQuConfig private constructor() {
 
     fun withInterceptor(interceptor: Interceptor): LeQuConfig {
         INTERCEPTORS.add(interceptor)
-        LEQU_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS)
+        LEQU_CONFIGS[ConfigKeys.INTERCEPTOR] = INTERCEPTORS
         return this
     }
 
@@ -69,15 +69,15 @@ class LeQuConfig private constructor() {
     }
 
     fun withActivity(activity: Activity): LeQuConfig {
-        LEQU_CONFIGS.put(ConfigKeys.ACTIVITY, activity)
+        LEQU_CONFIGS[ConfigKeys.ACTIVITY] = activity
         return this
     }
 
     fun withDomain(domainName : String, domainUrl : String) : LeQuConfig {
         checkNotNull(domainName) { "State must be set beforehand" }
         checkNotNull(domainUrl) {"domainUrl connot be null"}
-        HEADERS_DOMAIN.put(domainName, UrlUtils.checkUrl(domainUrl))
-        LEQU_CONFIGS.put(ConfigKeys.HEADER_DOMAIN, HEADERS_DOMAIN)
+        HEADERS_DOMAIN[domainName] = UrlUtils.checkUrl(domainUrl)
+        LEQU_CONFIGS[ConfigKeys.HEADER_DOMAIN] = HEADERS_DOMAIN
         return this
     }
 

@@ -64,7 +64,7 @@ class VideoCollectionAdapter(context: Context, private val mDatas: List<VideoCol
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val width = getScreenWidth(mContext) - DensityUtil.dp2px(25f)
         val height = width * 0.6
-        ImageLoad().load(mDatas[i].icon.toString(), viewHolder.mImg, width.toDouble().toInt(), height.toInt(), 5)
+        ImageLoad.load(mDatas[i].icon.toString(), viewHolder.mImg, width.toDouble().toInt(), height.toInt(), 5)
         viewHolder.tv_title!!.text = mDatas.get(i).title
         viewHolder.tv_content!!.text = "#" + mDatas[i].category
         viewHolder.tv_time!!.text = TimeUtils.secToTime(mDatas.get(i).duration!!.toInt())

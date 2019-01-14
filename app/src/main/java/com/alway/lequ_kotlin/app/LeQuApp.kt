@@ -4,6 +4,7 @@ import android.os.Environment
 import android.support.multidex.MultiDexApplication
 import com.alway.lequ_kotlin.BuildConfig
 import com.alway.lequ_kotlin.exception.MyUEHandler
+import com.alway.lequ_kotlin.http.Constant
 import com.alway.lequ_kotlin.http.remote.DomainHeaderInterceptor
 import com.example.lequ_core.config.LeQu
 import com.example.lequ_core.config.iconfont.FontEcModule
@@ -37,7 +38,7 @@ class LeQuApp: MultiDexApplication() {
 
         LeQu.init(this)
                 .withApiHost(BuildConfig.BASE_URL)  //访问地址
-//                .withDomain("headerName", "url")                     //其它访问地址
+                .withDomain(Constant.GANHUO_API, BuildConfig.GANHUO_API)                     //其它访问地址
                 .withIcon(FontAwesomeModule())
                 .withIcon(FontEcModule())
                 .withInterceptor(DomainHeaderInterceptor())

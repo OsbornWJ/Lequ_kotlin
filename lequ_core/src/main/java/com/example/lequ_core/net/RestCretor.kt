@@ -58,7 +58,7 @@ class RestCretor {
     }
 
     companion object {
-        val DOMAIN = "domain"
+        const val DOMAIN = "domain"
         fun getRetrofit() : Retrofit {
             return RetrofitHolder.RETROFIT_CLIENT
         }

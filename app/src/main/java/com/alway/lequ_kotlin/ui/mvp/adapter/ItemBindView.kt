@@ -85,9 +85,9 @@ fun onItemBriefCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
     holder.cardContent.text = briefCard["description"].toString()
     holder.rlBriefRoot.setOnClickListener { parseUri(mContext, briefCard["actionUrl"].toString()) }
     when (briefCard["iconType"].toString()) {
-        "square" -> ImageLoad().loadRound(briefCard["icon"].toString(), holder.icon, 5)
-        "round" -> ImageLoad().loadCircle(briefCard["icon"].toString(), holder.icon)
-        else -> ImageLoad().load(briefCard["icon"].toString(), holder.icon)
+        "square" -> ImageLoad.loadRound(briefCard["icon"].toString(), holder.icon, 5)
+        "round" -> ImageLoad.loadCircle(briefCard["icon"].toString(), holder.icon)
+        else -> ImageLoad.load(briefCard["icon"].toString(), holder.icon)
     }
 }
 
@@ -126,9 +126,9 @@ fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
     val header = followCard["header"] as Map<*, *>
     val iconType = header["iconType"]
     when (iconType) {
-        "square" -> ImageLoad().loadRound(header["icon"].toString(), holder.ivFollowcardIcon, 5)
-        "round" -> ImageLoad().loadCircle(header["icon"].toString(), holder.ivFollowcardIcon)
-        else -> ImageLoad().load(header["icon"].toString(), holder.ivFollowcardIcon)
+        "square" -> ImageLoad.loadRound(header["icon"].toString(), holder.ivFollowcardIcon, 5)
+        "round" -> ImageLoad.loadCircle(header["icon"].toString(), holder.ivFollowcardIcon)
+        else -> ImageLoad.load(header["icon"].toString(), holder.ivFollowcardIcon)
     }
     val iconContent =TextUtils.split(header["description"].toString(), "/")
     holder.tvContent.text = header["title"].toString() + " / " + iconContent
@@ -138,7 +138,7 @@ fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
     val cover = dataObj["cover"] as Map<*, *>
     val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
     val height = width * 0.6
-    ImageLoad().load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
+    ImageLoad.load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
 
     holder.ivFollowcardCover!!.setOnClickListener {
         val title = dataObj["title"].toString()
@@ -159,7 +159,7 @@ fun onItemVideoSmallViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
     val holder: ItemVideoSmallViewHolder = viewHolder as ItemVideoSmallViewHolder
     val width = getScreenWidth(mContext) * 0.5
     val height = width * 0.6
-    ImageLoad().load(cover["feed"].toString(), holder.ivCover, width.toInt(), height.toInt(), 5)
+    ImageLoad.load(cover["feed"].toString(), holder.ivCover, width.toInt(), height.toInt(), 5)
 
     holder.ivCover.setOnClickListener {
         val title = videoSmallCard["title"].toString()
@@ -264,9 +264,9 @@ fun onItemVideoCollBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
     holder.tvVideocollNickname.text = header["title"].toString()
     val iconType = header["iconType"].toString()
     when (iconType) {
-        "square" -> ImageLoad().loadRound(header["icon"].toString(), holder.ivVideocollIcon, 5)
-        "round" -> ImageLoad().loadCircle(header["icon"].toString(), holder.ivVideocollIcon)
-        else -> ImageLoad().load(header["icon"].toString(), holder.ivVideocollIcon)
+        "square" -> ImageLoad.loadRound(header["icon"].toString(), holder.ivVideocollIcon, 5)
+        "round" -> ImageLoad.loadCircle(header["icon"].toString(), holder.ivVideocollIcon)
+        else -> ImageLoad.load(header["icon"].toString(), holder.ivVideocollIcon)
     }
     holder.tvVideocollDes.text = header["description"].toString()
 
@@ -309,7 +309,7 @@ fun onItemBannerBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, dat
     val image: String = banner["image"].toString()
     val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
     val height = width * 0.6
-    ImageLoad().load(image, holder.ivBanner, width.toDouble().toInt(), height.toInt(), 5)
+    ImageLoad.load(image, holder.ivBanner, width.toDouble().toInt(), height.toInt(), 5)
     holder.ivBanner!!.setOnClickListener {
         val actionUrl = banner["actionUrl"].toString()
         parseUri(mContext, actionUrl)
@@ -323,7 +323,7 @@ fun onItemBanner2Bind(mContext: Context, viewHolder: RecyclerView.ViewHolder, da
     val image: String = banner["image"].toString()
     val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
     val height = width * 0.6
-    ImageLoad().load(image, holder.ivBanner2, width.toDouble().toInt(), height.toDouble().toInt(), 5)
+    ImageLoad.load(image, holder.ivBanner2, width.toDouble().toInt(), height.toDouble().toInt(), 5)
 
     val label = banner["label"]
     if (label != null) {
@@ -353,18 +353,18 @@ fun onItemVideoViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
     val followCard = data.data as Map<*, *>
     if (followCard["author"] != null) {
         val author = followCard["author"] as Map<*, *>
-        ImageLoad().loadCircle(author["icon"].toString(), holder.ivFollowcardIcon)
+        ImageLoad.loadCircle(author["icon"].toString(), holder.ivFollowcardIcon)
         holder.tvContent.text = author["name"].toString() + " / #" + followCard["category"]
     } else if (followCard["tags"] != null) {
         val tags = followCard["tags"] as List<Map<*, *>>
-        ImageLoad().loadRound(tags[0]["headerImage"].toString(), holder.ivFollowcardIcon, 5)
+        ImageLoad.loadRound(tags[0]["headerImage"].toString(), holder.ivFollowcardIcon, 5)
         holder.tvContent.text = "#" + tags[0]["name"].toString() + "#"
     }
 
     val cover = followCard["cover"] as Map<*, *>
     val width = getScreenWidth(mContext) - DensityUtil.dp2px(20f)
     val height = width * 0.6
-    ImageLoad().load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
+    ImageLoad.load(cover["feed"].toString(), holder.ivFollowcardCover, width, height.toInt(), 5)
 
     holder.ivFollowcardCover!!.setOnClickListener {
         val title = followCard["title"].toString()
@@ -482,7 +482,7 @@ fun onItemDynamicInfoBind(mContext: Context, viewHolder: RecyclerView.ViewHolder
     holder.tv_print.text = dynamicInfoCard["text"].toString()
     val user = dynamicInfoCard["user"] as Map<*, *>
 
-    ImageLoad().loadCircle(user["avatar"].toString(), holder.civ_icon)
+    ImageLoad.loadCircle(user["avatar"].toString(), holder.civ_icon)
     holder.tv_nickname.text = user["nickname"].toString()
     val reply = dynamicInfoCard["reply"] as Map<*, *>
     holder.tv_content.text = reply["message"].toString()
@@ -497,7 +497,7 @@ fun onItemDynamicInfoBind(mContext: Context, viewHolder: RecyclerView.ViewHolder
 
     val width = getScreenWidth(mContext) * 0.4
     val height = width * 0.6
-    ImageLoad().load(cover["feed"].toString(), holder.iv_conver, width.toInt(), height.toInt(), 5)
+    ImageLoad.load(cover["feed"].toString(), holder.iv_conver, width.toInt(), height.toInt(), 5)
 
     holder.iv_conver.setOnClickListener {
         var title = simpleVideo["title"].toString()

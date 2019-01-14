@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.ui
+package com.alway.lequ_kotlin.ui.mvp.delegate
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView

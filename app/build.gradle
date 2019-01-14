@@ -30,6 +30,7 @@ android {
 
             //url动态替换
             buildConfigField "String", "BASE_URL", "$rootProject.BASE_URL"
+            buildConfigField "String", "GANHUO_API", "$rootProject.GANHUO_API"
         }
 
         release {
@@ -43,6 +44,7 @@ android {
 
             //url动态替换
             buildConfigField "String", "BASE_URL", "$rootProject.BASE_URL"
+            buildConfigField "String", "GANHUO_API", "$rootProject.GANHUO_API"
         }
     }
 
@@ -111,6 +113,6 @@ dependencies {
     kapt "com.github.hotchemi:permissionsdispatcher-processor:3.3.1"
 
     //blur
-    implementation 'io.alterac.blurkit:blurkit:1.1.0'
+    implementation 'jp.wasabeef:blurry:3.0.0'
 
 }

@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Categories
-import com.alway.lequ_kotlin.ui.MainDelegate
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.HomeContract
 import com.alway.lequ_kotlin.ui.mvp.presenter.HomePresenter
@@ -85,7 +84,7 @@ class HomeDelegate: LeQuDelegate(), HomeContract.View, ViewPager.OnPageChangeLis
             currentIndex = position
             tab_layout.setCurrentTab(currentIndex, true)
         }
-        ImageLoad().clearCache(WeakReference(LeQu.applicationContext))
+        ImageLoad.clearCache(WeakReference(LeQu.applicationContext))
     }
 
     override fun onDestroy() {

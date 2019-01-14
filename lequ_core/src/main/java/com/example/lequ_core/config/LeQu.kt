@@ -26,8 +26,7 @@ object LeQu {
 
     fun init(context: Context): LeQuConfig {
         LeQuConfig.instance
-                .leQuConfigs
-                .put(ConfigKeys.APPLICATION_CONTEXT, context.applicationContext)
+                .leQuConfigs[ConfigKeys.APPLICATION_CONTEXT] = context.applicationContext
         return LeQuConfig.instance
     }
 

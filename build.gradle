@@ -32,5 +32,6 @@ task clean(type: Delete) {
 ext {
 
     BASE_URL = '\"http://baobab.kaiyanapp.com/\"'
+    GANHUO_API = '\"http://gank.io/api/data/\"'
 
 }
