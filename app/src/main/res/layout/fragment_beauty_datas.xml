@@ -13,14 +13,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="15dp"
-        android:text="{fa-list 120%}"
+        android:text="{fa-arrow-up 120%}"
         android:textColor="?attr/iconColor"
         android:textSize="@dimen/sp_14"
         android:padding="@dimen/dp_10"
         tools:ignore="HardcodedText" />
 
 
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/it_left_share"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/it_left_save"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="@dimen/text_margin_space"
+        android:layout_marginTop="15dp"
+        android:padding="@dimen/dp_10"
+        android:layout_centerVertical="true"
+        android:text="{fa-external-link 120%}"
+        android:textColor="?attr/iconColor"
+        android:textSize="@dimen/sp_14"
+        tools:ignore="HardcodedText" />
 
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/it_left_save"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="@dimen/text_margin_space"
+        android:layout_marginTop="15dp"
+        android:padding="@dimen/dp_10"
+        android:layout_centerVertical="true"
+        android:text="{fa-save 120%}"
+        android:textColor="?attr/iconColor"
+        android:textSize="@dimen/sp_14"
+        tools:ignore="HardcodedText" />
 
 
 </android.support.constraint.ConstraintLayout>
