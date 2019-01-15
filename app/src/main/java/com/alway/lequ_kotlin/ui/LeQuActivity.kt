@@ -2,8 +2,9 @@ package com.alway.lequ_kotlin.ui
 
 import android.support.v4.app.ActivityCompat
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
-import com.alway.lequ_kotlin.ui.mvp.delegate.BeautyDelegate
-import com.alway.lequ_kotlin.ui.mvp.delegate.MainDelegate
+import com.alway.lequ_kotlin.ui.mvp.delegate.beauty.BeautyInDelegate
+import com.alway.lequ_kotlin.ui.mvp.delegate.beauty.BeautyDelegate
+import com.alway.lequ_kotlin.ui.mvp.delegate.home.MainDelegate
 
 
 class LeQuActivity : BottomActivity() {
@@ -14,7 +15,7 @@ class LeQuActivity : BottomActivity() {
 
     override fun setItems(): LinkedHashMap<BottomTabBean, LeQuDelegate> {
         return linkedMapOf(Pair(BottomTabBean("{fa-home}", "首页"), MainDelegate()),
-                Pair(BottomTabBean("{fa-compass}", "发现"), BeautyDelegate()),
+                Pair(BottomTabBean("{fa-compass}", "发现"), BeautyInDelegate()),
                 Pair(BottomTabBean("{fa-user}", "我的"), BeautyDelegate()))
     }
 

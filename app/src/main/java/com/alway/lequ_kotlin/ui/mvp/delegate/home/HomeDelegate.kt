@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.ui.mvp.delegate
+package com.alway.lequ_kotlin.ui.mvp.delegate.home
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

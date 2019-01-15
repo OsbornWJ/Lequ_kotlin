@@ -83,6 +83,7 @@ abstract class BottomActivity : ProxyActivity(), View.OnClickListener, LeQuDeleg
         (item.getChildAt(0) as IconTextView).setTextColor(clickedColorInt)
         (item.getChildAt(1) as TextView).setTextColor(clickedColorInt)
         showHideFragment(ITEM_DELEGATES[tag], ITEM_DELEGATES[currentDelegate])
+//        supportFragmentManager.executePendingTransactions()
         currentDelegate = tag
     }
 

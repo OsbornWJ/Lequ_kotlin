@@ -5,13 +5,14 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.alway.lequ_kotlin.http.entity.Result
+import com.alway.lequ_kotlin.ui.base.BaseDelegate
 import com.alway.lequ_kotlin.utils.getMultiType
 import com.alway.lequ_kotlin.ui.mvp.adapter.*
 /**
  * Created by moment on 2017/12/11.
  */
 
-class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private var context: Context) : BaseAdapter<RecyclerView.ViewHolder>() {
+class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private var context: Context, private val actionListener: StartActionListener) : BaseAdapter<RecyclerView.ViewHolder>() {
 
     enum class ITEM_TYPE(val type: String) {
         ITEM_TEXTCARD("textCard"),
@@ -46,6 +47,9 @@ class MultiTypeAdapter(private var datas: ArrayList<Result.ItemList>, private va
 
     override fun getItemViewType(position: Int): Int = getMultiType(position, datas)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = bindMultiViewHolder(context, holder, datas, position)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = bindMultiViewHolder(context, holder, datas, position, actionListener)
+}
 
+interface StartActionListener {
+    fun jumpAction(delegate: BaseDelegate)
 }

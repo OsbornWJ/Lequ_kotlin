@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.ui.mvp.delegate
+package com.alway.lequ_kotlin.ui.mvp.delegate.beauty
 
 import android.os.Bundle
 import android.view.View
@@ -15,7 +15,7 @@ class BeautyDatasDelegate : LeQuDelegate() {
     override fun setLayout(): Any = R.layout.fragment_beauty_datas
 
     override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
-
+        initToobar(rootView)
     }
 
 

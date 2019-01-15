@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.ui.mvp.delegate
+package com.alway.lequ_kotlin.ui.mvp.delegate.home
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -7,12 +7,14 @@ import android.text.TextUtils
 import android.view.View
 import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.http.entity.Result
+import com.alway.lequ_kotlin.ui.base.BaseDelegate
 import com.alway.lequ_kotlin.ui.base.LeQuDelegate
 import com.alway.lequ_kotlin.ui.mvp.contract.DiscoveryContract
 import com.alway.lequ_kotlin.ui.mvp.presenter.DiscoveryPresenter
 import com.bumptech.glide.Glide
 import com.example.lequ_core.config.LeQu
 import com.moment.eyepetizer.home.adapter.MultiTypeAdapter
+import com.moment.eyepetizer.home.adapter.StartActionListener
 import com.moment.eyepetizer.utils.UriUtils
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -25,13 +27,13 @@ import kotlinx.android.synthetic.main.comm_recycler_data.*
  * 邮箱:   Osbornjie@163.com
  * 功能:
  */
-class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
+class FeedDelegate : LeQuDelegate(), DiscoveryContract.View {
 
-    var start_num: Int = 0
-    var num: Int = 10
-    var categoryId: String = ""
     var isRefresh: Boolean = true
     var mAdapter: MultiTypeAdapter? = null
+    var date: Long = System.currentTimeMillis()
+
+    override fun setLayout(): Any = R.layout.comm_recycler_data
 
     private val mPresenter: DiscoveryPresenter by lazy { DiscoveryPresenter()}
 
@@ -39,21 +41,7 @@ class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
         mPresenter.attachView(this)
     }
 
-    companion object {
-        fun newInstance(categoryId: String): CategoryDelegate {
-            val bundle = Bundle()
-            bundle.putString("category", categoryId)
-            val delegate = CategoryDelegate()
-            delegate.arguments = bundle
-            return delegate
-        }
-    }
-
-    override fun setLayout(): Any  = R.layout.comm_recycler_data
-
-    override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
-        categoryId = arguments!!.getString("category")
-    }
+    override fun onBindView(savedInstanceState: Bundle?, rootView: View) = Unit
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
@@ -68,8 +56,6 @@ class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
             }
 
             override fun onRefresh(refreshLayout: RefreshLayout) {
-                start_num = 0
-                num = 10
                 isRefresh = true
                 initData()
             }
@@ -87,23 +73,24 @@ class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
         })
         val list = ArrayList<Result.ItemList>()
         dataView.layoutManager = LinearLayoutManager(_mActivity)
-        mAdapter = MultiTypeAdapter(list, _mActivity!!)
+        mAdapter = MultiTypeAdapter(list, _mActivity!!, object : StartActionListener {
+            override fun jumpAction(delegate: BaseDelegate) {
+                (parentFragment as BaseDelegate).start(delegate)
+            }
+        })
         dataView.adapter = mAdapter
     }
 
-
     override fun initData() {
-        requireNotNull(mPresenter) {"${CategoryDelegate::class.java.simpleName} presenter is null"}.category(categoryId.toInt(), start_num, num)
+        checkNotNull(mPresenter) {"${FeedDelegate::class.java.simpleName} presenter is null"}.feed(date)
     }
 
     override fun onDiscoverySucc(result: Result) {
         if (!TextUtils.isEmpty(result.nextPageUrl)) {
-            start_num = UriUtils().parseCategoryUri(result.nextPageUrl.toString()).start
-            num = UriUtils().parseCategoryUri(result.nextPageUrl.toString()).num
+            date = UriUtils().parseFeedUri(result.nextPageUrl.toString()).data
         }
         smart_refreshLayout.finishRefresh()
         smart_refreshLayout.finishLoadMore(0, true, TextUtils.isEmpty(result.nextPageUrl))
-
         if (result.itemList!!.isEmpty()) return
         val start = mAdapter!!.itemCount
         if (isRefresh) {
@@ -120,6 +107,11 @@ class CategoryDelegate : LeQuDelegate(), DiscoveryContract.View {
     override fun onDiscoveryFail(error: Throwable?) {
         smart_refreshLayout.finishRefresh()
         smart_refreshLayout.finishLoadMore(false)
+    }
+
+    override fun onDestroy() {
+        mPresenter.dettachView()
+        super.onDestroy()
     }
 
 }

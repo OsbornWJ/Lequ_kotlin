@@ -17,6 +17,7 @@ import com.alway.lequ_kotlin.ui.mvp.parseWebView
 import com.alway.lequ_kotlin.utils.ImageLoad
 import com.moment.eyepetizer.home.adapter.GalleryAdapter
 import com.moment.eyepetizer.home.adapter.MultiTypeAdapter
+import com.moment.eyepetizer.home.adapter.StartActionListener
 import com.moment.eyepetizer.home.adapter.VideoCollectionAdapter
 import com.moment.eyepetizer.utils.TimeUtils
 import com.scwang.smartrefresh.layout.util.DensityUtil
@@ -28,27 +29,27 @@ import com.shuyu.gsyvideoplayer.utils.CommonUtil.getScreenWidth
  * 功能:
  */
 
-fun bindMultiViewHolder(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun bindMultiViewHolder(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     when (viewHolder) {
-        is ItemTextCardViewHolder -> onItemTextCardBind(mContext, viewHolder, datas, position)
-        is ItemBriefCardViewHolder -> onItemBriefCardBind(mContext, viewHolder, datas, position)
-        is ItemHoricontalScrollViewHolder -> onHorizontalScrollcardBind(mContext, viewHolder, datas, position)
-        is ItemFollowCardViewHolder -> onItemFollowCardBind(mContext, viewHolder, datas, position)
-        is ItemVideoSmallViewHolder -> onItemVideoSmallViewBind(mContext, viewHolder, datas, position)
-        is ItemSquareCardViewHolder -> onItemSquareCardViewBind(mContext, viewHolder, datas, position)
-        is ItemVideoCollViewHolder  -> onItemVideoCollBind(mContext, viewHolder, datas, position)
-        is ItemBannerViewHolder     -> onItemBannerBind(mContext, viewHolder, datas, position)
-        is ItemBanner2ViewHolder    -> onItemBanner2Bind(mContext, viewHolder, datas, position)
-        is ItemVideoViewHolder      -> onItemVideoViewBind(mContext, viewHolder, datas, position)
-        is ItemVideoCollectionOfHolder -> onItemVideoCollectionBind(mContext, viewHolder, datas, position)
-        is ItemTextHeaderViewHolder -> onItemTextHeaderBind(mContext, viewHolder, datas, position)
-        is ItemTextFooterViewHolder -> onItemTextFooterBind(mContext, viewHolder, datas, position)
+        is ItemTextCardViewHolder -> onItemTextCardBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemBriefCardViewHolder -> onItemBriefCardBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemHoricontalScrollViewHolder -> onHorizontalScrollcardBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemFollowCardViewHolder -> onItemFollowCardBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemVideoSmallViewHolder -> onItemVideoSmallViewBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemSquareCardViewHolder -> onItemSquareCardViewBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemVideoCollViewHolder  -> onItemVideoCollBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemBannerViewHolder     -> onItemBannerBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemBanner2ViewHolder    -> onItemBanner2Bind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemVideoViewHolder      -> onItemVideoViewBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemVideoCollectionOfHolder -> onItemVideoCollectionBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemTextHeaderViewHolder -> onItemTextHeaderBind(mContext, viewHolder, datas, position, jumbAction)
+        is ItemTextFooterViewHolder -> onItemTextFooterBind(mContext, viewHolder, datas, position, jumbAction)
         is ItemDynamicInfoViewHolder -> onItemDynamicInfoBind(mContext, viewHolder, datas, position)
         is EmptyViewHolder -> onEmptyItemView(mContext, viewHolder)
     }
 }
 
-fun onItemTextCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemTextCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val holder : ItemTextCardViewHolder = viewHolder as ItemTextCardViewHolder
     val textCard = data.data as Map<*, *>
@@ -62,7 +63,7 @@ fun onItemTextCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, d
             holder.ivMoreHeader.visibility = View.GONE
         } else {
             holder.ivMoreHeader.visibility = View.VISIBLE
-            holder.llHeader5.setOnClickListener { parseUri(mContext, actionUrl.toString()) }
+            holder.llHeader5.setOnClickListener { parseUri(mContext, actionUrl.toString(), jumbAction) }
         }
     } else if ("footer2" == type.toString() || type.toString().contains("footer")) {
         holder.llHeader5.visibility = View.GONE
@@ -72,18 +73,18 @@ fun onItemTextCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, d
             holder.ivMore.visibility = View.GONE
         } else {
             holder.ivMore.visibility = View.VISIBLE
-            holder.rlFooter2.setOnClickListener { parseUri(mContext, actionUrl.toString()) }
+            holder.rlFooter2.setOnClickListener { parseUri(mContext, actionUrl.toString(), jumbAction) }
         }
     }
 }
 
-fun onItemBriefCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemBriefCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val holder: ItemBriefCardViewHolder = viewHolder as ItemBriefCardViewHolder
     val briefCard = data.data as Map<*, *>
     holder.cardTitle.text = briefCard["title"].toString()
     holder.cardContent.text = briefCard["description"].toString()
-    holder.rlBriefRoot.setOnClickListener { parseUri(mContext, briefCard["actionUrl"].toString()) }
+    holder.rlBriefRoot.setOnClickListener { parseUri(mContext, briefCard["actionUrl"].toString(), jumbAction) }
     when (briefCard["iconType"].toString()) {
         "square" -> ImageLoad.loadRound(briefCard["icon"].toString(), holder.icon, 5)
         "round" -> ImageLoad.loadCircle(briefCard["icon"].toString(), holder.icon)
@@ -91,7 +92,7 @@ fun onItemBriefCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
     }
 }
 
-fun onHorizontalScrollcardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onHorizontalScrollcardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val holder: ItemHoricontalScrollViewHolder = viewHolder as ItemHoricontalScrollViewHolder
     val scrollCard = data.data as Map<*, *>
@@ -113,13 +114,13 @@ fun onHorizontalScrollcardBind(mContext: Context, viewHolder: RecyclerView.ViewH
             val map = itemList[position]
             val childData = map["data"] as Map<*, *>
             val url = childData["actionUrl"].toString()
-            parseUri(mContext, url)
+            parseUri(mContext, url, jumbAction)
         }
     })
 }
 
 @SuppressLint("SetTextI18n")
-fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val holder: ItemFollowCardViewHolder = viewHolder as ItemFollowCardViewHolder
     val followCard = data.data as Map<*, *>
@@ -145,14 +146,14 @@ fun onItemFollowCardBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
         val webUrl = dataObj["webUrl"] as Map<*, *>
         val url = webUrl["raw"].toString()
         var id = dataObj["id"]
-        parseUri(mContext, parseWebView(title, url))
+        parseUri(mContext, parseWebView(title, url), jumbAction)
     }
     holder.tvFollowcardTime!!.text = TimeUtils.secToTime(dataObj["duration"].toString().toFloat().toInt())
     holder.tvTitle!!.text = dataObj["title"].toString()
 }
 
 @SuppressLint("SetTextI18n")
-fun onItemVideoSmallViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemVideoSmallViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val videoSmallCard = data.data as Map<*, *>
     val cover = videoSmallCard["cover"] as Map<*, *>
@@ -166,7 +167,7 @@ fun onItemVideoSmallViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
         val webUrl = videoSmallCard["webUrl"] as Map<*, *>
         val url = webUrl["raw"].toString()
         var id = videoSmallCard["id"]
-        parseUri(mContext, parseWebView(title, url))
+        parseUri(mContext, parseWebView(title, url), jumbAction)
     }
     holder.tvTime!!.text = TimeUtils.secToTime(videoSmallCard["duration"].toString().toFloat().toInt())
     holder.tvSmallcardTitle!!.text = videoSmallCard["title"].toString()
@@ -176,7 +177,7 @@ fun onItemVideoSmallViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
     }
 }
 
-fun onItemSquareCardViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemSquareCardViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val squareCard = data.data as Map<*, *>
     val holder: ItemSquareCardViewHolder = viewHolder as ItemSquareCardViewHolder
@@ -204,7 +205,7 @@ fun onItemSquareCardViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
     }
     holder.tvSquarecardTitle!!.setOnClickListener {
         if (!actionUrl.isEmpty()) {
-            parseUri(mContext, actionUrl)
+            parseUri(mContext, actionUrl, jumbAction)
         }
     }
 
@@ -236,7 +237,7 @@ fun onItemSquareCardViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
             if (childData["actionUrl"] != null) {
                 val actionUrl = childData["actionUrl"].toString()
                 if (!actionUrl.isEmpty()) {
-                    parseUri(mContext, actionUrl)
+                    parseUri(mContext, actionUrl, jumbAction)
                 }
             }
             if (childData["content"] != null) {
@@ -247,7 +248,7 @@ fun onItemSquareCardViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
                     if (videodata["webUrl"] != null) {
                         val webUrl = videodata["webUrl"] as Map<*, *>
                         val raw = webUrl["raw"].toString()
-                        parseUri(mContext, parseWebView(title, raw))
+                        parseUri(mContext, parseWebView(title, raw), jumbAction)
                     }
                 }
             }
@@ -255,7 +256,7 @@ fun onItemSquareCardViewBind(mContext: Context, viewHolder: RecyclerView.ViewHol
     })
 }
 
-fun onItemVideoCollBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemVideoCollBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val holder = viewHolder as ItemVideoCollViewHolder
     val videoCollection = data.data as Map<*, *>
@@ -296,13 +297,13 @@ fun onItemVideoCollBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
             if (childData["webUrl"] != null) {
                 val webUrl = childData["webUrl"] as Map<*, *>
                 val url = webUrl["raw"].toString()
-                parseUri(mContext, parseWebView(title, url))
+                parseUri(mContext, parseWebView(title, url), jumbAction)
             }
         }
     })
 }
 
-fun onItemBannerBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemBannerBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data: Result.ItemList = datas[position]
     val holder: ItemBannerViewHolder = viewHolder as ItemBannerViewHolder
     val banner = data.data as Map<*, *>
@@ -312,11 +313,11 @@ fun onItemBannerBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, dat
     ImageLoad.load(image, holder.ivBanner, width.toDouble().toInt(), height.toInt(), 5)
     holder.ivBanner!!.setOnClickListener {
         val actionUrl = banner["actionUrl"].toString()
-        parseUri(mContext, actionUrl)
+        parseUri(mContext, actionUrl, jumbAction)
     }
 }
 
-fun onItemBanner2Bind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemBanner2Bind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data: Result.ItemList = datas[position]
     val holder: ItemBanner2ViewHolder = viewHolder as ItemBanner2ViewHolder
     val banner = data.data as Map<*, *>
@@ -342,12 +343,12 @@ fun onItemBanner2Bind(mContext: Context, viewHolder: RecyclerView.ViewHolder, da
     val actionUrl = banner["actionUrl"].toString()
     holder.ivBanner2.setOnClickListener {
         if (!actionUrl.isEmpty()) {
-            parseUri(mContext, actionUrl)
+            parseUri(mContext, actionUrl, jumbAction)
         }
     }
 }
 
-fun onItemVideoViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemVideoViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data = datas[position]
     val holder: ItemVideoViewHolder = viewHolder as ItemVideoViewHolder
     val followCard = data.data as Map<*, *>
@@ -370,13 +371,13 @@ fun onItemVideoViewBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, 
         val title = followCard["title"].toString()
         val webUrl = followCard["webUrl"] as Map<*, *>
         val url = webUrl["raw"].toString()
-        parseUri(mContext, parseWebView(title, url))
+        parseUri(mContext, parseWebView(title, url), jumbAction)
     }
     holder.tvFollowcardTime.text = TimeUtils.secToTime(followCard["duration"].toString().toFloat().toInt())
     holder.tvTitle.text = followCard["title"].toString()
 }
 
-fun onItemVideoCollectionBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemVideoCollectionBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data: Result.ItemList = datas[position]
     val holder: ItemVideoCollectionOfHolder = viewHolder as ItemVideoCollectionOfHolder
     val videoCollectionOfHorizontalScrollCard = data.data as Map<*, *>
@@ -387,7 +388,7 @@ fun onItemVideoCollectionBind(mContext: Context, viewHolder: RecyclerView.ViewHo
 
     holder.tvVideoTitle.setOnClickListener {
         if (actionUrl != null) {
-            parseUri(mContext, actionUrl.toString())
+            parseUri(mContext, actionUrl.toString(), jumbAction)
         }
     }
     if (actionUrl == null || TextUtils.isEmpty(actionUrl.toString())) {
@@ -423,13 +424,13 @@ fun onItemVideoCollectionBind(mContext: Context, viewHolder: RecyclerView.ViewHo
             val title = data["title"].toString()
             val webUrl = data["webUrl"] as Map<*, *>
             val url = webUrl["raw"].toString()
-            parseUri(mContext, parseWebView(title, url))
+            parseUri(mContext, parseWebView(title, url), jumbAction)
         }
 
     })
 }
 
-fun onItemTextHeaderBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemTextHeaderBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data: Result.ItemList = datas[position]
     val holder: ItemTextHeaderViewHolder = viewHolder as ItemTextHeaderViewHolder
     val txtCard = data.data as Map<*, *>
@@ -447,12 +448,12 @@ fun onItemTextHeaderBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
 
     holder.tv_title.setOnClickListener {
         if (actionUrl != null) {
-            parseUri(mContext, actionUrl.toString())
+            parseUri(mContext, actionUrl.toString(), jumbAction)
         }
     }
 }
 
-fun onItemTextFooterBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int) {
+fun onItemTextFooterBind(mContext: Context, viewHolder: RecyclerView.ViewHolder, datas: ArrayList<Result.ItemList>, position: Int, jumbAction: StartActionListener) {
     val data: Result.ItemList = datas[position]
     val holder: ItemTextFooterViewHolder = viewHolder as ItemTextFooterViewHolder
     val txtCard = data.data as Map<*, *>
@@ -470,7 +471,7 @@ fun onItemTextFooterBind(mContext: Context, viewHolder: RecyclerView.ViewHolder,
 
     holder.tv_text_footer.setOnClickListener {
         if (actionUrl != null) {
-            parseUri(mContext, actionUrl.toString())
+            parseUri(mContext, actionUrl.toString(), jumbAction)
         }
     }
 }

@@ -3,11 +3,9 @@ package com.alway.lequ_kotlin.ui.mvp
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import com.alway.lequ_kotlin.ui.LeQuActivity
 import com.alway.lequ_kotlin.ui.mvp.delegate.WebViewDelegate
 import com.alway.lequ_kotlin.utils.encodeToString
-import com.example.lequ_core.config.ConfigKeys
-import com.example.lequ_core.config.LeQu
+import com.moment.eyepetizer.home.adapter.StartActionListener
 import java.net.URLEncoder
 
 /**
@@ -26,7 +24,7 @@ fun parseWebView(title: String, url: String): String {
     return builder.toString()
 }
 
-fun parseUri(context: Context, url: String) {
+fun parseUri(context: Context, url: String, jumbListener: StartActionListener) {
     val uri: Uri = Uri.parse(url)
     val path = uri.host
     when (path) {
@@ -36,8 +34,7 @@ fun parseUri(context: Context, url: String) {
             val bundle = Bundle()
             bundle.putString("urlBase64", encodeToString(url))
             bundle.putString("title", title)
-
-            LeQu.getConfiguration<LeQuActivity>(ConfigKeys.ACTIVITY).start(WebViewDelegate.newInstance(bundle))
+            jumbListener.jumpAction(WebViewDelegate.newInstance(bundle))
         }
     /*//分类详情
         "category" -> {

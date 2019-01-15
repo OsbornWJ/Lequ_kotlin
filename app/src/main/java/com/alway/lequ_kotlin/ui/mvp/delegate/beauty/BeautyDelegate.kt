@@ -1,4 +1,4 @@
-package com.alway.lequ_kotlin.ui.mvp.delegate
+package com.alway.lequ_kotlin.ui.mvp.delegate.beauty
 
 import android.content.Context
 import android.os.Bundle
@@ -33,7 +33,7 @@ class BeautyDelegate : LeQuDelegate(), BeautyContract.View {
     var count = 20
     var page = 1
     var mdata = mutableListOf<GirlsBean.ResultsEntity>()
-    private var mAdapter:BeautyAdapter? = null
+    private var mAdapter: BeautyAdapter? = null
 
     override fun setLayout(): Any = R.layout.fragment_beauty_layout
 
@@ -43,7 +43,10 @@ class BeautyDelegate : LeQuDelegate(), BeautyContract.View {
         mPresenter.attachView(this)
     }
 
-    override fun onBindView(savedInstanceState: Bundle?, rootView: View) {
+    override fun onBindView(savedInstanceState: Bundle?, rootView: View) = Unit
+
+    override fun onLazyInitView(savedInstanceState: Bundle?) {
+        super.onLazyInitView(savedInstanceState)
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         dataView.layoutManager = layoutManager
@@ -75,7 +78,7 @@ class BeautyDelegate : LeQuDelegate(), BeautyContract.View {
         mAdapter = BeautyAdapter(mdata, getProxyActivity())
         mAdapter!!.setOnItemClickListener(object : BaseAdapter.OnItemClickListener {
             override fun onItemClick(adapter: BaseAdapter<*>, view: View, position: Int) {
-                
+                start(BeautyDatasDelegate())
             }
         })
         dataView.adapter = mAdapter

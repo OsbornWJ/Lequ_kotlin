@@ -2,9 +2,11 @@ package com.alway.lequ_kotlin.ui.base
 
 import android.content.Context
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.view.View
+import com.alway.lequ_kotlin.R
 import com.alway.lequ_kotlin.ui.lifecycle.FragmentLifecycleable
-import com.alway.lequ_kotlin.ui.mvp.delegate.HomeDelegate
+import com.joanzapata.iconify.widget.IconTextView
 import com.trello.rxlifecycle2.android.FragmentEvent
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -19,7 +21,7 @@ abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable 
 
     private val lifecycleSubject = BehaviorSubject.create<FragmentEvent>()
 
-    protected var _mBackToFirstListener: OnBackToFirstListener? = null
+    private var _mBackToFirstListener: OnBackToFirstListener? = null
 
     fun getParentDelegate(): LeQuDelegate {
         return parentFragment as LeQuDelegate
@@ -86,22 +88,10 @@ abstract class LeQuDelegate: PermissionCheckerDelegate(), FragmentLifecycleable 
         _mBackToFirstListener = null
     }
 
-    /**
-     * 处理回退事件
-     *
-     * @return
-     */
-    override fun onBackPressedSupport(): Boolean {
-        if (childFragmentManager.backStackEntryCount > 1) {
-            popChild()
-        } else {
-            if (this is HomeDelegate) {   // 如果是 第一个Fragment 则退出app
-                _mActivity!!.finish()
-            } else {                                    // 如果不是,则回到第一个Fragment
-                checkNotNull(_mBackToFirstListener) {"_mBackToFirstListener is null"}.onBackToFirstFragment()
-            }
+    fun initToobar(view: View) {
+        if (view.findViewById<IconTextView>(R.id.it_right) != null) {
+            view.findViewById<IconTextView>(R.id.it_right).setOnClickListener { pop() }
         }
-        return true
     }
 
     interface OnBackToFirstListener {

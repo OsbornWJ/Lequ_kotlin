@@ -270,7 +270,7 @@ abstract class BaseDelegate: Fragment(), ISupportFragment {
     /**
      * 获取栈内的fragment对象
      */
-    fun <T : ISupportFragment> findChildFragment(fragmentClass: Class<T>): T {
+    fun <T : ISupportFragment> findChildFragment(fragmentClass: Class<T>): T? {
         return SupportHelper.findFragment(childFragmentManager, fragmentClass)
     }
 
